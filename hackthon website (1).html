@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerBridge AI – Smart Career Matchmaking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ─────────────────────────────────────────── */
+:root {
+  --bg:#0a0a0f; --surface:#111118; --surface2:#16161f; --card:#13131c;
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
+  --text:#f0f0f5; --muted:#8888a0; --muted2:#5a5a70;
+  --accent:#6c63ff; --accent-h:#5a52e8;
+  --teal:#00d4aa; --red:#ff6b6b; --amber:#f5a623; --green:#22c55e;
+  --r8:8px; --r12:12px; --r16:16px; --r20:20px;
+  --shadow:0 8px 32px rgba(0,0,0,0.4);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Syne',sans-serif}
+a{color:var(--teal);text-decoration:none}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+
+/* ── LANDING ─────────────────────────────────────────── */
+#landing{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:2rem}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.12;pointer-events:none;animation:orbFloat 8s ease-in-out infinite alternate}
+.orb1{width:600px;height:600px;background:#6c63ff;top:-150px;left:-150px;animation-delay:0s}
+.orb2{width:500px;height:500px;background:#00d4aa;bottom:-150px;right:-150px;animation-delay:-3s}
+.orb3{width:350px;height:350px;background:#ff6b6b;top:40%;left:45%;animation-delay:-6s}
+@keyframes orbFloat{to{transform:translate(30px,20px) scale(1.05)}}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.logo-main{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:-0.5px;margin-bottom:3.5rem;color:var(--text);position:relative;z-index:1}
+.logo-main span{color:var(--accent)}
+.landing-hero{text-align:center;max-width:720px;z-index:1}
+.landing-hero h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;line-height:1.08;margin-bottom:1.5rem;letter-spacing:-1.5px}
+.landing-hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.landing-hero p{color:var(--muted);font-size:1.05rem;line-height:1.75;margin-bottom:2.5rem;max-width:560px;margin-left:auto;margin-right:auto}
+.login-cards{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+.login-card{background:var(--card);border:1px solid var(--border2);border-radius:var(--r20);padding:1.75rem 2rem;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);text-align:center;min-width:190px;position:relative;overflow:hidden}
+.login-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(108,99,255,0),rgba(108,99,255,0.04));opacity:0;transition:opacity .3s}
+.login-card:hover{border-color:var(--accent);transform:translateY(-6px);box-shadow:0 24px 48px rgba(108,99,255,0.18)}
+.login-card:hover::before{opacity:1}
+.login-card .icon{font-size:2.2rem;margin-bottom:.8rem;display:block}
+.login-card h3{font-size:.95rem;font-weight:600;margin-bottom:.3rem;font-family:'Syne',sans-serif}
+.login-card p{font-size:.8rem;color:var(--muted)}
+
+/* ── MODAL ─────────────────────────────────────────── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r20);padding:2rem;width:100%;max-width:420px;position:relative;animation:slideUp .25s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;line-height:1;padding:4px 8px;border-radius:6px;transition:all .2s}
+.modal-close:hover{background:var(--surface2);color:var(--text)}
+.modal-tabs{display:flex;gap:4px;background:var(--surface2);padding:4px;border-radius:var(--r12);margin-bottom:1.5rem}
+.modal-tab{flex:1;padding:8px;border:none;background:transparent;color:var(--muted);font-size:.85rem;cursor:pointer;border-radius:8px;transition:all .2s;font-family:'DM Sans',sans-serif;font-weight:500}
+.modal-tab.active{background:var(--card);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+
+/* ── APP SHELL ─────────────────────────────────────── */
+#app{display:none;min-height:100vh;flex-direction:column}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1.25rem;height:56px;position:sticky;top:0;z-index:100;gap:.75rem}
+.topbar .logo{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;white-space:nowrap;letter-spacing:-.3px}
+.topbar .logo span{color:var(--accent)}
+.topbar-nav{display:flex;gap:2px;overflow-x:auto;flex:1;padding:0 .25rem}
+.topbar-nav::-webkit-scrollbar{height:0}
+.topbar-right{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
+.role-badge{padding:4px 12px;border-radius:6px;font-size:.75rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.role-badge.student{background:rgba(108,99,255,.2);color:var(--accent)}
+.role-badge.company{background:rgba(0,212,170,.15);color:var(--teal)}
+.role-badge.admin{background:rgba(245,166,35,.15);color:var(--amber)}
+.logout-btn{background:transparent;border:1px solid var(--border2);color:var(--muted);padding:5px 12px;border-radius:var(--r8);font-size:.78rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.logout-btn:hover{border-color:var(--red);color:var(--red)}
+.nav-btn{background:transparent;border:none;color:var(--muted);padding:7px 13px;border-radius:var(--r8);font-size:.82rem;cursor:pointer;white-space:nowrap;transition:all .2s;font-family:'DM Sans',sans-serif;font-weight:500}
+.nav-btn:hover{background:var(--surface2);color:var(--text)}
+.nav-btn.active{background:rgba(108,99,255,.15);color:var(--accent)}
+.main{flex:1;padding:1.5rem;max-width:1100px;width:100%;margin:0 auto}
+.page{display:none}
+.page.active{display:block}
+.page-title{font-size:1.65rem;font-weight:700;letter-spacing:-.5px;margin-bottom:.3rem}
+.page-sub{color:var(--muted);font-size:.9rem;margin-bottom:2rem}
+
+/* ── COMPONENTS ─────────────────────────────────────── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r16);padding:1.5rem;margin-bottom:1rem}
+.card-title{font-size:.95rem;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;font-family:'Syne',sans-serif}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.form-group{margin-bottom:1rem}
+.form-label{font-size:.8rem;color:var(--muted);margin-bottom:6px;display:block;font-weight:500;letter-spacing:.3px;text-transform:uppercase}
+.form-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r8);padding:10px 14px;color:var(--text);font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+.form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,99,255,.12)}
+.form-input::placeholder{color:var(--muted2)}
+select.form-input option{background:var(--surface2)}
+textarea.form-input{resize:vertical;min-height:90px;line-height:1.6}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:10px 20px;border-radius:var(--r8);border:none;font-size:.88rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;line-height:1;white-space:nowrap}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-h);transform:translateY(-1px);box-shadow:0 6px 20px rgba(108,99,255,.3)}
+.btn-secondary{background:var(--surface2);border:1px solid var(--border2);color:var(--text)}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+.btn-success{background:var(--green);color:#fff}
+.btn-success:hover{opacity:.9}
+.btn-danger{background:var(--red);color:#fff}
+.btn-danger:hover{opacity:.9}
+.btn-teal{background:rgba(0,212,170,.15);color:var(--teal);border:1px solid rgba(0,212,170,.25)}
+.btn-teal:hover{background:rgba(0,212,170,.25)}
+.btn-sm{padding:6px 14px;font-size:.8rem}
+.btn-xs{padding:4px 10px;font-size:.75rem}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none!important}
+.tag{display:inline-block;background:rgba(108,99,255,.15);color:var(--accent);border-radius:6px;padding:3px 10px;font-size:.75rem;margin:2px;font-weight:500}
+.tag-green{background:rgba(34,197,94,.15);color:var(--green)}
+.tag-amber{background:rgba(245,166,35,.15);color:var(--amber)}
+.tag-red{background:rgba(255,107,107,.15);color:var(--red)}
+.tag-teal{background:rgba(0,212,170,.15);color:var(--teal)}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r16);padding:1.25rem;text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:2rem;font-weight:700;line-height:1}
+.stat-label{font-size:.75rem;color:var(--muted);margin-top:6px}
+.progress-bar{background:var(--surface2);border-radius:100px;height:8px;overflow:hidden}
+.progress-fill{height:100%;border-radius:100px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.divider{border:none;border-top:1px solid var(--border);margin:.75rem 0}
+.notif{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:var(--r12);padding:1rem 1.25rem;margin-bottom:1rem;display:flex;align-items:flex-start;gap:.75rem}
+.notif-warn{background:rgba(245,166,35,.08);border-color:rgba(245,166,35,.2)}
+.notif-info{background:rgba(108,99,255,.08);border-color:rgba(108,99,255,.2)}
+.notif-icon{font-size:1.2rem;flex-shrink:0;margin-top:1px}
+.notif-text{font-size:.85rem;line-height:1.55}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.section-title{font-size:.95rem;font-weight:600;font-family:'Syne',sans-serif}
+.status-badge{font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:100px;letter-spacing:.3px;text-transform:uppercase}
+.status-applied{background:rgba(108,99,255,.15);color:var(--accent)}
+.status-review{background:rgba(245,166,35,.15);color:var(--amber)}
+.status-selected{background:rgba(34,197,94,.15);color:var(--green)}
+.status-rejected{background:rgba(255,107,107,.15);color:var(--red)}
+.inline-loader{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.85rem;padding:.5rem 0}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.2);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ai-result{background:rgba(108,99,255,.06);border:1px solid rgba(108,99,255,.15);border-radius:var(--r12);padding:.9rem 1rem;font-size:.85rem;line-height:1.7;margin-top:.75rem;white-space:pre-line}
+
+/* ── STEP WIZARD ─────────────────────────────────────── */
+.steps{display:flex;gap:4px;margin-bottom:2rem;flex-wrap:wrap;align-items:center}
+.step{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted)}
+.step-dot{width:26px;height:26px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;transition:all .3s}
+.step.active .step-dot{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 0 12px rgba(108,99,255,.4)}
+.step.done .step-dot{background:var(--green);border-color:var(--green);color:#fff}
+.step.active{color:var(--text)}
+.step-line{width:24px;height:2px;background:var(--border);flex-shrink:0}
+
+/* ── MATCH CARDS ─────────────────────────────────────── */
+.match-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r16);padding:1.1rem 1.25rem;display:flex;align-items:center;gap:1rem;margin-bottom:.6rem;transition:all .2s;cursor:default}
+.match-card:hover{border-color:var(--border2);background:#14141e}
+.match-avatar{width:48px;height:48px;border-radius:var(--r12);background:linear-gradient(135deg,var(--accent),var(--teal));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:#fff;flex-shrink:0}
+.match-info{flex:1;min-width:0}
+.match-name{font-weight:600;font-size:.93rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.match-role{font-size:.78rem;color:var(--muted);margin-top:2px}
+.match-score-pill{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;padding:5px 14px;border-radius:8px;flex-shrink:0}
+.score-high{background:rgba(34,197,94,.15);color:var(--green)}
+.score-med{background:rgba(245,166,35,.15);color:var(--amber)}
+.score-low{background:rgba(255,107,107,.12);color:var(--red)}
+
+/* ── JOB CARDS ─────────────────────────────────────── */
+.job-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r16);padding:1.25rem;margin-bottom:.75rem;transition:border-color .2s}
+.job-card:hover{border-color:var(--border2)}
+.job-header{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem}
+.company-logo{width:42px;height:42px;border-radius:var(--r12);background:var(--surface2);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0}
+.job-title{font-weight:600;font-size:.97rem}
+.job-company{font-size:.8rem;color:var(--muted)}
+.job-meta{font-size:.77rem;color:var(--muted);display:flex;gap:.65rem;margin-bottom:.75rem;flex-wrap:wrap}
+.job-meta span{display:flex;align-items:center;gap:3px}
+.job-actions{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem}
+
+/* ── BAR CHART ─────────────────────────────────────── */
+.bar-chart{display:flex;flex-direction:column;gap:9px}
+.bar-row{display:flex;align-items:center;gap:10px;font-size:.8rem}
+.bar-label{width:145px;flex-shrink:0;color:var(--muted)}
+.bar-track{flex:1;background:var(--surface2);border-radius:100px;height:9px;overflow:hidden}
+.bar-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--accent),var(--teal));transition:width .8s ease}
+.bar-val{width:36px;text-align:right;font-weight:600;font-size:.78rem}
+
+/* ── CERTIFICATE ─────────────────────────────────────── */
+.cert-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r16);padding:1.25rem;margin-bottom:.6rem;display:flex;align-items:center;gap:1rem}
+.cert-badge{width:52px;height:52px;border-radius:var(--r12);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.cert-badge.verified{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25)}
+.cert-badge.professional{background:rgba(245,166,35,.12);border:1px solid rgba(245,166,35,.25)}
+.cert-badge.pending{background:rgba(108,99,255,.12);border:1px solid rgba(108,99,255,.2)}
+.cert-badge.rejected{background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.2)}
+.cert-info{flex:1;min-width:0}
+.cert-name{font-weight:600;font-size:.9rem}
+.cert-issuer{font-size:.78rem;color:var(--muted);margin-top:2px}
+.cert-power{font-size:.75rem;margin-top:5px;display:flex;align-items:center;gap:4px}
+.power-stars{color:var(--amber)}
+
+/* ── CHATBOT ─────────────────────────────────────────── */
+#chatbot-fab{position:fixed;bottom:24px;right:24px;z-index:999;width:52px;height:52px;background:var(--accent);border-radius:50%;border:none;cursor:pointer;font-size:1.25rem;box-shadow:0 8px 24px rgba(108,99,255,.45);display:flex;align-items:center;justify-content:center;transition:all .3s}
+#chatbot-fab:hover{transform:scale(1.1);box-shadow:0 12px 32px rgba(108,99,255,.55)}
+#chatbot-panel{position:fixed;bottom:88px;right:24px;z-index:998;width:340px;height:480px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r20);display:none;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.55);overflow:hidden;animation:slideUp .2s ease}
+#chatbot-panel.open{display:flex}
+.chat-header{background:var(--card);padding:.85rem 1rem;font-weight:600;font-size:.9rem;display:flex;align-items:center;gap:.5rem;border-bottom:1px solid var(--border);font-family:'Syne',sans-serif}
+.chat-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+#chat-msgs{flex:1;overflow-y:auto;padding:.75rem;display:flex;flex-direction:column;gap:.4rem}
+.chat-msg{max-width:88%;padding:9px 13px;border-radius:12px;font-size:.82rem;line-height:1.55;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}}
+.chat-msg.bot{background:var(--surface2);align-self:flex-start;border-bottom-left-radius:4px;color:var(--text)}
+.chat-msg.user{background:var(--accent);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.chat-input-row{display:flex;gap:6px;padding:.7rem;border-top:1px solid var(--border)}
+#chat-input{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 11px;color:var(--text);font-size:.82rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
+#chat-input:focus{border-color:var(--accent)}
+#chat-send{background:var(--accent);border:none;color:#fff;width:33px;height:33px;border-radius:8px;cursor:pointer;font-size:1rem;flex-shrink:0;transition:background .2s}
+#chat-send:hover{background:var(--accent-h)}
+
+/* ── TOAST ─────────────────────────────────────────── */
+#toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:10px 20px;font-size:.85rem;z-index:9999;transition:all .3s;opacity:0;pointer-events:none;white-space:nowrap;box-shadow:var(--shadow)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── CERTIFICATE VERIFY UI ────────────────────────── */
+.verify-area{background:var(--surface2);border:2px dashed var(--border2);border-radius:var(--r16);padding:2rem;text-align:center;transition:all .2s;cursor:pointer;position:relative}
+.verify-area:hover,.verify-area.dragging{border-color:var(--accent);background:rgba(108,99,255,.04)}
+.verify-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.verified-seal{display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);border-radius:100px;padding:6px 14px;font-size:.82rem;font-weight:600;color:var(--green);margin-top:.75rem}
+.power-meter{display:flex;gap:3px;align-items:center}
+.power-pip{width:14px;height:14px;border-radius:50%;background:var(--border2);transition:background .3s}
+.power-pip.lit{background:var(--amber)}
+
+/* ── RESPONSIVE ─────────────────────────────────────── */
+@media(max-width:768px){
+  .grid2,.grid3,.grid4{grid-template-columns:1fr}
+  .topbar-nav{max-width:calc(100vw - 200px)}
+}
+@media(max-width:480px){
+  .match-card{flex-wrap:wrap}
+  #chatbot-panel{width:calc(100vw - 32px);right:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ LANDING ═══════════════════════════════════════════ -->
+<div id="landing">
+  <div class="grid-bg"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="logo-main">Career<span>Bridge</span> AI</div>
+  <div class="landing-hero">
+    <h1>Smart Career Matching <em>Powered by AI</em></h1>
+    <p>Bridging students and job-seekers with top companies through intelligent matchmaking, real-time market insights, certificate verification, and personalized learning paths.</p>
+    <div class="login-cards">
+      <div class="login-card" onclick="openLogin('student')">
+        <span class="icon">🎓</span>
+        <h3>Student / Job Seeker</h3>
+        <p>Register & find your dream role</p>
+      </div>
+      <div class="login-card" onclick="openLogin('company')">
+        <span class="icon">🏢</span>
+        <h3>Company / Recruiter</h3>
+        <p>Find top talent instantly</p>
+      </div>
+      <div class="login-card" onclick="openLogin('admin')">
+        <span class="icon">⚙️</span>
+        <h3>Admin Dashboard</h3>
+        <p>Manage &amp; monitor platform</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ LOGIN MODAL ═══════════════════════════════════════ -->
+<div class="modal-overlay" id="login-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeLogin()">✕</button>
+    <h2 id="login-title" style="margin-bottom:1.25rem;font-size:1.2rem;letter-spacing:-.3px"></h2>
+    <div class="modal-tabs">
+      <button class="modal-tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+      <button class="modal-tab" id="tab-register" onclick="switchTab('register')">Register</button>
+    </div>
+    <div id="login-form-area">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" id="login-email" type="email" placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" id="login-pass" type="password" placeholder="••••••••">
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.25rem" onclick="doLogin()">Sign In →</button>
+      <p style="text-align:center;margin-top:.75rem;font-size:.8rem;color:var(--muted)">Demo: any email &amp; password works</p>
+    </div>
+    <div id="register-form-area" style="display:none">
+      <div class="grid2" style="gap:.75rem">
+        <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="reg-name" placeholder="Your Name"></div>
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="reg-email" type="email" placeholder="you@email.com"></div>
+        <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="reg-pass" type="password" placeholder="Min 6 chars"></div>
+        <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="reg-phone" placeholder="+91 XXXXX XXXXX"></div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.25rem" onclick="doRegister()">Create Account →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ APP ═══════════════════════════════════════════════ -->
+<div id="app">
+  <div class="topbar">
+    <div class="logo">Career<span>Bridge</span></div>
+    <nav class="topbar-nav" id="main-nav"></nav>
+    <div class="topbar-right">
+      <span class="role-badge" id="role-badge">Student</span>
+      <button class="logout-btn" onclick="doLogout()">← Logout</button>
+    </div>
+  </div>
+  <div class="main" id="main-content"></div>
+</div>
+
+<!-- ═══ CHATBOT ═══════════════════════════════════════════ -->
+<button id="chatbot-fab" onclick="toggleChat()" title="CareerBot AI">💬</button>
+<div id="chatbot-panel">
+  <div class="chat-header">
+    <div class="chat-dot"></div>
+    CareerBot AI
+    <span style="margin-left:auto;font-size:.72rem;color:var(--muted)">Online</span>
+    <button onclick="toggleChat()" style="background:none;border:none;color:var(--muted);cursor:pointer;margin-left:4px;font-size:1rem;line-height:1">✕</button>
+  </div>
+  <div id="chat-msgs">
+    <div class="chat-msg bot">Hi! I'm CareerBot 👋 I help with career guidance, skill advice, interview tips, certificate queries, and more. What would you like to know?</div>
+  </div>
+  <div class="chat-input-row">
+    <input id="chat-input" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button id="chat-send" onclick="sendChat()">↑</button>
+  </div>
+</div>
+<div id="toast"></div>
+
+<!-- ═══ SCRIPT ═══════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ── STATE ──────────────────────────────────────────── */
+let currentRole = '';
+let pendingRole = '';
+let currentTab = 'login';
+
+const store = {
+  currentStudent: null,
+  students: [
+    { id:1, name:'Priya Sharma', email:'priya@mail.com', phone:'+91 98765 43210', degree:'B.Tech', branch:'CSE', cgpa:8.4, college:'Anna University', skills:['Python','React','SQL','Machine Learning'], projects:['E-commerce App','ML Classifier','Portfolio Site'], certifications:[{name:'AWS Cloud Practitioner',issuer:'Amazon',level:'professional',verified:true,score:88},{name:'Google Data Analytics',issuer:'Google',level:'professional',verified:true,score:92}], backlog:false, matchScore:0 },
+    { id:2, name:'Arjun Reddy',  email:'arjun@mail.com', phone:'+91 91234 56789', degree:'B.Tech', branch:'ECE', cgpa:7.2, college:'VIT Vellore',    skills:['C++','Embedded Systems','Python','MATLAB'], projects:['IoT Dashboard','Smart Home Prototype'], certifications:[{name:'Arduino Fundamentals',issuer:'Arduino',level:'basic',verified:false,score:70}], backlog:false, matchScore:0 },
+    { id:3, name:'Meera Nair',   email:'meera@mail.com', phone:'+91 99887 76655', degree:'B.Sc',   branch:'Data Science', cgpa:9.1, college:'PSG College of Tech', skills:['Python','TensorFlow','Power BI','SQL','R'], projects:['Sentiment Analyzer','Sales Forecasting','NLP Pipeline'], certifications:[{name:'Google Data Analytics',issuer:'Google',level:'professional',verified:true,score:96},{name:'IBM Data Science',issuer:'IBM',level:'professional',verified:true,score:91}], backlog:false, matchScore:0 },
+  ],
+  jobs: [
+    { id:1, company:'TechCorp India', role:'Software Engineer',     location:'Bangalore',         ctc:'8–12 LPA', logo:'💻', reqDegree:'B.Tech',     reqBranch:['CSE','IT'],          reqCGPA:7.0, reqSkills:['Python','React','SQL'],          backlogsAllowed:false, posted:'2 days ago',  status:'active' },
+    { id:2, company:'DataDriven Inc', role:'Data Analyst',          location:'Hyderabad / Remote', ctc:'6–10 LPA', logo:'📊', reqDegree:'B.Tech/B.Sc', reqBranch:['CSE','DS','ECE'],   reqCGPA:6.5, reqSkills:['Python','SQL','Power BI'],       backlogsAllowed:false, posted:'1 day ago',   status:'active' },
+    { id:3, company:'CloudNest',      role:'Cloud Developer',       location:'Chennai',            ctc:'10–15 LPA',logo:'☁️', reqDegree:'B.Tech',     reqBranch:['CSE','IT'],          reqCGPA:7.5, reqSkills:['AWS','Python','Docker'],          backlogsAllowed:false, posted:'5 days ago',  status:'active' },
+    { id:4, company:'AIVentures',     role:'ML Engineer',           location:'Bangalore / Remote', ctc:'12–18 LPA',logo:'🤖', reqDegree:'B.Tech/B.Sc', reqBranch:['CSE','DS','ECE'],   reqCGPA:7.8, reqSkills:['Python','TensorFlow','SQL'],      backlogsAllowed:false, posted:'3 days ago',  status:'active' },
+    { id:5, company:'Infosys',        role:'Systems Engineer',      location:'Multiple Cities',    ctc:'4–7 LPA',  logo:'🏛️', reqDegree:'B.Tech/B.Sc', reqBranch:['CSE','ECE','IT','DS'], reqCGPA:6.0, reqSkills:['Python','SQL'],               backlogsAllowed:true,  posted:'1 week ago',  status:'active' },
+  ],
+  applications: [],
+  certDb: {
+    'CERT-AWS-2024-001': { name:'AWS Cloud Practitioner', issuer:'Amazon Web Services', level:'professional', holder:'Priya Sharma', date:'2024-01-15', score:88, valid:true },
+    'CERT-GDA-2024-042': { name:'Google Data Analytics',  issuer:'Google',              level:'professional', holder:'Meera Nair',   date:'2024-03-22', score:96, valid:true },
+    'CERT-IBM-2024-019': { name:'IBM Data Science',        issuer:'IBM',                level:'professional', holder:'Meera Nair',   date:'2024-06-10', score:91, valid:true },
+    'CERT-DEMO-BASIC':   { name:'Sample Certificate',      issuer:'Demo Platform',       level:'basic',        holder:'Test User',    date:'2024-01-01', score:75, valid:true },
+  }
+};
+
+const CERT_POWER = { basic:1, intermediate:2, professional:4, advanced:5 };
+const CERT_LABEL = { basic:'Basic (1★)', intermediate:'Intermediate (2★)', professional:'Professional (4★)', advanced:'Advanced (5★)' };
+
+/* ── MATCH SCORE ────────────────────────────────────── */
+function computeMatchScore(student, job) {
+  let score = 0;
+  if (student.cgpa >= job.reqCGPA) score += 25;
+  else score += Math.max(0, 25 - (job.reqCGPA - student.cgpa) * 10);
+  if (job.reqBranch.some(b => student.branch.toLowerCase().includes(b.toLowerCase()) || b.toLowerCase().includes(student.branch.toLowerCase()))) score += 25;
+  else score += 5;
+  const matched = student.skills.filter(s => job.reqSkills.some(r => r.toLowerCase() === s.toLowerCase()));
+  score += Math.round((matched.length / Math.max(job.reqSkills.length,1)) * 30);
+  if (student.projects && student.projects.length >= 1) score += 5;
+  if (student.projects && student.projects.length >= 2) score += 5;
+  const verifiedPro = (student.certifications || []).filter(c => c.verified && CERT_POWER[c.level] >= 4);
+  if (verifiedPro.length >= 1) score += 5;
+  if (verifiedPro.length >= 2) score += 5;
+  if (student.backlog && !job.backlogsAllowed) return Math.min(score, 40);
+  return Math.min(100, Math.round(score));
+}
+
+/* ── LOGIN ──────────────────────────────────────────── */
+function openLogin(role) {
+  pendingRole = role;
+  const titles = { student:'Student / Job Seeker', company:'Company / Recruiter', admin:'Admin Portal' };
+  document.getElementById('login-title').textContent = titles[role];
+  document.getElementById('login-modal').classList.add('open');
+}
+function closeLogin() { document.getElementById('login-modal').classList.remove('open'); }
+function switchTab(tab) {
+  currentTab = tab;
+  document.getElementById('tab-login').classList.toggle('active', tab==='login');
+  document.getElementById('tab-register').classList.toggle('active', tab==='register');
+  document.getElementById('login-form-area').style.display = tab==='login' ? 'block' : 'none';
+  document.getElementById('register-form-area').style.display = tab==='register' ? 'block' : 'none';
+}
+function doRegister() {
+  const name = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const phone = document.getElementById('reg-phone').value.trim();
+  if (!name || !email) { showToast('Please fill name and email'); return; }
+  if (pendingRole === 'student') {
+    const newStudent = { id: Date.now(), name, email, phone: phone||'', degree:'B.Tech', branch:'CSE', cgpa:0, college:'', skills:[], projects:[], certifications:[], backlog:false, matchScore:0 };
+    store.students.push(newStudent);
+    store.currentStudent = newStudent;
+  }
+  closeLogin();
+  launchApp();
+}
+function doLogin() {
+  closeLogin();
+  if (pendingRole === 'student' && !store.currentStudent) store.currentStudent = store.students[0];
+  launchApp();
+}
+function launchApp() {
+  currentRole = pendingRole;
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  document.getElementById('app').style.flexDirection = 'column';
+  const badge = document.getElementById('role-badge');
+  badge.textContent = { student:'Student', company:'Company', admin:'Admin' }[currentRole];
+  badge.className = 'role-badge ' + currentRole;
+  buildNav();
+  const firstPage = { student:'dash', company:'cdash', admin:'adash' }[currentRole];
+  showPage(firstPage);
+}
+function doLogout() {
+  currentRole = '';
+  store.currentStudent = null;
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('landing').style.display = 'flex';
+}
+
+/* ── NAV ────────────────────────────────────────────── */
+const navConfig = {
+  student: [
+    {id:'dash',label:'Dashboard'},{id:'profile',label:'My Profile'},{id:'skills',label:'Skills & Test'},
+    {id:'jobs',label:'Browse Jobs'},{id:'applications',label:'Applications'},
+    {id:'certificates',label:'Certificates'},{id:'market',label:'Market Insights'}
+  ],
+  company: [
+    {id:'cdash',label:'Dashboard'},{id:'cjobs',label:'Job Postings'},
+    {id:'cmatches',label:'Smart Matches'},{id:'cprofiles',label:'Candidate Pool'}
+  ],
+  admin: [
+    {id:'adash',label:'Overview'},{id:'astudents',label:'Students'},
+    {id:'acompanies',label:'Companies'},{id:'amatches',label:'All Matches'},{id:'acerts',label:'Certificate Audit'}
+  ]
+};
+
+function buildNav() {
+  const nav = document.getElementById('main-nav');
+  nav.innerHTML = '';
+  navConfig[currentRole].forEach((item,i) => {
+    const btn = document.createElement('button');
+    btn.className = 'nav-btn' + (i===0?' active':'');
+    btn.textContent = item.label;
+    btn.dataset.page = item.id;
+    btn.onclick = () => { nav.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); showPage(item.id); };
+    nav.appendChild(btn);
+  });
+}
+function setActiveNav(id) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.page === id));
+}
+function showPage(id) {
+  setActiveNav(id);
+  document.getElementById('main-content').innerHTML = '';
+  const pages = {
+    dash: renderStudentDashboard, profile: renderProfilePage, skills: renderSkillsPage,
+    jobs: renderJobsPage, applications: renderApplicationsPage, certificates: renderCertificatesPage, market: renderMarketPage,
+    cdash: renderCompanyDashboard, cjobs: renderCompanyJobs, cmatches: renderCompanyMatches, cprofiles: renderCandidatePool,
+    adash: renderAdminDashboard, astudents: renderAdminStudents, acompanies: renderAdminCompanies, amatches: renderAdminMatches, acerts: renderAdminCerts
+  };
+  if (pages[id]) pages[id]();
+}
+
+/* ── STUDENT: DASHBOARD ─────────────────────────────── */
+function renderStudentDashboard() {
+  const mc = document.getElementById('main-content');
+  const s = store.currentStudent || store.students[0];
+  store.currentStudent = s;
+  const matchedJobs = store.jobs.map(j => ({...j, score: computeMatchScore(s,j)})).sort((a,b) => b.score - a.score);
+  const topMatch = matchedJobs[0];
+  const verifiedCerts = (s.certifications||[]).filter(c=>c.verified);
+  mc.innerHTML = `
+    <h1 class="page-title">Welcome back, ${s.name.split(' ')[0]} 👋</h1>
+    <p class="page-sub">Your career overview · ${new Date().toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</p>
+    ${topMatch && topMatch.score === 100 ? `<div class="notif"><div class="notif-icon">🎉</div><div class="notif-text"><strong style="color:var(--green)">100% Match Found!</strong><br>You are a perfect match for <strong>${topMatch.role}</strong> at ${topMatch.company}. Profile auto-forwarded to recruiter.</div></div>` : ''}
+    <div class="grid4" style="margin-bottom:1.25rem">
+      <div class="stat-card"><div class="stat-num" style="color:var(--accent)">${matchedJobs.filter(j=>j.score>=70).length}</div><div class="stat-label">Job Matches ≥70%</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--green)">${(s.skills||[]).length}</div><div class="stat-label">Skills Listed</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--amber)">${store.applications.filter(a=>a.studentId===s.id).length}</div><div class="stat-label">Applications Sent</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--teal)">${verifiedCerts.length}</div><div class="stat-label">Verified Certs</div></div>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">🎯 Top Job Matches</div>
+        ${matchedJobs.slice(0,4).map(j=>`
+          <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.6rem;padding-bottom:.6rem;border-bottom:1px solid var(--border)">
+            <span style="font-size:1.3rem">${j.logo}</span>
+            <div style="flex:1;min-width:0">
+              <div style="font-weight:600;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${j.role}</div>
+              <div style="font-size:.76rem;color:var(--muted)">${j.company} · ${j.ctc}</div>
+            </div>
+            <div class="match-score-pill ${j.score>=80?'score-high':j.score>=60?'score-med':'score-low'}">${j.score}%</div>
+          </div>`).join('')}
+        <button class="btn btn-secondary btn-sm" onclick="showPage('jobs')">View All Jobs →</button>
+      </div>
+      <div class="card">
+        <div class="card-title">📈 Profile Strength</div>
+        ${[
+          {label:'Personal Info', val: s.email?90:40},
+          {label:'Education',     val: s.college?100:50},
+          {label:'Skills',        val: Math.min(100, (s.skills||[]).length * 15)},
+          {label:'Projects',      val: Math.min(100, (s.projects||[]).length * 30)},
+          {label:'Certifications',val: Math.min(100, verifiedCerts.length * 50)},
+        ].map(r=>`
+          <div style="margin-bottom:.7rem">
+            <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:4px"><span>${r.label}</span><span style="color:var(--muted)">${r.val}%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:${r.val}%;background:${r.val>=80?'var(--green)':r.val>=50?'var(--amber)':'var(--red)'}"></div></div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🔍 AI Skill Gap Analysis</div>
+      <div id="quick-gap-area"><div class="inline-loader"><div class="spinner"></div>Analyzing skill gaps with AI…</div></div>
+    </div>`;
+  setTimeout(() => quickSkillGap(s), 900);
+}
+
+async function quickSkillGap(student) {
+  const area = document.getElementById('quick-gap-area');
+  if (!area) return;
+  const topJob = store.jobs.sort((a,b) => computeMatchScore(student,b) - computeMatchScore(student,a))[0];
+  const missing = topJob.reqSkills.filter(s => !(student.skills||[]).some(sk => sk.toLowerCase()===s.toLowerCase()));
+  if (missing.length === 0) { area.innerHTML = '<span style="color:var(--green);font-size:.9rem">✓ You meet all skill requirements for your top match!</span>'; return; }
+  area.innerHTML = `<p style="font-size:.83rem;color:var(--muted);margin-bottom:.75rem">Missing skills for <strong style="color:var(--text)">${topJob.role}</strong> at ${topJob.company}:</p>
+    ${missing.map(m=>`<span class="tag tag-red">${m}</span>`).join('')}
+    <div id="gap-ai-text" class="inline-loader" style="margin-top:.75rem"><div class="spinner"></div>Getting AI recommendations…</div>`;
+  const res = await callClaude(`Career advisor. Student skills: ${(student.skills||[]).join(', ')}. Missing for ${topJob.role}: ${missing.join(', ')}. Give 2–3 concise actionable learning tips. Max 80 words. Plain paragraph, no markdown.`);
+  const el = document.getElementById('gap-ai-text');
+  if (el) { el.className = ''; el.style.color='var(--text)'; el.style.fontSize='.85rem'; el.style.lineHeight='1.7'; el.style.marginTop='.5rem'; el.textContent = res; }
+}
+
+/* ── STUDENT: PROFILE ───────────────────────────────── */
+function renderProfilePage() {
+  const mc = document.getElementById('main-content');
+  const s = store.currentStudent || store.students[0];
+  mc.innerHTML = `
+    <h1 class="page-title">My Profile</h1>
+    <p class="page-sub">Complete your profile to improve match scores</p>
+    <div class="steps">
+      ${['Personal','Education','Skills','Documents','Done'].map((st,i) => {
+        const done = i <= 3; const active = i === 4;
+        return (i>0?'<div class="step-line"></div>':'') + `<div class="step ${done?'done':active?'active':''}"><div class="step-dot">${done?'✓':i+1}</div><span>${st}</span></div>`;
+      }).join('')}
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">👤 Personal Information</div>
+        <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="pf-name" value="${s.name}"></div>
+        <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" id="pf-email" type="email" value="${s.email}"></div>
+        <div class="form-group"><label class="form-label">Phone Number</label><input class="form-input" id="pf-phone" value="${s.phone||''}"></div>
+        <div class="form-group"><label class="form-label">LinkedIn URL</label><input class="form-input" id="pf-li" placeholder="linkedin.com/in/yourname"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">🎓 Education</div>
+        <div class="form-group"><label class="form-label">Degree</label>
+          <select class="form-input" id="pf-degree">
+            ${['B.Tech','B.Sc','B.E','MBA','M.Tech','MCA'].map(d=>`<option ${s.degree===d?'selected':''}>${d}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">College / University</label><input class="form-input" id="pf-college" value="${s.college}"></div>
+        <div class="form-group"><label class="form-label">Branch / Specialization</label><input class="form-input" id="pf-branch" value="${s.branch}"></div>
+        <div class="form-group"><label class="form-label">CGPA / Percentage</label><input class="form-input" id="pf-cgpa" type="number" step="0.1" min="0" max="10" value="${s.cgpa}"></div>
+        <div class="form-group"><label class="form-label">Active Backlogs?</label>
+          <select class="form-input" id="pf-backlog">
+            <option value="no" ${!s.backlog?'selected':''}>No</option>
+            <option value="yes" ${s.backlog?'selected':''}>Yes</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">💼 Skills &amp; Experience</div>
+      <div class="grid2">
+        <div>
+          <div class="form-group"><label class="form-label">Skills (comma-separated)</label><input class="form-input" id="pf-skills" value="${(s.skills||[]).join(', ')}"></div>
+          <div style="margin-bottom:1rem"><div class="form-label" style="margin-bottom:6px">Current Skills</div>${(s.skills||[]).map(sk=>`<span class="tag">${sk}</span>`).join('')||'<span style="color:var(--muted);font-size:.83rem">No skills added yet</span>'}</div>
+          <div class="form-group"><label class="form-label">Coding Profiles (GitHub / LeetCode)</label><input class="form-input" id="pf-github" placeholder="github.com/username"></div>
+        </div>
+        <div>
+          <div class="form-group"><label class="form-label">Projects (one per line)</label><textarea class="form-input" id="pf-projects">${(s.projects||[]).join('\n')}</textarea></div>
+          <div class="form-group"><label class="form-label">Internship / Work Experience</label><textarea class="form-input" id="pf-exp" placeholder="Company • Role • Duration" style="min-height:60px"></textarea></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">📄 Document Upload</div>
+      <div class="grid2">
+        <div class="form-group"><label class="form-label">Mark Sheet / Transcript (PDF / Image)</label><input class="form-input" type="file" accept=".pdf,.jpg,.jpeg,.png"></div>
+        <div class="form-group"><label class="form-label">ID Proof (Aadhaar / PAN)</label><input class="form-input" type="file" accept=".pdf,.jpg,.jpeg,.png"></div>
+        <div class="form-group"><label class="form-label">Resume / CV (PDF)</label><input class="form-input" type="file" accept=".pdf"></div>
+        <div class="form-group"><label class="form-label">Offer Letter (if any)</label><input class="form-input" type="file" accept=".pdf,.jpg,.jpeg,.png"></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="saveProfile()">Save Profile ✓</button>
+      <button class="btn btn-secondary" onclick="showPage('certificates')">Manage Certificates →</button>
+    </div>`;
+}
+
+function saveProfile() {
+  const s = store.currentStudent || store.students[0];
+  s.name   = document.getElementById('pf-name').value.trim() || s.name;
+  s.email  = document.getElementById('pf-email').value.trim() || s.email;
+  s.phone  = document.getElementById('pf-phone').value.trim();
+  s.college= document.getElementById('pf-college').value.trim() || s.college;
+  s.branch = document.getElementById('pf-branch').value.trim() || s.branch;
+  const cgpa = parseFloat(document.getElementById('pf-cgpa').value);
+  if (!isNaN(cgpa)) s.cgpa = cgpa;
+  s.backlog = document.getElementById('pf-backlog').value === 'yes';
+  const rawSkills = document.getElementById('pf-skills').value;
+  if (rawSkills.trim()) s.skills = rawSkills.split(',').map(v=>v.trim()).filter(Boolean);
+  const rawProj = document.getElementById('pf-projects').value;
+  if (rawProj.trim()) s.projects = rawProj.split('\n').map(v=>v.trim()).filter(Boolean);
+  showToast('Profile saved successfully! ✓');
+}
+
+/* ── STUDENT: SKILLS ────────────────────────────────── */
+function renderSkillsPage() {
+  const mc = document.getElementById('main-content');
+  mc.innerHTML = `
+    <h1 class="page-title">Skills Assessment</h1>
+    <p class="page-sub">Test your aptitude and coding skills to improve your match score</p>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">🧠 Aptitude Test</div>
+        <p style="font-size:.83rem;color:var(--muted);margin-bottom:1rem">20 questions · 30 mins · Logical, Quant, Verbal</p>
+        <div class="form-group">
+          <label class="form-label" style="font-size:.9rem;color:var(--text);text-transform:none;letter-spacing:0">Q1. If a train travels 300 km in 4 hours, what is its average speed?</label>
+          ${['65 km/h','75 km/h','80 km/h','90 km/h'].map((opt,i)=>`
+            <label style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:8px;border:1px solid var(--border);margin-bottom:6px;cursor:pointer;font-size:.85rem;transition:all .2s" onclick="this.style.borderColor='var(--accent)';this.style.background='rgba(108,99,255,.08)';document.querySelectorAll('[name=q1]').forEach(r=>r.checked=false);this.querySelector('input').checked=true">
+              <input type="radio" name="q1" value="${i}" style="accent-color:var(--accent)"> ${opt}
+            </label>`).join('')}
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="submitApt()">Submit Answer</button>
+      </div>
+      <div class="card">
+        <div class="card-title">💻 Coding Challenge</div>
+        <p style="font-size:.83rem;color:var(--muted);margin-bottom:1rem">1 problem · 45 mins · Python / Java / C++</p>
+        <div style="background:var(--surface2);border-radius:var(--r8);padding:1rem;font-size:.82rem;margin-bottom:1rem;border:1px solid var(--border)">
+          <div style="color:var(--teal);margin-bottom:.5rem;font-weight:600">Problem: Two Sum</div>
+          <div style="color:var(--muted);line-height:1.65">Given an array of integers <code style="color:var(--accent)">nums</code> and a <code style="color:var(--accent)">target</code>, return indices of two numbers that add up to target. Assume exactly one solution exists.</div>
+          <div style="color:var(--muted);font-size:.78rem;margin-top:.5rem">Example: nums = [2,7,11,15], target = 9 → [0,1]</div>
+        </div>
+        <textarea class="form-input" id="code-area" style="font-family:monospace;font-size:.82rem;min-height:120px" placeholder="def twoSum(nums, target):&#10;    # Your solution here&#10;    pass"></textarea>
+        <div style="display:flex;gap:.5rem;margin-top:.75rem">
+          <button class="btn btn-primary btn-sm" onclick="runCode()">Run &amp; Submit</button>
+          <button class="btn btn-secondary btn-sm" onclick="showHint()">Hint 💡</button>
+        </div>
+        <div id="code-result" style="margin-top:.5rem"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🔗 Coding Profiles</div>
+      <div class="grid2">
+        <div class="form-group"><label class="form-label">LeetCode Username</label><input class="form-input" id="lc" placeholder="username"></div>
+        <div class="form-group"><label class="form-label">GitHub Profile</label><input class="form-input" id="gh" placeholder="github.com/username"></div>
+        <div class="form-group"><label class="form-label">HackerRank</label><input class="form-input" id="hr" placeholder="hackerrank.com/username"></div>
+        <div class="form-group"><label class="form-label">CodeChef</label><input class="form-input" id="cc" placeholder="codechef.com/users/username"></div>
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="linkProfiles()">Link Profiles ✓</button>
+    </div>
+    <div class="card" id="skill-analysis-card">
+      <div class="card-title">🤖 AI Skill Analysis</div>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Get a personalised AI analysis of your skills vs market demand.</p>
+      <button class="btn btn-primary" onclick="runSkillAnalysis()">Analyse My Skills →</button>
+    </div>`;
+}
+
+function submitApt() {
+  const sel = document.querySelector('input[name=q1]:checked');
+  if (!sel) { showToast('Please select an answer'); return; }
+  showToast(sel.value === '1' ? '✓ Correct! 75 km/h (300÷4)' : '✗ Incorrect. Answer: 75 km/h (300÷4)');
+}
+function runCode() {
+  const code = document.getElementById('code-area').value;
+  const el = document.getElementById('code-result');
+  if (!code.trim() || code.includes('pass')) { el.innerHTML = '<span style="color:var(--red);font-size:.82rem">⚠ Please write your solution first.</span>'; return; }
+  el.innerHTML = '<span style="color:var(--green);font-size:.82rem">✓ All 3 test cases passed · Score: 100/100</span>';
+  showToast('Code submitted! ✓');
+}
+function showHint() { showToast('Hint: Use a hash map to store complement → index'); }
+function linkProfiles() {
+  const lc = document.getElementById('lc').value;
+  const gh = document.getElementById('gh').value;
+  if (!lc && !gh) { showToast('Enter at least one profile URL'); return; }
+  showToast('Profiles linked successfully! ✓');
+}
+
+async function runSkillAnalysis() {
+  const card = document.getElementById('skill-analysis-card');
+  const s = store.currentStudent || store.students[0];
+  card.innerHTML = `<div class="card-title">🤖 AI Skill Analysis</div><div class="inline-loader"><div class="spinner"></div>Analysing your skills against market demand…</div>`;
+  const res = await callClaude(`Career analyst. Student: Skills: ${(s.skills||[]).join(', ')}, ${s.degree} ${s.branch}, CGPA: ${s.cgpa}, Projects: ${(s.projects||[]).join(', ')}. Give a concise analysis in 3 bullet points (max 20 words each): 1) Top strength 2) Key skill gap 3) Next action step. Use plain text with bullet symbols.`);
+  card.innerHTML = `<div class="card-title">🤖 AI Skill Analysis</div><div style="font-size:.88rem;line-height:1.85;white-space:pre-line">${res}</div><button class="btn btn-secondary btn-sm" style="margin-top:.75rem" onclick="runSkillAnalysis()">Refresh Analysis</button>`;
+}
+
+/* ── STUDENT: JOBS ──────────────────────────────────── */
+function renderJobsPage() {
+  const mc = document.getElementById('main-content');
+  const s = store.currentStudent || store.students[0];
+  mc.innerHTML = `
+    <h1 class="page-title">Browse Jobs</h1>
+    <p class="page-sub">AI-matched openings based on your profile</p>
+    <div style="display:flex;gap:.65rem;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center">
+      <input class="form-input" style="flex:1;min-width:200px" placeholder="🔍 Search roles, companies, skills…" id="job-search" oninput="filterJobs()">
+      <select class="form-input" style="width:auto" id="loc-filter" onchange="filterJobs()">
+        <option value="">All Locations</option>
+        ${[...new Set(store.jobs.map(j=>j.location))].map(l=>`<option>${l}</option>`).join('')}
+      </select>
+      <select class="form-input" style="width:auto" id="score-filter" onchange="filterJobs()">
+        <option value="0">All Matches</option>
+        <option value="70">≥70%</option>
+        <option value="80">≥80%</option>
+        <option value="90">≥90%</option>
+      </select>
+    </div>
+    <div id="jobs-list">${renderJobCards(store.jobs, s)}</div>`;
+}
+
+function renderJobCards(jobs, s) {
+  const minScore = parseInt(document.getElementById('score-filter')?.value || '0');
+  return jobs.map(j => {
+    const score = computeMatchScore(s, j);
+    if (score < minScore) return '';
+    const missing = j.reqSkills.filter(sk => !(s.skills||[]).some(ss => ss.toLowerCase()===sk.toLowerCase()));
+    return `
+      <div class="job-card">
+        <div class="job-header">
+          <div class="company-logo">${j.logo}</div>
+          <div style="flex:1;min-width:0">
+            <div class="job-title">${j.role}</div>
+            <div class="job-company">${j.company}</div>
+          </div>
+          <div class="match-score-pill ${score>=80?'score-high':score>=60?'score-med':'score-low'}">${score}%</div>
+        </div>
+        <div class="job-meta">
+          <span>📍 ${j.location}</span>
+          <span>💰 ${j.ctc}</span>
+          <span>🎓 ${j.reqDegree}</span>
+          <span>📊 CGPA ${j.reqCGPA}+</span>
+          <span>🕐 ${j.posted}</span>
+          ${j.backlogsAllowed ? '<span style="color:var(--green)">✓ Backlogs OK</span>' : '<span style="color:var(--red)">✗ No Backlogs</span>'}
+        </div>
+        <div style="margin-bottom:0">
+          ${j.reqSkills.map(sk=>`<span class="tag ${(s.skills||[]).some(ss=>ss.toLowerCase()===sk.toLowerCase())?'tag-green':''}">${sk}</span>`).join('')}
+          ${missing.length>0 ? `<span style="font-size:.76rem;color:var(--muted);margin-left:4px">Missing: ${missing.join(', ')}</span>` : ''}
+        </div>
+        <div class="job-actions">
+          <button class="btn btn-primary btn-sm" onclick="applyJob(${j.id},'${escHtml(j.company)}','${escHtml(j.role)}')">Apply Now</button>
+          <button class="btn btn-secondary btn-sm" onclick="analyzeJobFit(${j.id})">AI Analysis</button>
+          ${s.backlog && !j.backlogsAllowed ? '<span style="font-size:.75rem;color:var(--red);align-self:center">⚠ Backlog restriction applies</span>' : ''}
+        </div>
+        <div id="job-ai-${j.id}"></div>
+      </div>`;
+  }).join('') || '<p style="color:var(--muted);text-align:center;padding:2rem">No jobs match the selected filters.</p>';
+}
+
+function filterJobs() {
+  const s = store.currentStudent || store.students[0];
+  const q = (document.getElementById('job-search')?.value||'').toLowerCase();
+  const loc = (document.getElementById('loc-filter')?.value||'').toLowerCase();
+  const filtered = store.jobs.filter(j => {
+    const matchesQ = !q || j.role.toLowerCase().includes(q) || j.company.toLowerCase().includes(q) || j.reqSkills.some(sk=>sk.toLowerCase().includes(q));
+    const matchesLoc = !loc || j.location.toLowerCase().includes(loc);
+    return matchesQ && matchesLoc;
+  });
+  document.getElementById('jobs-list').innerHTML = renderJobCards(filtered, s);
+}
+
+function applyJob(jobId, company, role) {
+  const s = store.currentStudent || store.students[0];
+  if (store.applications.find(a => a.jobId===jobId && a.studentId===s.id)) { showToast('Already applied!'); return; }
+  store.applications.push({ id:Date.now(), jobId, studentId:s.id, company, role, status:'applied', date:new Date().toLocaleDateString('en-IN') });
+  showToast(`Applied to ${role} at ${company}! ✓`);
+}
+
+async function analyzeJobFit(jobId) {
+  const job = store.jobs.find(j=>j.id===jobId);
+  const s = store.currentStudent || store.students[0];
+  const area = document.getElementById('job-ai-'+jobId);
+  if (!area) return;
+  area.innerHTML = '<div class="inline-loader"><div class="spinner"></div>Analysing fit…</div>';
+  const score = computeMatchScore(s, job);
+  const res = await callClaude(`Career fit analysis. Student: ${s.name}, Skills: ${(s.skills||[]).join(',')}, CGPA: ${s.cgpa}. Job: ${job.role} at ${job.company}, requires: ${job.reqSkills.join(',')}. Match: ${score}%. Give a 2-sentence fit analysis and one actionable tip. Be direct and concise.`);
+  area.innerHTML = `<div class="ai-result">🤖 ${res}</div>`;
+}
+
+/* ── STUDENT: APPLICATIONS ──────────────────────────── */
+function renderApplicationsPage() {
+  const mc = document.getElementById('main-content');
+  const s = store.currentStudent || store.students[0];
+  const myApps = store.applications.filter(a => a.studentId===s.id);
+  const statusLabels = { applied:'Applied', review:'Under Review', selected:'Selected 🎉', rejected:'Not Selected' };
+  const statuses = ['applied','review','selected','rejected'];
+  mc.innerHTML = `
+    <h1 class="page-title">My Applications</h1>
+    <p class="page-sub">${myApps.length} application${myApps.length!==1?'s':''} submitted</p>
+    ${myApps.length===0 ? `
+      <div class="card" style="text-align:center;padding:3rem">
+        <div style="font-size:3.5rem;margin-bottom:1rem">📋</div>
+        <p style="color:var(--muted);margin-bottom:1.25rem">No applications yet. Browse jobs and start applying!</p>
+        <button class="btn btn-primary" onclick="showPage('jobs')">Browse Jobs →</button>
+      </div>` : myApps.map(app => {
+        const job = store.jobs.find(j=>j.id===app.jobId) || { logo:'💼' };
+        const idx = statuses.indexOf(app.status);
+        return `
+          <div class="job-card">
+            <div class="job-header">
+              <div class="company-logo">${job.logo}</div>
+              <div style="flex:1;min-width:0">
+                <div class="job-title">${app.role}</div>
+                <div class="job-company">${app.company} · Applied ${app.date}</div>
+              </div>
+              <span class="status-badge status-${app.status}">${statusLabels[app.status]}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:4px;margin-top:.25rem">
+              ${statuses.map((st,i) => `<div style="flex:1;height:4px;border-radius:2px;background:${i<=idx?'var(--accent)':'var(--border2)'}"></div>`).join('')}
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.6rem">
+              <span style="font-size:.76rem;color:var(--muted)">Step ${idx+1} of 4: ${statusLabels[app.status]}</span>
+              <button class="btn btn-secondary btn-sm" onclick="showToast('Status refreshed')">Refresh</button>
+            </div>
+          </div>`; }).join('')}`;
+}
+
+/* ── STUDENT: CERTIFICATES ──────────────────────────── */
+function renderCertificatesPage() {
+  const mc = document.getElementById('main-content');
+  const s = store.currentStudent || store.students[0];
+  const certs = s.certifications || [];
+  mc.innerHTML = `
+    <h1 class="page-title">Certificates &amp; Credentials</h1>
+    <p class="page-sub">Add and verify your professional certifications. Higher-level verified certs boost your match score.</p>
+    <div class="notif notif-info">
+      <div class="notif-icon">ℹ️</div>
+      <div class="notif-text"><strong>Certificate Power System:</strong> Basic = 1★ · Intermediate = 2★ · Professional = 4★ · Advanced = 5★. Verified professional/advanced certificates unlock a <strong>+10% match score bonus</strong> and are shown to recruiters.</div>
+    </div>
+    <div class="grid2">
+      <div>
+        <div class="section-header"><div class="section-title">Your Certificates</div><button class="btn btn-primary btn-sm" onclick="showAddCertForm()">+ Add Certificate</button></div>
+        <div id="cert-list">
+          ${certs.length===0 ? '<p style="color:var(--muted);font-size:.85rem">No certificates added yet.</p>' :
+            certs.map((c,i) => renderCertCard(c,i)).join('')}
+        </div>
+      </div>
+      <div>
+        <div class="section-title" style="margin-bottom:.75rem">🔍 Verify a Certificate ID</div>
+        <div class="card">
+          <p style="font-size:.83rem;color:var(--muted);margin-bottom:1rem">Enter a certificate ID to verify its authenticity and level. Try: <code style="color:var(--accent)">CERT-AWS-2024-001</code></p>
+          <div class="form-group"><label class="form-label">Certificate ID</label><input class="form-input" id="cert-id-input" placeholder="e.g. CERT-AWS-2024-001" oninput="this.value=this.value.toUpperCase()"></div>
+          <button class="btn btn-teal" onclick="verifyCertById()">Verify Now →</button>
+          <div id="cert-verify-result" style="margin-top:1rem"></div>
+        </div>
+        <div class="card" style="margin-top:0">
+          <div class="card-title">📤 Upload Certificate (Image / PDF)</div>
+          <div class="verify-area" id="upload-verify-zone">
+            <input type="file" accept=".pdf,.jpg,.jpeg,.png" onchange="simulateUploadVerify(event)">
+            <div style="font-size:2rem;margin-bottom:.5rem">📄</div>
+            <p style="font-size:.85rem;color:var(--muted)">Drop file here or click to upload</p>
+            <p style="font-size:.75rem;color:var(--muted2);margin-top:.3rem">PDF, JPG, PNG — max 5 MB</p>
+          </div>
+          <div id="upload-result" style="margin-top:1rem"></div>
+        </div>
+      </div>
+    </div>
+    <div id="add-cert-form"></div>`;
+}
+
+function renderCertCard(c, i) {
+  const power = CERT_POWER[c.level] || 1;
+  const maxPower = 5;
+  return `
+    <div class="cert-card">
+      <div class="cert-badge ${c.verified?'verified':'pending'}">${c.verified?'✅':'⏳'}</div>
+      <div class="cert-info">
+        <div class="cert-name">${escHtml(c.name)}</div>
+        <div class="cert-issuer">${escHtml(c.issuer||'')} · ${CERT_LABEL[c.level]||c.level}</div>
+        <div class="cert-power">
+          <div class="power-meter">${Array.from({length:maxPower},(_,k)=>`<div class="power-pip ${k<power?'lit':''}"></div>`).join('')}</div>
+          <span style="font-size:.72rem;color:var(--muted)">Power: ${power}/${maxPower}</span>
+          ${c.score ? `<span style="font-size:.72rem;color:var(--muted)">· Score: ${c.score}%</span>` : ''}
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0">
+        ${c.verified ? '<span class="verified-seal">✓ Verified</span>' : `<button class="btn btn-teal btn-xs" onclick="verifyCertInline(${i})">Verify</button>`}
+        <button class="btn btn-secondary btn-xs" onclick="removeCert(${i})">Remove</button>
+      </div>
+    </div>`;
+}
+
+function showAddCertForm() {
+  document.getElementById('add-cert-form').innerHTML = `
+    <div class="card">
+      <div class="card-title">➕ Add Certificate</div>
+      <div class="grid2">
+        <div class="form-group"><label class="form-label">Certificate Name</label><input class="form-input" id="nc-name" placeholder="e.g. AWS Cloud Practitioner"></div>
+        <div class="form-group"><label class="form-label">Issuing Organisation</label><input class="form-input" id="nc-issuer" placeholder="Amazon, Google, Coursera…"></div>
+        <div class="form-group"><label class="form-label">Level</label>
+          <select class="form-input" id="nc-level">
+            ${Object.entries(CERT_LABEL).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Score / Grade (optional)</label><input class="form-input" id="nc-score" type="number" min="0" max="100" placeholder="e.g. 88"></div>
+        <div class="form-group"><label class="form-label">Certificate ID (for verification)</label><input class="form-input" id="nc-certid" placeholder="e.g. CERT-AWS-2024-001"></div>
+      </div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="addCert()">Add Certificate</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('add-cert-form').innerHTML=''">Cancel</button>
+      </div>
+    </div>`;
+}
+
+function addCert() {
+  const s = store.currentStudent || store.students[0];
+  const name = document.getElementById('nc-name').value.trim();
+  const issuer = document.getElementById('nc-issuer').value.trim();
+  const level = document.getElementById('nc-level').value;
+  const certId = document.getElementById('nc-certid').value.trim().toUpperCase();
+  if (!name) { showToast('Certificate name is required'); return; }
+  const verified = certId ? !!store.certDb[certId] : false;
+  const score = parseInt(document.getElementById('nc-score').value) || null;
+  s.certifications = s.certifications || [];
+  s.certifications.push({ name, issuer, level, score, verified, certId });
+  document.getElementById('add-cert-form').innerHTML = '';
+  showToast(verified ? `Certificate added & verified! ✓ (+${CERT_POWER[level]} power points)` : 'Certificate added. Use ID verification to verify it.');
+  renderCertificatesPage();
+}
+
+function verifyCertInline(idx) {
+  const s = store.currentStudent || store.students[0];
+  const c = (s.certifications||[])[idx];
+  if (!c) return;
+  if (c.certId && store.certDb[c.certId]) {
+    c.verified = true;
+    showToast(`${c.name} verified! ✓`);
+    renderCertificatesPage();
+  } else {
+    showToast('Could not verify — check certificate ID in profile');
+  }
+}
+
+function removeCert(idx) {
+  const s = store.currentStudent || store.students[0];
+  s.certifications.splice(idx, 1);
+  showToast('Certificate removed');
+  renderCertificatesPage();
+}
+
+function verifyCertById() {
+  const id = document.getElementById('cert-id-input').value.trim().toUpperCase();
+  const el = document.getElementById('cert-verify-result');
+  if (!id) { el.innerHTML = '<p style="color:var(--red);font-size:.83rem">Please enter a certificate ID.</p>'; return; }
+  const cert = store.certDb[id];
+  if (!cert) {
+    el.innerHTML = `<div style="background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.2);border-radius:var(--r12);padding:.9rem;font-size:.85rem"><span style="color:var(--red);font-weight:600">✗ Certificate Not Found</span><br><span style="color:var(--muted)">No record found for ID: <code>${id}</code>. It may be invalid or not registered.</span></div>`;
+    return;
+  }
+  const power = CERT_POWER[cert.level] || 1;
+  el.innerHTML = `
+    <div style="background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);border-radius:var(--r12);padding:1rem">
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.65rem">
+        <span style="font-size:1.3rem">✅</span>
+        <span style="font-weight:700;color:var(--green);font-family:'Syne',sans-serif">Verified &amp; Authentic</span>
+      </div>
+      <div style="font-size:.83rem;line-height:1.7;color:var(--text)">
+        <strong>${escHtml(cert.name)}</strong><br>
+        Issuer: ${escHtml(cert.issuer)}<br>
+        Holder: ${escHtml(cert.holder)}<br>
+        Date: ${cert.date}<br>
+        Score: ${cert.score}%<br>
+        Level: ${CERT_LABEL[cert.level]||cert.level}
+      </div>
+      <div style="margin-top:.6rem;display:flex;align-items:center;gap:6px">
+        <div class="power-meter">${Array.from({length:5},(_,k)=>`<div class="power-pip ${k<power?'lit':''}"></div>`).join('')}</div>
+        <span style="font-size:.78rem;color:var(--amber);font-weight:600">Power Level: ${power}/5</span>
+      </div>
+    </div>`;
+}
+
+function simulateUploadVerify(event) {
+  const file = event.target.files[0];
+  const el = document.getElementById('upload-result');
+  if (!file) return;
+  el.innerHTML = '<div class="inline-loader"><div class="spinner"></div>Analysing certificate…</div>';
+  setTimeout(() => {
+    const isPro = Math.random() > 0.4;
+    el.innerHTML = `
+      <div style="background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);border-radius:var(--r12);padding:1rem;font-size:.83rem">
+        <div style="color:var(--green);font-weight:600;margin-bottom:.5rem">✅ Certificate Detected</div>
+        <div>File: <strong>${escHtml(file.name)}</strong></div>
+        <div>Level detected: <strong>${isPro ? 'Professional (4★)' : 'Basic (1★)'}</strong></div>
+        <div>AI Confidence: <strong>${isPro?'94%':'78%'}</strong></div>
+        <div style="margin-top:.5rem;color:var(--muted)">Tip: Add the Certificate ID manually for full blockchain-style verification.</div>
+      </div>`;
+  }, 2000);
+}
+
+/* ── STUDENT: MARKET INSIGHTS ───────────────────────── */
+function renderMarketPage() {
+  const mc = document.getElementById('main-content');
+  mc.innerHTML = `
+    <h1 class="page-title">Market Insights</h1>
+    <p class="page-sub">Live demand tracker, trending skills &amp; personalised learning paths</p>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">📈 Live Role Demand</div>
+        <div class="bar-chart">
+          ${[{role:'Full Stack Dev',val:94},{role:'Data Scientist',val:88},{role:'Cloud Engineer',val:85},{role:'ML Engineer',val:82},{role:'DevOps / SRE',val:78},{role:'Cybersecurity',val:72},{role:'Android / iOS Dev',val:65},{role:'UI/UX Designer',val:60}]
+            .map(r=>`<div class="bar-row"><span class="bar-label">${r.role}</span><div class="bar-track"><div class="bar-fill" style="width:${r.val}%"></div></div><span class="bar-val">${r.val}%</span></div>`).join('')}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🔥 Trending Skills 2025</div>
+        ${[{skill:'Generative AI / LLMs',trend:'+42%',color:'var(--accent)'},{skill:'Prompt Engineering',trend:'+35%',color:'var(--amber)'},{skill:'Kubernetes / Docker',trend:'+28%',color:'var(--teal)'},{skill:'Rust Programming',trend:'+25%',color:'var(--amber)'},{skill:'TypeScript',trend:'+22%',color:'var(--accent)'},{skill:'Data Engineering',trend:'+19%',color:'var(--teal)'},{skill:'RAG / Vector DBs',trend:'+38%',color:'var(--accent)'},{skill:'Terraform / IaC',trend:'+21%',color:'var(--muted)'}]
+          .map(s=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.83rem"><span>${s.skill}</span><span style="color:${s.color};font-weight:600;font-size:.78rem">${s.trend}</span></div>`).join('')}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🧠 AI Skill Gap Analyser</div>
+      <div style="display:flex;gap:.65rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center">
+        <select class="form-input" style="width:auto" id="target-role">
+          <option>Full Stack Developer</option><option>Data Scientist</option>
+          <option>Cloud Engineer</option><option>ML Engineer</option><option>DevOps Engineer</option>
+        </select>
+        <button class="btn btn-primary" onclick="analyzeGap()">Analyse Gap →</button>
+      </div>
+      <div id="gap-analysis"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📚 Personalised Learning Path</div>
+      <div id="learning-path-area">
+        <p style="font-size:.83rem;color:var(--muted);margin-bottom:.75rem">Get a 3-month, step-by-step learning plan tailored to your profile.</p>
+        <button class="btn btn-secondary" onclick="genLearningPath()">Generate My Learning Path →</button>
+      </div>
+    </div>`;
+}
+
+async function analyzeGap() {
+  const role = document.getElementById('target-role').value;
+  const s = store.currentStudent || store.students[0];
+  const area = document.getElementById('gap-analysis');
+  area.innerHTML = `<div class="inline-loader"><div class="spinner"></div>Analysing gap for ${role}…</div>`;
+  const roleSkills = {
+    'Full Stack Developer':['React','Node.js','MongoDB','TypeScript','Docker','REST APIs'],
+    'Data Scientist':['Python','TensorFlow','SQL','Statistics','Power BI','Scikit-learn'],
+    'Cloud Engineer':['AWS','Azure','Kubernetes','Terraform','Docker','Linux'],
+    'ML Engineer':['Python','PyTorch','MLOps','Docker','SQL','Statistics'],
+    'DevOps Engineer':['Docker','Kubernetes','Terraform','CI/CD','Linux','Monitoring'],
+  };
+  const required = roleSkills[role] || [];
+  const have = required.filter(r => (s.skills||[]).some(sk => sk.toLowerCase()===r.toLowerCase()));
+  const missing = required.filter(r => !(s.skills||[]).some(sk => sk.toLowerCase()===r.toLowerCase()));
+  const pct = Math.round((have.length / Math.max(required.length,1)) * 100);
+  const res = await callClaude(`Student wants to become a ${role}. They have: ${(s.skills||[]).join(', ')}. Missing: ${missing.join(', ')}. Current readiness: ${pct}%. Give 3 specific numbered learning recommendations (one per missing skill, max 15 words each). Plain text only.`);
+  area.innerHTML = `
+    <div style="margin-bottom:.85rem">
+      <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:.83rem"><span>Readiness for ${role}</span><strong>${pct}%</strong></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${pct>=70?'var(--green)':pct>=40?'var(--amber)':'var(--red)'}"></div></div>
+    </div>
+    <div style="margin-bottom:.85rem">${have.map(h=>`<span class="tag tag-green">✓ ${h}</span>`).join('')}${missing.map(m=>`<span class="tag tag-red">✗ ${m}</span>`).join('')}</div>
+    <div style="font-size:.85rem;line-height:1.9;white-space:pre-line">${res}</div>`;
+}
+
+async function genLearningPath() {
+  const area = document.getElementById('learning-path-area');
+  const s = store.currentStudent || store.students[0];
+  area.innerHTML = '<div class="inline-loader"><div class="spinner"></div>Generating your personalised learning path…</div>';
+  const res = await callClaude(`Create a 3-month learning path for a ${s.degree} ${s.branch} student with skills: ${(s.skills||[]).join(', ')}, CGPA ${s.cgpa}, targeting software engineering roles. Format with Month 1 / Month 2 / Month 3 headers, each with 2–3 specific action items under 15 words each. Plain text only.`);
+  area.innerHTML = `<div style="font-size:.87rem;line-height:2;white-space:pre-line">${res}</div><button class="btn btn-secondary btn-sm" style="margin-top:.75rem" onclick="genLearningPath()">Regenerate</button>`;
+}
+
+/* ── COMPANY: DASHBOARD ─────────────────────────────── */
+function renderCompanyDashboard() {
+  const mc = document.getElementById('main-content');
+  store.students.forEach(s => { s.matchScore = computeMatchScore(s, store.jobs[0]); });
+  const perfect = store.students.filter(s => s.matchScore===100);
+  const good = store.students.filter(s => s.matchScore>=70);
+  mc.innerHTML = `
+    <h1 class="page-title">Company Dashboard</h1>
+    <p class="page-sub">TechCorp India · Recruiter Portal</p>
+    ${perfect.length>0 ? `<div class="notif"><div class="notif-icon">⚡</div><div class="notif-text"><strong>Auto-Match Alert:</strong> ${perfect.map(s=>s.name).join(', ')} scored 100% for your top role. Profiles auto-forwarded for review.</div></div>` : ''}
+    <div class="grid4" style="margin-bottom:1.25rem">
+      <div class="stat-card"><div class="stat-num" style="color:var(--green)">${perfect.length}</div><div class="stat-label">Perfect Matches</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--accent)">${good.length}</div><div class="stat-label">Strong Matches ≥70%</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--amber)">${store.jobs.length}</div><div class="stat-label">Active Postings</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--teal)">${store.applications.length}</div><div class="stat-label">Total Applications</div></div>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="section-header"><div class="section-title">🎯 Top Candidates</div><button class="btn btn-secondary btn-sm" onclick="showPage('cmatches')">View All →</button></div>
+        ${[...store.students].sort((a,b) => b.matchScore - a.matchScore).slice(0,4).map(s => `
+          <div class="match-card">
+            <div class="match-avatar">${initials(s.name)}</div>
+            <div class="match-info">
+              <div class="match-name">${s.name}</div>
+              <div class="match-role">${s.degree} ${s.branch} · CGPA ${s.cgpa} · ${s.college}</div>
+              <div style="margin-top:4px">${(s.skills||[]).slice(0,3).map(sk=>`<span class="tag" style="font-size:.7rem">${sk}</span>`).join('')}</div>
+            </div>
+            <div class="match-score-pill ${s.matchScore>=80?'score-high':s.matchScore>=60?'score-med':'score-low'}">${s.matchScore}%</div>
+          </div>`).join('')}
+      </div>
+      <div class="card">
+        <div class="card-title">📊 Role Performance</div>
+        ${store.jobs.slice(0,4).map(j => {
+          const cnt = store.students.filter(s=>computeMatchScore(s,j)>=70).length;
+          const total = store.students.length;
+          return `<div style="margin-bottom:.85rem">
+            <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:4px"><span>${j.role}</span><span style="color:var(--muted)">${cnt}/${total} matches</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:${(cnt/total)*100}%"></div></div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+}
+
+/* ── COMPANY: JOBS ──────────────────────────────────── */
+function renderCompanyJobs() {
+  const mc = document.getElementById('main-content');
+  mc.innerHTML = `
+    <h1 class="page-title">Job Postings</h1>
+    <p class="page-sub">Manage your open positions</p>
+    <button class="btn btn-primary" style="margin-bottom:1.25rem" onclick="showAddJob()">+ Post New Job</button>
+    <div id="add-job-area"></div>
+    ${store.jobs.map(j => `
+      <div class="job-card">
+        <div class="job-header">
+          <div class="company-logo">${j.logo}</div>
+          <div style="flex:1;min-width:0"><div class="job-title">${j.role}</div><div class="job-company">${j.company} · ${j.location} · ${j.ctc}</div></div>
+          <span class="status-badge status-applied">Active</span>
+        </div>
+        <div class="job-meta">
+          <span>🎓 ${j.reqDegree}</span><span>📊 CGPA ${j.reqCGPA}+</span><span>🕐 ${j.posted}</span>
+          ${j.backlogsAllowed?'<span style="color:var(--green)">✓ Backlogs OK</span>':'<span style="color:var(--muted)">✗ No Backlogs</span>'}
+        </div>
+        <div style="margin-bottom:.6rem">${(j.reqSkills||[]).map(sk=>`<span class="tag">${sk}</span>`).join('')}</div>
+        <div style="font-size:.8rem;color:var(--muted)">
+          Matching candidates: <strong style="color:var(--text)">${store.students.filter(s=>computeMatchScore(s,j)>=70).length}</strong> ≥70% ·
+          <strong style="color:var(--green)">${store.students.filter(s=>computeMatchScore(s,j)===100).length}</strong> perfect match
+        </div>
+      </div>`).join('')}`;
+}
+
+function showAddJob() {
+  document.getElementById('add-job-area').innerHTML = `
+    <div class="card" style="margin-bottom:1.25rem">
+      <div class="card-title">📋 New Job Posting</div>
+      <div class="grid2">
+        <div class="form-group"><label class="form-label">Job Role</label><input class="form-input" id="nj-role" placeholder="e.g. Software Engineer"></div>
+        <div class="form-group"><label class="form-label">Location</label><input class="form-input" id="nj-loc" placeholder="Bangalore / Remote"></div>
+        <div class="form-group"><label class="form-label">CTC Range</label><input class="form-input" id="nj-ctc" placeholder="8–12 LPA"></div>
+        <div class="form-group"><label class="form-label">Min CGPA</label><input class="form-input" id="nj-cgpa" type="number" step="0.5" min="0" max="10" placeholder="7.0"></div>
+        <div class="form-group"><label class="form-label">Required Skills (comma-separated)</label><input class="form-input" id="nj-skills" placeholder="Python, React, SQL"></div>
+        <div class="form-group"><label class="form-label">Required Degree</label>
+          <select class="form-input" id="nj-deg"><option>B.Tech</option><option>B.Sc</option><option>B.Tech/B.Sc</option><option>Any</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Required Branches (comma-separated)</label><input class="form-input" id="nj-branch" placeholder="CSE, IT, DS"></div>
+        <div class="form-group"><label class="form-label">Backlogs Allowed?</label>
+          <select class="form-input" id="nj-backlog"><option value="no">No</option><option value="yes">Yes</option></select>
+        </div>
+      </div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="addJob()">Post Job</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('add-job-area').innerHTML=''">Cancel</button>
+      </div>
+    </div>`;
+}
+
+function addJob() {
+  const role = document.getElementById('nj-role').value.trim();
+  if (!role) { showToast('Job role is required'); return; }
+  store.jobs.push({
+    id: Date.now(), company:'TechCorp India', role, logo:'💻',
+    location: document.getElementById('nj-loc').value.trim() || 'Bangalore',
+    ctc: document.getElementById('nj-ctc').value.trim() || 'Competitive',
+    reqDegree: document.getElementById('nj-deg').value,
+    reqBranch: document.getElementById('nj-branch').value.split(',').map(v=>v.trim()).filter(Boolean) || ['CSE'],
+    reqCGPA: parseFloat(document.getElementById('nj-cgpa').value) || 7.0,
+    reqSkills: document.getElementById('nj-skills').value.split(',').map(v=>v.trim()).filter(Boolean),
+    backlogsAllowed: document.getElementById('nj-backlog').value === 'yes',
+    posted:'Just now', status:'active'
+  });
+  showToast('Job posted successfully! ✓');
+  renderCompanyJobs();
+}
+
+/* ── COMPANY: MATCHES ───────────────────────────────── */
+function renderCompanyMatches() {
+  const mc = document.getElementById('main-content');
+  mc.innerHTML = `
+    <h1 class="page-title">Smart Matches</h1>
+    <p class="page-sub">AI-powered candidate matching for your open roles</p>
+    <div style="display:flex;gap:.65rem;margin-bottom:1.25rem;flex-wrap:wrap">
+      <select class="form-input" style="width:auto" id="match-job-filter" onchange="filterMatches(this.value)">
+        ${store.jobs.map(j=>`<option value="${j.id}">${j.role}</option>`).join('')}
+      </select>
+      <select class="form-input" style="width:auto" id="match-score-filter" onchange="filterMatches(document.getElementById('match-job-filter').value)">
+        <option value="0">All Scores</option><option value="70">70%+</option>
+        <option value="80">80%+</option><option value="90">90%+</option><option value="100">100% Only</option>
+      </select>
+    </div>
+    <div id="matches-list">${renderMatchList(store.jobs[0])}</div>`;
+}
+
+function renderMatchList(job) {
+  const minScore = parseInt(document.getElementById('match-score-filter')?.value || '0');
+  const sorted = [...store.students].sort((a,b) => computeMatchScore(b,job) - computeMatchScore(a,job));
+  const filtered = sorted.filter(s => computeMatchScore(s,job) >= Math.max(minScore, 1));
+  if (!filtered.length) return '<p style="color:var(--muted);padding:2rem;text-align:center">No candidates match the selected criteria.</p>';
+  return filtered.map(s => {
+    const score = computeMatchScore(s, job);
+    const matched = (job.reqSkills||[]).filter(sk => (s.skills||[]).some(ss => ss.toLowerCase()===sk.toLowerCase()));
+    const verifiedPro = (s.certifications||[]).filter(c => c.verified && CERT_POWER[c.level]>=4);
+    return `
+      <div class="match-card">
+        <div class="match-avatar">${initials(s.name)}</div>
+        <div class="match-info" style="flex:1">
+          <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+            <span class="match-name">${s.name}</span>
+            ${score===100?'<span class="tag tag-green" style="font-size:.7rem">Auto-Matched</span>':''}
+            ${verifiedPro.length>0?`<span class="tag tag-teal" style="font-size:.7rem">★ ${verifiedPro.length} Pro Cert${verifiedPro.length>1?'s':''}</span>`:''}
+          </div>
+          <div class="match-role">${s.degree} ${s.branch} · CGPA ${s.cgpa} · ${s.college}</div>
+          <div style="margin-top:5px">${(s.skills||[]).map(sk=>`<span class="tag" style="font-size:.7rem">${sk}</span>`).join('')}</div>
+          <div style="margin-top:3px;font-size:.76rem;color:var(--muted)">Skills: ${matched.length}/${(job.reqSkills||[]).length} matched · ${s.backlog?'⚠ Has backlogs':'✓ No backlogs'}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0">
+          <div class="match-score-pill ${score>=80?'score-high':score>=60?'score-med':'score-low'}">${score}%</div>
+          <button class="btn btn-secondary btn-sm" onclick="viewCandidateAI(${s.id},'${escHtml(s.name)}')">AI Summary</button>
+          ${score===100?`<button class="btn btn-success btn-sm" onclick="showToast('Interview invite sent to ${escHtml(s.name)}! ✓')">Invite</button>`:''}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function filterMatches(jobIdStr) {
+  const job = store.jobs.find(j => j.id == jobIdStr);
+  if (job) document.getElementById('matches-list').innerHTML = renderMatchList(job);
+}
+
+async function viewCandidateAI(studentId, name) {
+  const s = store.students.find(st => st.id===studentId);
+  if (!s) return;
+  showToast(`Loading ${name}'s AI summary…`);
+  const verifiedPro = (s.certifications||[]).filter(c => c.verified && CERT_POWER[c.level]>=4);
+  const res = await callClaude(`HR recruiter perspective. Candidate: ${s.name}, ${s.degree} ${s.branch}, CGPA ${s.cgpa} from ${s.college}. Skills: ${(s.skills||[]).join(', ')}. Projects: ${(s.projects||[]).join(', ')}. Verified Pro Certs: ${verifiedPro.map(c=>c.name).join(', ')||'None'}. Write a 2-sentence recruiter summary and one targeted interview question. Professional and concise.`);
+  alert(`🤖 AI Recruiter Summary — ${s.name}\n\n${res}`);
+}
+
+/* ── COMPANY: CANDIDATE POOL ────────────────────────── */
+function renderCandidatePool() {
+  const mc = document.getElementById('main-content');
+  mc.innerHTML = `
+    <h1 class="page-title">Candidate Pool</h1>
+    <p class="page-sub">${store.students.length} registered candidates</p>
+    <input class="form-input" style="margin-bottom:1rem" placeholder="🔍 Search by name, skill, branch, college…" oninput="filterPool(this.value)">
+    <div id="pool-table">${renderPoolTable(store.students)}</div>`;
+}
+
+function renderPoolTable(students) {
+  if (!students.length) return '<p style="color:var(--muted);padding:1rem">No candidates found.</p>';
+  return `
+    <div class="card" style="padding:0;overflow:hidden">
+      <table style="width:100%;border-collapse:collapse">
+        <thead><tr style="background:var(--surface2)">
+          ${['Name','Degree / Branch','CGPA','Top Skills','Projects','Pro Certs','Match %'].map(h=>`<th style="padding:10px 14px;text-align:left;font-size:.78rem;color:var(--muted);font-weight:500">${h}</th>`).join('')}
+        </tr></thead>
+        <tbody>
+          ${students.map(s => {
+            const score = computeMatchScore(s, store.jobs[0]);
+            const verifiedPro = (s.certifications||[]).filter(c=>c.verified && CERT_POWER[c.level]>=4);
+            return `<tr style="border-top:1px solid var(--border)">
+              <td style="padding:10px 14px;font-size:.85rem;font-weight:500">${s.name}</td>
+              <td style="padding:10px 14px;font-size:.8rem;color:var(--muted)">${s.degree} · ${s.branch}</td>
+              <td style="padding:10px 14px;font-size:.85rem">${s.cgpa}</td>
+              <td style="padding:10px 14px">${(s.skills||[]).slice(0,2).map(sk=>`<span class="tag" style="font-size:.7rem">${sk}</span>`).join('')}${(s.skills||[]).length>2?`<span style="font-size:.72rem;color:var(--muted)"> +${(s.skills||[]).length-2}</span>`:''}</td>
+              <td style="padding:10px 14px;font-size:.82rem">${(s.projects||[]).length}</td>
+              <td style="padding:10px 14px">${verifiedPro.length > 0 ? `<span class="tag tag-teal" style="font-size:.7rem">★ ${verifiedPro.length}</span>` : '<span style="color:var(--muted);font-size:.78rem">—</span>'}</td>
+              <td style="padding:10px 14px"><span class="match-score-pill ${score>=80?'score-high':score>=60?'score-med':'score-low'}" style="font-size:.8rem">${score}%</span></td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function filterPool(q) {
+  const filtered = q ? store.students.filter(s =>
+    s.name.toLowerCase().includes(q.toLowerCase()) ||
+    (s.skills||[]).some(sk=>sk.toLowerCase().includes(q.toLowerCase())) ||
+    s.branch.toLowerCase().includes(q.toLowerCase()) ||
+    s.college.toLowerCase().includes(q.toLowerCase())
+  ) : store.students;
+  document.getElementById('pool-table').innerHTML = renderPoolTable(filtered);
+}
+
+/* ── ADMIN PAGES ────────────────────────────────────── */
+function renderAdminDashboard() {
+  const mc = document.getElementById('main-content');
+  mc.innerHTML = `
+    <h1 class="page-title">Admin Overview</h1>
+    <p class="page-sub">Platform analytics and monitoring</p>
+    <div class="grid4" style="margin-bottom:1.25rem">
+      <div class="stat-card"><div class="stat-num" style="color:var(--accent)">${store.students.length}</div><div class="stat-label">Registered Students</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--teal)">1</div><div class="stat-label">Active Companies</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--amber)">${store.jobs.length}</div><div class="stat-label">Live Job Postings</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--green)">${store.applications.length}</div><div class="stat-label">Applications</div></div>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">📊 Match Distribution</div>
+        ${store.jobs.slice(0,4).map(j => {
+          const cnt = store.students.filter(s => computeMatchScore(s,j)>=70).length;
+          return `<div style="margin-bottom:.8rem">
+            <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:4px"><span>${j.role}</span><span>${cnt} match${cnt!==1?'es':''}</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:${store.students.length?((cnt/store.students.length)*100):0}%"></div></div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="card">
+        <div class="card-title">🔔 Activity Feed</div>
+        ${['Priya Sharma matched 100% with TechCorp · Software Engineer','New posting: Cloud Developer at CloudNest','Meera Nair applied to Data Analyst · DataDriven Inc','IBM Data Science certificate verified · Meera Nair','3 new students registered today','AIVentures posted ML Engineer role']
+          .map(a=>`<div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:.8rem;color:var(--muted)">${a}</div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function renderAdminStudents() {
+  const mc = document.getElementById('main-content');
+  mc.innerHTML = `
+    <h1 class="page-title">Student Management</h1>
+    <p class="page-sub">${store.students.length} registered students</p>
+    ${store.students.map(s => `
+      <div class="card" style="padding:1rem">
+        <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
+          <div class="match-avatar" style="width:40px;height:40px;font-size:.88rem">${initials(s.name)}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:600;font-size:.9rem">${s.name}</div>
+            <div style="font-size:.76rem;color:var(--muted)">${s.email} · ${s.degree} ${s.branch} · CGPA ${s.cgpa} · ${s.college}</div>
+            <div style="margin-top:3px">${(s.certifications||[]).filter(c=>c.verified).length} verified cert${(s.certifications||[]).filter(c=>c.verified).length!==1?'s':''} · ${(s.skills||[]).length} skills</div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn btn-secondary btn-sm" onclick="showToast('Viewing ${escHtml(s.name)}…')">View</button>
+            <button class="btn btn-teal btn-sm" onclick="showToast('Email sent to ${escHtml(s.name)}')" >Email</button>
+            <button class="btn btn-danger btn-sm" onclick="showToast('Account suspended')">Suspend</button>
+          </div>
+        </div>
+      </div>`).join('')}`;
+}
+
+function renderAdminCompanies() {
+  const mc = document.getElementById('main-content');
+  mc.innerHTML = `
+    <h1 class="page-title">Companies</h1>
+    <p class="page-sub">1 registered company</p>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <div style="width:52px;height:52px;border-radius:var(--r12);background:rgba(108,99,255,.15);display:flex;align-items:center;justify-content:center;font-size:1.5rem">🏢</div>
+        <div style="flex:1">
+          <div style="font-weight:600;font-size:1rem;font-family:'Syne',sans-serif">TechCorp India</div>
+          <div style="font-size:.8rem;color:var(--muted)">hr@techcorp.com · Bangalore · IT / Product</div>
+          <div style="margin-top:4px"><span class="tag tag-green" style="font-size:.72rem">Verified</span> <span class="tag" style="font-size:.72rem">${store.jobs.length} active posts</span></div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-secondary btn-sm" onclick="showToast('Viewing company profile…')">View</button>
+          <button class="btn btn-danger btn-sm" onclick="showToast('Company suspended')">Suspend</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderAdminMatches() {
+  const mc = document.getElementById('main-content');
+  const rows = store.students.flatMap(s =>
+    store.jobs.map(j => {
+      const score = computeMatchScore(s,j);
+      if (score < 50) return null;
+      return { s, j, score };
+    }).filter(Boolean)
+  ).sort((a,b) => b.score - a.score);
+  mc.innerHTML = `
+    <h1 class="page-title">All Matches</h1>
+    <p class="page-sub">Cross-platform match analysis (≥50%)</p>
+    <div class="card" style="padding:0;overflow:hidden">
+      <table style="width:100%;border-collapse:collapse">
+        <thead><tr style="background:var(--surface2)">
+          ${['Student','Job Role','Company','Score','Pro Certs','Status'].map(h=>`<th style="padding:10px 14px;text-align:left;font-size:.78rem;color:var(--muted);font-weight:500">${h}</th>`).join('')}
+        </tr></thead>
+        <tbody>
+          ${rows.map(({s, j, score}) => {
+            const verifiedPro = (s.certifications||[]).filter(c=>c.verified && CERT_POWER[c.level]>=4);
+            const stClass = score===100?'status-selected':score>=70?'status-review':'status-applied';
+            const stLabel = score===100?'Auto-Sent':score>=70?'Visible':'Pending';
+            return `<tr style="border-top:1px solid var(--border)">
+              <td style="padding:10px 14px;font-size:.85rem">${s.name}</td>
+              <td style="padding:10px 14px;font-size:.82rem">${j.role}</td>
+              <td style="padding:10px 14px;font-size:.82rem;color:var(--muted)">${j.company}</td>
+              <td style="padding:10px 14px"><span class="match-score-pill ${score>=80?'score-high':score>=60?'score-med':'score-low'}" style="font-size:.78rem">${score}%</span></td>
+              <td style="padding:10px 14px">${verifiedPro.length?`<span class="tag tag-teal" style="font-size:.7rem">★${verifiedPro.length}</span>`:'<span style="color:var(--muted);font-size:.78rem">—</span>'}</td>
+              <td style="padding:10px 14px"><span class="status-badge ${stClass}">${stLabel}</span></td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function renderAdminCerts() {
+  const mc = document.getElementById('main-content');
+  const allCerts = store.students.flatMap(s => (s.certifications||[]).map(c => ({...c, holder: s.name})));
+  mc.innerHTML = `
+    <h1 class="page-title">Certificate Audit</h1>
+    <p class="page-sub">All submitted certificates across the platform</p>
+    <div class="grid3" style="margin-bottom:1.25rem">
+      <div class="stat-card"><div class="stat-num" style="color:var(--green)">${allCerts.filter(c=>c.verified).length}</div><div class="stat-label">Verified</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--amber)">${allCerts.filter(c=>!c.verified).length}</div><div class="stat-label">Pending Verification</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--accent)">${allCerts.filter(c=>c.verified && CERT_POWER[c.level]>=4).length}</div><div class="stat-label">Professional Level</div></div>
+    </div>
+    ${allCerts.map(c => `
+      <div class="cert-card">
+        <div class="cert-badge ${c.verified?'verified':'pending'}">${c.verified?'✅':'⏳'}</div>
+        <div class="cert-info">
+          <div class="cert-name">${escHtml(c.name)}</div>
+          <div class="cert-issuer">${escHtml(c.holder)} · ${escHtml(c.issuer||'')} · ${CERT_LABEL[c.level]||c.level}</div>
+          <div class="cert-power">
+            <div class="power-meter">${Array.from({length:5},(_,k)=>`<div class="power-pip ${k<(CERT_POWER[c.level]||1)?'lit':''}"></div>`).join('')}</div>
+            ${c.score ? `<span style="font-size:.72rem;color:var(--muted)">Score: ${c.score}%</span>` : ''}
+          </div>
+        </div>
+        <div style="flex-shrink:0">
+          ${c.verified
+            ? '<span class="verified-seal">✓ Verified</span>'
+            : `<button class="btn btn-teal btn-xs" onclick="adminVerifyCert('${escHtml(c.holder)}','${escHtml(c.name)}')">Verify Now</button>`}
+        </div>
+      </div>`).join('')}`;
+}
+
+function adminVerifyCert(holder, certName) {
+  store.students.forEach(s => {
+    if (s.name === holder) {
+      (s.certifications||[]).forEach(c => { if (c.name === certName) c.verified = true; });
+    }
+  });
+  showToast(`${certName} verified for ${holder} ✓`);
+  renderAdminCerts();
+}
+
+/* ── CHATBOT ────────────────────────────────────────── */
+function toggleChat() { document.getElementById('chatbot-panel').classList.toggle('open'); }
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  addChatMsg(msg, 'user');
+  const thinking = addChatMsg('…', 'bot');
+  const context = currentRole ? `User is a ${currentRole} on CareerBridge AI.` : 'User is browsing CareerBridge AI.';
+  const res = await callClaude(`You are CareerBot, an AI career assistant for CareerBridge AI platform. ${context} Question: "${msg}". Helpful, concise answer (max 70 words). Friendly tone.`);
+  thinking.textContent = res;
+}
+
+function addChatMsg(text, type) {
+  const msgs = document.getElementById('chat-msgs');
+  const div = document.createElement('div');
+  div.className = `chat-msg ${type}`;
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+/* ── CLAUDE API ─────────────────────────────────────── */
+async function callClaude(prompt) {
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:350, messages:[{ role:'user', content:prompt }] })
+    });
+    if (!res.ok) throw new Error('API ' + res.status);
+    const data = await res.json();
+    return (data.content || []).map(b => b.type==='text' ? b.text : '').join('').trim();
+  } catch {
+    return getFallback(prompt);
+  }
+}
+
+function getFallback(prompt) {
+  const p = prompt.toLowerCase();
+  if (p.includes('skill gap') || p.includes('missing')) return '• Strength: Your Python and data skills align well with current market demand.\n• Gap: Cloud skills (AWS/Docker) are missing — critical for 60%+ of tech roles.\n→ Next: Complete AWS Cloud Practitioner (free tier available on aws.amazon.com).';
+  if (p.includes('learning path') || p.includes('month')) return 'Month 1: Master Docker + deploy a containerised project. Complete one AWS module daily.\nMonth 2: Build a REST API with auth. Add cloud deployment to your GitHub portfolio.\nMonth 3: Contribute to one open-source repo. Solve 2 LeetCode problems daily.';
+  if (p.includes('fit analysis') || p.includes('match')) return 'Your profile shows strong alignment with the role requirements. Focus on bridging the cloud tools gap to maximise your chances. Apply with a tailored cover letter referencing your strongest project.';
+  if (p.includes('gap') && p.includes('role')) return '1. Learn Docker via docker.com/get-started — hands-on in one weekend.\n2. Take Kubernetes basics on KodeKloud (free tier).\n3. Build a CI/CD pipeline for your existing project as a portfolio piece.';
+  if (p.includes('resume')) return 'Keep your resume to one page. Lead with a skills section, then projects with measurable impact. Use active verbs (built, designed, reduced). Quantify results wherever possible.';
+  if (p.includes('interview')) return 'Practise the STAR method for behavioural questions. Research the company deeply. Prepare 3 questions to ask the interviewer. Arrive 10 minutes early. Follow up with a thank-you email within 24 hours.';
+  if (p.includes('certif')) return 'Professional-level certifications (AWS, Google, IBM) add significant weight to your profile. They signal commitment and verified skill. Aim for at least one in your target domain.';
+  if (p.includes('salary') || p.includes('ctc') || p.includes('lpa')) return 'Fresher packages in India: Tier-1 product companies 15–40 LPA, Tier-1 service companies 4–8 LPA, startups 6–15 LPA. Strong DSA skills and certifications push you to the higher end.';
+  return 'For personalised career guidance, complete your profile so I can give you targeted advice based on your specific skills, certifications, and goals. What area would you like to focus on?';
+}
+
+/* ── HELPERS ────────────────────────────────────────── */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+function initials(name) { return (name||'?').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase(); }
+function escHtml(str) { return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+/* ── INIT ───────────────────────────────────────────── */
+document.getElementById('login-modal').classList.remove('open');
+</script>
+</body>
+</html>
