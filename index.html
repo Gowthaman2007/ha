@@ -82,14 +82,29 @@
             transform-origin: 50% 50%;
         }
 
-        .empty-state {
-            opacity: 0.6;
+        .test-timer {
+            font-family: 'Courier New', monospace;
         }
 
-        .g_id_signin {
-            display: flex;
-            justify-content: center;
-            margin-top: 1rem;
+        .code-editor {
+            font-family: 'Fira Code', 'Courier New', monospace;
+            line-height: 1.5;
+        }
+
+        .review-card {
+            border-left: 4px solid;
+        }
+
+        .review-card.positive {
+            border-left-color: #10b981;
+        }
+
+        .review-card.negative {
+            border-left-color: #ef4444;
+        }
+
+        .review-card.neutral {
+            border-left-color: #f59e0b;
         }
     </style>
 </head>
@@ -97,7 +112,6 @@
 
     <!-- Landing Page -->
     <div id="landingPage" class="min-h-screen flex flex-col">
-        <!-- Navigation -->
         <nav class="glass-panel fixed w-full z-50 px-6 py-4">
             <div class="max-w-7xl mx-auto flex justify-between items-center">
                 <div class="flex items-center gap-3">
@@ -117,7 +131,6 @@
             </div>
         </nav>
 
-        <!-- Hero Section -->
         <div class="flex-1 flex items-center justify-center pt-20 pb-10 px-6">
             <div class="max-w-7xl w-full grid md:grid-cols-2 gap-12 items-center">
                 <div class="space-y-6">
@@ -128,14 +141,14 @@
                         Bridge the Gap Between <span class="text-transparent bg-clip-text gradient-bg">Talent</span> & <span class="text-transparent bg-clip-text gradient-bg-2">Industry</span>
                     </h1>
                     <p class="text-xl text-gray-600 leading-relaxed">
-                        Smart AI-driven platform that connects students with their dream companies through intelligent skill matching, gap analysis, and personalized learning paths.
+                        Smart AI-driven platform with aptitude tests, coding assessments, and personalized feedback for continuous improvement.
                     </p>
                     <div class="flex gap-4">
                         <button onclick="showLogin('student')" class="px-8 py-4 rounded-full gradient-bg text-white font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition">
                             Get Started as Student
                         </button>
                         <button onclick="showLogin('company')" class="px-8 py-4 rounded-full bg-white border-2 border-gray-300 text-gray-700 font-bold text-lg hover:border-purple-600 hover:text-purple-600 transition">
-                            Post Jobs
+                            Hire Talent
                         </button>
                     </div>
                 </div>
@@ -145,13 +158,13 @@
                         <div class="space-y-4">
                             <div class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm">
                                 <div class="w-12 h-12 rounded-full gradient-bg-3 flex items-center justify-center text-white">
-                                    <i class="fas fa-user-graduate"></i>
+                                    <i class="fas fa-code"></i>
                                 </div>
                                 <div class="flex-1">
                                     <div class="h-3 bg-gray-200 rounded-full w-3/4 mb-2"></div>
                                     <div class="h-2 bg-gray-100 rounded-full w-1/2"></div>
                                 </div>
-                                <div class="text-green-500 font-bold">AI Match</div>
+                                <div class="text-green-500 font-bold text-sm">Test Score: 92%</div>
                             </div>
                             <div class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm">
                                 <div class="w-12 h-12 rounded-full gradient-bg-2 flex items-center justify-center text-white">
@@ -161,15 +174,15 @@
                                     <div class="h-3 bg-gray-200 rounded-full w-3/4 mb-2"></div>
                                     <div class="h-2 bg-gray-100 rounded-full w-1/2"></div>
                                 </div>
-                                <div class="text-purple-600 font-bold">Hiring</div>
+                                <div class="text-purple-600 font-bold text-sm">Review Sent</div>
                             </div>
                             <div class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm border-2 border-purple-200">
                                 <div class="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white">
                                     <i class="fas fa-robot"></i>
                                 </div>
                                 <div class="flex-1">
-                                    <div class="text-sm font-semibold text-purple-700">AI Analysis Engine</div>
-                                    <div class="text-xs text-gray-500">Smart matchmaking active</div>
+                                    <div class="text-sm font-semibold text-purple-700">AI Matchmaking Active</div>
+                                    <div class="text-xs text-gray-500">12 candidates matched</div>
                                 </div>
                                 <i class="fas fa-arrow-right text-purple-600"></i>
                             </div>
@@ -191,22 +204,19 @@
                     <i class="fas fa-user"></i>
                 </div>
                 <h2 id="loginTitle" class="text-2xl font-bold">Student Login</h2>
-                <p class="text-gray-600 text-sm mt-2">Sign in with Google for secure data storage</p>
+                <p class="text-gray-600 text-sm mt-2">Sign in to access your dashboard</p>
             </div>
             
-            <!-- Google Sign-In Button -->
-            <div id="g_id_onload" data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com" data-login_uri="" data-auto_prompt="false"></div>
+            <div id="g_id_onload" data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com" data-auto_prompt="false"></div>
             <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left" data-width="300"></div>
             
             <div class="mt-6 text-center">
                 <p class="text-sm text-gray-500 mb-4">Or continue with email</p>
                 <form onsubmit="handleLogin(event)" class="space-y-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Email ID</label>
                         <input type="email" id="loginEmail" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition" placeholder="Enter your email" required>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
                         <input type="password" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition" placeholder="Enter password" required>
                     </div>
                     <button type="submit" class="w-full py-3 rounded-xl gradient-bg text-white font-bold hover:shadow-lg transition">
@@ -219,7 +229,6 @@
 
     <!-- Student Dashboard -->
     <div id="studentDashboard" class="hidden min-h-screen bg-gray-50">
-        <!-- Student Sidebar -->
         <div class="fixed left-0 top-0 h-full w-64 bg-white shadow-xl z-40">
             <div class="p-6 border-b">
                 <div class="flex items-center gap-3">
@@ -242,17 +251,22 @@
                     <i class="fas fa-chart-bar text-green-600"></i>
                     <span class="font-medium">Skill Analysis</span>
                 </button>
-                <button onclick="showStudentSection('market')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-purple-50 text-left transition nav-student" data-section="market">
-                    <i class="fas fa-fire text-orange-600"></i>
-                    <span class="font-medium">Market Demand</span>
+                <button onclick="showStudentSection('tests')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-purple-50 text-left transition nav-student" data-section="tests">
+                    <i class="fas fa-tasks text-indigo-600"></i>
+                    <span class="font-medium">Assessments</span>
                 </button>
                 <button onclick="showStudentSection('matches')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-purple-50 text-left transition nav-student" data-section="matches">
                     <i class="fas fa-handshake text-pink-600"></i>
                     <span class="font-medium">My Matches</span>
                 </button>
-                <button onclick="showStudentSection('tests')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-purple-50 text-left transition nav-student" data-section="tests">
-                    <i class="fas fa-tasks text-indigo-600"></i>
-                    <span class="font-medium">Assessments</span>
+                <button onclick="showStudentSection('reviews')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-purple-50 text-left transition nav-student" data-section="reviews">
+                    <i class="fas fa-star text-yellow-600"></i>
+                    <span class="font-medium">Reviews & Feedback</span>
+                    <span id="reviewBadge" class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full hidden">0</span>
+                </button>
+                <button onclick="showStudentSection('market')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-purple-50 text-left transition nav-student" data-section="market">
+                    <i class="fas fa-fire text-orange-600"></i>
+                    <span class="font-medium">Market Demand</span>
                 </button>
             </nav>
             <div class="absolute bottom-0 w-full p-4 border-t">
@@ -263,35 +277,29 @@
             </div>
         </div>
 
-        <!-- Student Main Content -->
         <div class="ml-64 p-8">
-            <!-- Header -->
             <div class="flex justify-between items-center mb-8">
                 <div>
                     <h1 class="text-3xl font-bold text-gray-800">Welcome back, <span id="studentName">Student</span>! 👋</h1>
-                    <p class="text-gray-600 mt-1">Here's your career dashboard and AI insights</p>
+                    <p class="text-gray-600 mt-1">Your AI-powered career companion</p>
                 </div>
                 <div class="flex items-center gap-4">
                     <div class="relative">
                         <i class="fas fa-bell text-gray-600 text-xl cursor-pointer hover:text-purple-600"></i>
                         <span id="notificationBadge" class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center hidden">0</span>
                     </div>
-                    <div class="w-10 h-10 rounded-full gradient-bg flex items-center justify-center text-white font-bold" id="studentAvatar">
-                        S
-                    </div>
+                    <div class="w-10 h-10 rounded-full gradient-bg flex items-center justify-center text-white font-bold" id="studentAvatar">S</div>
                 </div>
             </div>
 
             <!-- Overview Section -->
             <div id="studentOverview" class="student-section space-y-6">
-                <!-- Stats Cards -->
                 <div class="grid md:grid-cols-4 gap-6">
                     <div class="glass-panel p-6 rounded-2xl">
                         <div class="flex items-center justify-between mb-4">
                             <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600">
                                 <i class="fas fa-percentage text-xl"></i>
                             </div>
-                            <span id="profileCompletionTrend" class="text-gray-400 text-sm">--</span>
                         </div>
                         <div class="text-3xl font-bold text-gray-800" id="profileCompletion">0%</div>
                         <div class="text-gray-600 text-sm">Profile Completion</div>
@@ -301,7 +309,6 @@
                             <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600">
                                 <i class="fas fa-briefcase text-xl"></i>
                             </div>
-                            <span id="matchesTrend" class="text-gray-400 text-sm">--</span>
                         </div>
                         <div class="text-3xl font-bold text-gray-800" id="totalMatches">0</div>
                         <div class="text-gray-600 text-sm">Job Matches</div>
@@ -311,24 +318,21 @@
                             <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-green-600">
                                 <i class="fas fa-code text-xl"></i>
                             </div>
-                            <span id="skillScoreTrend" class="text-gray-400 text-sm">--</span>
                         </div>
-                        <div class="text-3xl font-bold text-gray-800" id="skillScore">--</div>
-                        <div class="text-gray-600 text-sm">Skill Score</div>
+                        <div class="text-3xl font-bold text-gray-800" id="testAverage">--</div>
+                        <div class="text-gray-600 text-sm">Test Average</div>
                     </div>
                     <div class="glass-panel p-6 rounded-2xl">
                         <div class="flex items-center justify-between mb-4">
                             <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600">
-                                <i class="fas fa-eye text-xl"></i>
+                                <i class="fas fa-star text-xl"></i>
                             </div>
-                            <span id="viewsTrend" class="text-gray-400 text-sm">--</span>
                         </div>
-                        <div class="text-3xl font-bold text-gray-800" id="profileViews">0</div>
-                        <div class="text-gray-600 text-sm">Profile Views</div>
+                        <div class="text-3xl font-bold text-gray-800" id="reviewCount">0</div>
+                        <div class="text-gray-600 text-sm">Reviews Received</div>
                     </div>
                 </div>
 
-                <!-- AI Career Match & Skill Gap -->
                 <div class="grid md:grid-cols-2 gap-6">
                     <div class="glass-panel p-6 rounded-2xl">
                         <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
@@ -353,39 +357,21 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="space-y-3" id="skillBreakdown">
-                                <!-- Dynamic skill breakdown -->
-                            </div>
                         </div>
                     </div>
 
                     <div class="glass-panel p-6 rounded-2xl">
                         <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-                            <i class="fas fa-graduation-cap text-blue-600"></i>
-                            Skill Gap Analysis
+                            <i class="fas fa-star text-yellow-600"></i>
+                            Recent Reviews
                         </h3>
-                        <div id="skillGapEmpty" class="text-center py-12 text-gray-400">
-                            <i class="fas fa-clipboard-list text-6xl mb-4 opacity-30"></i>
-                            <p>Complete profile and take assessments to see skill gaps</p>
+                        <div id="recentReviewsEmpty" class="text-center py-12 text-gray-400">
+                            <i class="fas fa-star text-6xl mb-4 opacity-30"></i>
+                            <p>No reviews yet. Apply to jobs to get feedback!</p>
                         </div>
-                        <div id="skillGapContent" class="hidden space-y-4">
-                            <!-- Dynamic skill gaps -->
+                        <div id="recentReviewsList" class="space-y-3 hidden">
+                            <!-- Dynamic reviews -->
                         </div>
-                    </div>
-                </div>
-
-                <!-- Recent Matches -->
-                <div class="glass-panel p-6 rounded-2xl">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-bold">Recent Job Matches</h3>
-                        <button onclick="showStudentSection('matches')" class="text-purple-600 font-semibold hover:underline">View All</button>
-                    </div>
-                    <div id="matchesEmpty" class="text-center py-12 text-gray-400">
-                        <i class="fas fa-briefcase text-6xl mb-4 opacity-30"></i>
-                        <p>No matches yet. Complete your profile to get matched with companies!</p>
-                    </div>
-                    <div id="matchesList" class="space-y-4 hidden">
-                        <!-- Dynamic matches -->
                     </div>
                 </div>
             </div>
@@ -404,7 +390,6 @@
                     </div>
                     
                     <form id="studentProfileForm" onsubmit="saveStudentProfile(event)" class="space-y-6">
-                        <!-- Personal Info -->
                         <div class="border-b pb-6">
                             <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
                                 <span class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 text-sm">1</span>
@@ -426,7 +411,6 @@
                             </div>
                         </div>
 
-                        <!-- Education -->
                         <div class="border-b pb-6">
                             <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
                                 <span class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 text-sm">2</span>
@@ -455,7 +439,7 @@
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">CGPA/Percentage *</label>
-                                    <input type="text" name="cgpa" id="cgpa" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none" placeholder="e.g., 8.5 or 85%" required onchange="updateProfileProgress()">
+                                    <input type="text" name="cgpa" id="cgpa" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none" placeholder="e.g., 8.5" required onchange="updateProfileProgress()">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Year of Passing *</label>
@@ -473,7 +457,6 @@
                             </div>
                         </div>
 
-                        <!-- Skills & Resume -->
                         <div class="border-b pb-6">
                             <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
                                 <span class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center text-green-600 text-sm">3</span>
@@ -492,17 +475,9 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Certifications</label>
                                     <input type="text" name="certifications" id="certifications" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none" placeholder="AWS Certified, Google Cloud, etc." onchange="updateProfileProgress()">
                                 </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Coding Profile Links (Optional)</label>
-                                    <div class="grid md:grid-cols-2 gap-4">
-                                        <input type="url" name="leetcode" id="leetcode" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none" placeholder="LeetCode Profile" onchange="updateProfileProgress()">
-                                        <input type="url" name="github" id="github" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none" placeholder="GitHub Profile" onchange="updateProfileProgress()">
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
-                        <!-- Documents -->
                         <div>
                             <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
                                 <span class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600 text-sm">4</span>
@@ -513,8 +488,7 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Resume/CV *</label>
                                     <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-purple-500 transition cursor-pointer" onclick="document.getElementById('resumeFile').click()">
                                         <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2"></i>
-                                        <p class="text-sm text-gray-600" id="resumeFileName">Click to upload or drag and drop</p>
-                                        <p class="text-xs text-gray-400 mt-1">PDF, DOCX up to 5MB</p>
+                                        <p class="text-sm text-gray-600" id="resumeFileName">Click to upload</p>
                                         <input type="file" id="resumeFile" class="hidden" accept=".pdf,.docx" onchange="handleFileUpload(this, 'resumeFileName')">
                                     </div>
                                 </div>
@@ -522,8 +496,7 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Mark Sheets</label>
                                     <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-purple-500 transition cursor-pointer" onclick="document.getElementById('marksheetFile').click()">
                                         <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2"></i>
-                                        <p class="text-sm text-gray-600" id="marksheetFileName">Upload consolidated mark sheet</p>
-                                        <p class="text-xs text-gray-400 mt-1">PDF up to 5MB</p>
+                                        <p class="text-sm text-gray-600" id="marksheetFileName">Upload mark sheet</p>
                                         <input type="file" id="marksheetFile" class="hidden" accept=".pdf" onchange="handleFileUpload(this, 'marksheetFileName')">
                                     </div>
                                 </div>
@@ -534,15 +507,12 @@
                             <button type="submit" class="flex-1 py-4 rounded-xl gradient-bg text-white font-bold text-lg hover:shadow-lg transition">
                                 Save Profile & Analyze
                             </button>
-                            <button type="button" onclick="runAptitudeTest()" class="px-8 py-4 rounded-xl bg-indigo-600 text-white font-bold hover:bg-indigo-700 transition">
-                                Take Aptitude Test
-                            </button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <!-- Skill Analysis Section -->
+            <!-- Skills Section -->
             <div id="studentSkills" class="student-section hidden space-y-6">
                 <div class="glass-panel p-6 rounded-2xl">
                     <h2 class="text-2xl font-bold mb-6">AI-Powered Skill Analysis</h2>
@@ -550,7 +520,7 @@
                     <div id="skillsAnalysisEmpty" class="text-center py-16 text-gray-400">
                         <i class="fas fa-chart-area text-6xl mb-4 opacity-30"></i>
                         <h3 class="text-xl font-bold mb-2">No Analysis Data</h3>
-                        <p class="mb-4">Complete your profile and take assessments to generate skill analysis</p>
+                        <p class="mb-4">Complete your profile to generate skill analysis</p>
                         <button onclick="showStudentSection('profile')" class="px-6 py-3 gradient-bg text-white rounded-lg">Complete Profile</button>
                     </div>
 
@@ -562,84 +532,115 @@
                             </div>
                             <div class="space-y-4">
                                 <h3 class="font-bold mb-4">Industry Requirements vs Your Skills</h3>
-                                <div id="skillComparisonList" class="space-y-4">
-                                    <!-- Dynamic skill comparison -->
-                                </div>
+                                <div id="skillComparisonList" class="space-y-4"></div>
                             </div>
                         </div>
 
-                        <!-- Learning Path -->
                         <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl p-6 border border-purple-100">
                             <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
                                 <i class="fas fa-route text-purple-600"></i>
                                 Personalized Learning Path
                             </h3>
-                            <div id="learningPathContent" class="relative">
+                            <div class="relative">
                                 <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-purple-300"></div>
-                                <div class="space-y-6 ml-12" id="learningPathList">
-                                    <!-- Dynamic learning path -->
-                                </div>
+                                <div class="space-y-6 ml-12" id="learningPathList"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Market Demand Section -->
-            <div id="studentMarket" class="student-section hidden space-y-6">
+            <!-- Tests Section -->
+            <div id="studentTests" class="student-section hidden space-y-6">
                 <div class="glass-panel p-6 rounded-2xl">
-                    <h2 class="text-2xl font-bold mb-2">Live Market Demand Tracker</h2>
-                    <p class="text-gray-600 mb-6">Real-time insights from job portals and hiring data</p>
+                    <h2 class="text-2xl font-bold mb-6">Skill Assessments</h2>
                     
-                    <div class="grid md:grid-cols-3 gap-6 mb-8">
-                        <div class="bg-gradient-to-br from-purple-500 to-indigo-600 text-white p-6 rounded-2xl">
-                            <div class="flex items-center justify-between mb-4">
-                                <i class="fas fa-fire text-3xl opacity-80"></i>
-                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">Trending #1</span>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <!-- Aptitude Test -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border-2 border-blue-200">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg">Aptitude Test</h3>
+                                    <p class="text-sm text-gray-600">Quantitative, Logical, Verbal</p>
+                                </div>
                             </div>
-                            <h3 class="text-xl font-bold mb-1">AI/ML Engineer</h3>
-                            <p class="text-purple-100 text-sm mb-3">+145% growth in demand</p>
-                            <div class="flex items-center gap-2 text-sm">
-                                <i class="fas fa-money-bill-wave"></i>
-                                <span>₹15-25 LPA avg</span>
+                            <div id="aptitudeTestInfo" class="space-y-2 mb-4">
+                                <div class="flex justify-between text-sm">
+                                    <span>Duration: 30 mins</span>
+                                    <span>Questions: 50</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span>Status: <span id="aptitudeStatus" class="text-yellow-600 font-bold">Not Started</span></span>
+                                    <span id="aptitudeScore" class="hidden">Score: <span class="font-bold">--</span></span>
+                                </div>
                             </div>
+                            <button id="startAptitudeBtn" onclick="startAptitudeTest()" class="w-full py-3 rounded-lg gradient-bg text-white font-bold hover:shadow-lg transition">
+                                Start Test
+                            </button>
+                            <button id="viewAptitudeBtn" onclick="viewAptitudeResults()" class="w-full py-3 rounded-lg border-2 border-blue-600 text-blue-600 font-bold hover:bg-blue-50 transition hidden">
+                                View Results
+                            </button>
                         </div>
-                        <div class="bg-gradient-to-br from-blue-500 to-cyan-600 text-white p-6 rounded-2xl">
-                            <div class="flex items-center justify-between mb-4">
-                                <i class="fas fa-cloud text-3xl opacity-80"></i>
-                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">Trending #2</span>
-                            </div>
-                            <h3 class="text-xl font-bold mb-1">Cloud Architect</h3>
-                            <p class="text-blue-100 text-sm mb-3">+98% growth in demand</p>
-                            <div class="flex items-center gap-2 text-sm">
-                                <i class="fas fa-money-bill-wave"></i>
-                                <span>₹18-30 LPA avg</span>
-                            </div>
-                        </div>
-                        <div class="bg-gradient-to-br from-green-500 to-teal-600 text-white p-6 rounded-2xl">
-                            <div class="flex items-center justify-between mb-4">
-                                <i class="fas fa-shield-alt text-3xl opacity-80"></i>
-                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">Trending #3</span>
-                            </div>
-                            <h3 class="text-xl font-bold mb-1">Cybersecurity</h3>
-                            <p class="text-green-100 text-sm mb-3">+87% growth in demand</p>
-                            <div class="flex items-center gap-2 text-sm">
-                                <i class="fas fa-money-bill-wave"></i>
-                                <span>₹12-20 LPA avg</span>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="bg-white p-6 rounded-xl shadow-sm">
-                            <h3 class="font-bold mb-4">Top Skills in Demand</h3>
-                            <canvas id="marketChart" width="400" height="300"></canvas>
-                        </div>
-                        <div class="bg-white p-6 rounded-xl shadow-sm">
-                            <h3 class="font-bold mb-4">Salary Trends by Role</h3>
-                            <div class="space-y-4" id="salaryTrendsList">
-                                <!-- Dynamic salary trends -->
+                        <!-- Coding Test -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border-2 border-purple-200">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 text-2xl">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg">Coding Assessment</h3>
+                                    <p class="text-sm text-gray-600">Data Structures & Algorithms</p>
+                                </div>
                             </div>
+                            <div id="codingTestInfo" class="space-y-2 mb-4">
+                                <div class="flex justify-between text-sm">
+                                    <span>Duration: 60 mins</span>
+                                    <span>Problems: 3</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span>Status: <span id="codingStatus" class="text-yellow-600 font-bold">Not Started</span></span>
+                                    <span id="codingScore" class="hidden">Score: <span class="font-bold">--</span></span>
+                                </div>
+                            </div>
+                            <button id="startCodingBtn" onclick="startCodingTest()" class="w-full py-3 rounded-lg border-2 border-purple-600 text-purple-600 font-bold hover:bg-purple-50 transition">
+                                Start Test
+                            </button>
+                            <button id="viewCodingBtn" onclick="viewCodingResults()" class="w-full py-3 rounded-lg border-2 border-purple-600 text-purple-600 font-bold hover:bg-purple-50 transition hidden">
+                                View Results
+                            </button>
+                        </div>
+
+                        <!-- Communication Test -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border-2 border-green-200">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center text-green-600 text-2xl">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg">Communication Test</h3>
+                                    <p class="text-sm text-gray-600">Speaking & Writing</p>
+                                </div>
+                            </div>
+                            <div id="communicationTestInfo" class="space-y-2 mb-4">
+                                <div class="flex justify-between text-sm">
+                                    <span>Duration: 20 mins</span>
+                                    <span>Sections: 4</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span>Status: <span id="communicationStatus" class="text-yellow-600 font-bold">Not Started</span></span>
+                                    <span id="communicationScore" class="hidden">Score: <span class="font-bold">--</span></span>
+                                </div>
+                            </div>
+                            <button id="startCommunicationBtn" onclick="startCommunicationTest()" class="w-full py-3 rounded-lg border-2 border-green-600 text-green-600 font-bold hover:bg-green-50 transition">
+                                Start Test
+                            </button>
+                            <button id="viewCommunicationBtn" onclick="viewCommunicationResults()" class="w-full py-3 rounded-lg border-2 border-green-600 text-green-600 font-bold hover:bg-green-50 transition hidden">
+                                View Results
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -651,99 +652,121 @@
                     <div class="flex justify-between items-center mb-6">
                         <div>
                             <h2 class="text-2xl font-bold">Your Job Matches</h2>
-                            <p class="text-gray-600">AI-curated opportunities based on your profile</p>
+                            <p class="text-gray-600">AI-curated opportunities</p>
                         </div>
-                        <div class="flex gap-2">
-                            <select id="matchFilter" onchange="filterMatches()" class="px-4 py-2 rounded-lg border border-gray-300 focus:border-purple-500 outline-none">
-                                <option value="all">All Matches</option>
-                                <option value="100">100% Match</option>
-                                <option value="90-99">90-99%</option>
-                                <option value="80-89">80-89%</option>
-                                <option value="70-79">70-79%</option>
-                            </select>
-                        </div>
+                        <select id="matchFilter" onchange="filterMatches()" class="px-4 py-2 rounded-lg border border-gray-300 focus:border-purple-500 outline-none">
+                            <option value="all">All Matches</option>
+                            <option value="100">100% Match</option>
+                            <option value="90-99">90-99%</option>
+                            <option value="80-89">80-89%</option>
+                        </select>
                     </div>
 
                     <div id="noMatchesMessage" class="text-center py-16 text-gray-400">
                         <i class="fas fa-search text-6xl mb-4 opacity-30"></i>
                         <h3 class="text-xl font-bold mb-2">No Matches Yet</h3>
-                        <p class="mb-4">Complete your profile to get matched with companies</p>
+                        <p class="mb-4">Complete your profile and take tests to get matched</p>
                         <button onclick="showStudentSection('profile')" class="px-6 py-3 gradient-bg text-white rounded-lg">Complete Profile</button>
                     </div>
 
-                    <div id="matchesContainer" class="space-y-4 hidden">
-                        <!-- Dynamic matches will be inserted here -->
+                    <div id="matchesContainer" class="space-y-4 hidden"></div>
+                </div>
+            </div>
+
+            <!-- Reviews Section -->
+            <div id="studentReviews" class="student-section hidden space-y-6">
+                <div class="glass-panel p-6 rounded-2xl">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold">Reviews & Feedback</h2>
+                            <p class="text-gray-600">Constructive feedback from companies to help you improve</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <select id="reviewFilter" onchange="filterReviews()" class="px-4 py-2 rounded-lg border border-gray-300 focus:border-purple-500 outline-none">
+                                <option value="all">All Reviews</option>
+                                <option value="positive">Positive</option>
+                                <option value="neutral">Neutral</option>
+                                <option value="negative">Negative</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="noReviewsMessage" class="text-center py-16 text-gray-400">
+                        <i class="fas fa-star text-6xl mb-4 opacity-30"></i>
+                        <h3 class="text-xl font-bold mb-2">No Reviews Yet</h3>
+                        <p class="mb-4">Apply to jobs and get feedback from recruiters</p>
+                    </div>
+
+                    <div id="reviewsContainer" class="space-y-4 hidden">
+                        <!-- Dynamic reviews -->
+                    </div>
+                </div>
+
+                <!-- Improvement Suggestions -->
+                <div id="improvementSection" class="glass-panel p-6 rounded-2xl hidden">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <i class="fas fa-lightbulb text-yellow-500"></i>
+                        AI-Powered Improvement Suggestions
+                    </h3>
+                    <div id="improvementList" class="grid md:grid-cols-2 gap-4">
+                        <!-- Dynamic suggestions -->
                     </div>
                 </div>
             </div>
 
-            <!-- Tests Section -->
-            <div id="studentTests" class="student-section hidden space-y-6">
+            <!-- Market Section -->
+            <div id="studentMarket" class="student-section hidden space-y-6">
                 <div class="glass-panel p-6 rounded-2xl">
-                    <h2 class="text-2xl font-bold mb-6">Skill Assessments</h2>
+                    <h2 class="text-2xl font-bold mb-2">Live Market Demand Tracker</h2>
+                    <p class="text-gray-600 mb-6">Real-time industry insights</p>
                     
+                    <div class="grid md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-gradient-to-br from-purple-500 to-indigo-600 text-white p-6 rounded-2xl">
+                            <div class="flex items-center justify-between mb-4">
+                                <i class="fas fa-fire text-3xl opacity-80"></i>
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">Trending #1</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-1">AI/ML Engineer</h3>
+                            <p class="text-purple-100 text-sm mb-3">+145% growth</p>
+                            <div class="flex items-center gap-2 text-sm">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span>₹15-25 LPA</span>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-br from-blue-500 to-cyan-600 text-white p-6 rounded-2xl">
+                            <div class="flex items-center justify-between mb-4">
+                                <i class="fas fa-cloud text-3xl opacity-80"></i>
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">Trending #2</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-1">Cloud Architect</h3>
+                            <p class="text-blue-100 text-sm mb-3">+98% growth</p>
+                            <div class="flex items-center gap-2 text-sm">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span>₹18-30 LPA</span>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-br from-green-500 to-teal-600 text-white p-6 rounded-2xl">
+                            <div class="flex items-center justify-between mb-4">
+                                <i class="fas fa-shield-alt text-3xl opacity-80"></i>
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">Trending #3</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-1">Cybersecurity</h3>
+                            <p class="text-green-100 text-sm mb-3">+87% growth</p>
+                            <div class="flex items-center gap-2 text-sm">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span>₹12-20 LPA</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="grid md:grid-cols-2 gap-6">
-                        <div class="bg-white p-6 rounded-xl shadow-sm border-2 border-purple-200">
-                            <div class="flex items-center gap-4 mb-4">
-                                <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 text-2xl">
-                                    <i class="fas fa-code"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-lg">Coding Assessment</h3>
-                                    <p class="text-sm text-gray-600">Data Structures & Algorithms</p>
-                                </div>
-                            </div>
-                            <div id="codingTestStatus" class="space-y-2 mb-4">
-                                <div class="flex justify-between text-sm">
-                                    <span>Status: Not Taken</span>
-                                    <span>Duration: 60 mins</span>
-                                </div>
-                            </div>
-                            <button onclick="startCodingTest()" class="w-full py-3 rounded-lg border-2 border-purple-600 text-purple-600 font-bold hover:bg-purple-50 transition">
-                                Start Test
-                            </button>
+                        <div class="bg-white p-6 rounded-xl shadow-sm">
+                            <h3 class="font-bold mb-4">Top Skills in Demand</h3>
+                            <canvas id="marketChart" width="400" height="300"></canvas>
                         </div>
-
-                        <div class="bg-white p-6 rounded-xl shadow-sm border-2 border-blue-200">
-                            <div class="flex items-center gap-4 mb-4">
-                                <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-2xl">
-                                    <i class="fas fa-brain"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-lg">Aptitude Test</h3>
-                                    <p class="text-sm text-gray-600">Quantitative, Logical, Verbal</p>
-                                </div>
-                            </div>
-                            <div id="aptitudeTestStatus" class="space-y-2 mb-4">
-                                <div class="flex justify-between text-sm">
-                                    <span>Status: Not Taken</span>
-                                    <span>Duration: 45 mins</span>
-                                </div>
-                            </div>
-                            <button onclick="startAptitudeTest()" class="w-full py-3 rounded-lg gradient-bg text-white font-bold hover:shadow-lg transition">
-                                Start Test
-                            </button>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-xl shadow-sm border-2 border-green-200">
-                            <div class="flex items-center gap-4 mb-4">
-                                <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center text-green-600 text-2xl">
-                                    <i class="fas fa-comments"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-lg">Communication Test</h3>
-                                    <p class="text-sm text-gray-600">Speaking & Writing Assessment</p>
-                                </div>
-                            </div>
-                            <div id="communicationTestStatus" class="space-y-2 mb-4">
-                                <div class="flex justify-between text-sm">
-                                    <span>Status: Not Taken</span>
-                                    <span>Duration: 30 mins</span>
-                                </div>
-                            </div>
-                            <button onclick="startCommunicationTest()" class="w-full py-3 rounded-lg border-2 border-green-600 text-green-600 font-bold hover:bg-green-50 transition">
-                                Start Test
-                            </button>
+                        <div class="bg-white p-6 rounded-xl shadow-sm">
+                            <h3 class="font-bold mb-4">Salary Trends</h3>
+                            <div class="space-y-4" id="salaryTrendsList"></div>
                         </div>
                     </div>
                 </div>
@@ -753,7 +776,6 @@
 
     <!-- Company Dashboard -->
     <div id="companyDashboard" class="hidden min-h-screen bg-gray-50">
-        <!-- Company Sidebar -->
         <div class="fixed left-0 top-0 h-full w-64 bg-white shadow-xl z-40">
             <div class="p-6 border-b">
                 <div class="flex items-center gap-3">
@@ -776,13 +798,18 @@
                     <i class="fas fa-users text-green-600"></i>
                     <span class="font-medium">AI Matched Candidates</span>
                 </button>
+                <button onclick="showCompanySection('applications')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-pink-50 text-left transition nav-company" data-section="applications">
+                    <i class="fas fa-file-alt text-orange-600"></i>
+                    <span class="font-medium">Applications</span>
+                    <span id="applicationBadge" class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full hidden">0</span>
+                </button>
                 <button onclick="showCompanySection('analysis')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-pink-50 text-left transition nav-company" data-section="analysis">
                     <i class="fas fa-brain text-purple-600"></i>
-                    <span class="font-medium">Requirements Analysis</span>
+                    <span class="font-medium">Analysis</span>
                 </button>
                 <button onclick="showCompanySection('jobs')" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-pink-50 text-left transition nav-company" data-section="jobs">
-                    <i class="fas fa-list text-orange-600"></i>
-                    <span class="font-medium">My Job Posts</span>
+                    <i class="fas fa-list text-gray-600"></i>
+                    <span class="font-medium">My Jobs</span>
                 </button>
             </nav>
             <div class="absolute bottom-0 w-full p-4 border-t">
@@ -793,27 +820,22 @@
             </div>
         </div>
 
-        <!-- Company Main Content -->
         <div class="ml-64 p-8">
-            <!-- Header -->
             <div class="flex justify-between items-center mb-8">
                 <div>
                     <h1 class="text-3xl font-bold text-gray-800" id="companyNameDisplay">Company Dashboard</h1>
-                    <p class="text-gray-600 mt-1">Hiring Dashboard & AI Matchmaking</p>
+                    <p class="text-gray-600 mt-1">Find and hire top talent</p>
                 </div>
                 <div class="flex items-center gap-4">
                     <button onclick="showCompanySection('postJob')" class="px-6 py-3 gradient-bg-2 text-white rounded-xl font-bold hover:shadow-lg transition">
-                        <i class="fas fa-plus mr-2"></i>Post New Job
+                        <i class="fas fa-plus mr-2"></i>Post Job
                     </button>
-                    <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold" id="companyAvatar">
-                        C
-                    </div>
+                    <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold" id="companyAvatar">C</div>
                 </div>
             </div>
 
             <!-- Company Dashboard Section -->
             <div id="companyDashboardSection" class="company-section space-y-6">
-                <!-- Stats -->
                 <div class="grid md:grid-cols-4 gap-6">
                     <div class="glass-panel p-6 rounded-2xl border-l-4 border-green-500">
                         <div class="flex justify-between items-start">
@@ -830,12 +852,12 @@
                     <div class="glass-panel p-6 rounded-2xl border-l-4 border-purple-500">
                         <div class="flex justify-between items-start">
                             <div>
-                                <p class="text-gray-600 text-sm">70%+ Matches</p>
-                                <h3 class="text-3xl font-bold text-gray-800 mt-1" id="goodMatchesCount">0</h3>
-                                <p class="text-purple-600 text-sm mt-1">Viewable profiles</p>
+                                <p class="text-gray-600 text-sm">Total Applications</p>
+                                <h3 class="text-3xl font-bold text-gray-800 mt-1" id="totalApplicationsCount">0</h3>
+                                <p class="text-purple-600 text-sm mt-1">Pending review</p>
                             </div>
                             <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600">
-                                <i class="fas fa-users text-xl"></i>
+                                <i class="fas fa-file-alt text-xl"></i>
                             </div>
                         </div>
                     </div>
@@ -854,23 +876,22 @@
                     <div class="glass-panel p-6 rounded-2xl border-l-4 border-orange-500">
                         <div class="flex justify-between items-start">
                             <div>
-                                <p class="text-gray-600 text-sm">Avg. Match Score</p>
-                                <h3 class="text-3xl font-bold text-gray-800 mt-1" id="avgMatchScore">--</h3>
-                                <p class="text-orange-600 text-sm mt-1">Of all candidates</p>
+                                <p class="text-gray-600 text-sm">Reviews Given</p>
+                                <h3 class="text-3xl font-bold text-gray-800 mt-1" id="reviewsGivenCount">0</h3>
+                                <p class="text-orange-600 text-sm mt-1">Feedback shared</p>
                             </div>
                             <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600">
-                                <i class="fas fa-chart-pie text-xl"></i>
+                                <i class="fas fa-star text-xl"></i>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Recent 100% Matches -->
                 <div class="glass-panel p-6 rounded-2xl">
                     <div class="flex justify-between items-center mb-6">
                         <div>
                             <h3 class="text-xl font-bold">Auto-Shortlisted Candidates (100% Match)</h3>
-                            <p class="text-gray-600 text-sm">Candidates matching all requirements perfectly</p>
+                            <p class="text-gray-600 text-sm">Perfect matches for your requirements</p>
                         </div>
                         <span class="px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-bold" id="perfectMatchesBadge">0 New</span>
                     </div>
@@ -880,39 +901,34 @@
                         <p>No 100% matches yet. Post a job to start matching!</p>
                     </div>
                     
-                    <div id="perfectMatchesList" class="space-y-4 hidden">
-                        <!-- Dynamic perfect matches -->
-                    </div>
+                    <div id="perfectMatchesList" class="space-y-4 hidden"></div>
                 </div>
 
-                <!-- 70%+ Matches -->
                 <div class="glass-panel p-6 rounded-2xl">
                     <div class="flex justify-between items-center mb-6">
                         <div>
-                            <h3 class="text-xl font-bold">High Potential Matches (70-99%)</h3>
-                            <p class="text-gray-600 text-sm">Candidates meeting most requirements</p>
+                            <h3 class="text-xl font-bold">Recent Applications</h3>
+                            <p class="text-gray-600 text-sm">Candidates who applied to your jobs</p>
                         </div>
+                        <button onclick="showCompanySection('applications')" class="text-purple-600 font-semibold hover:underline">View All</button>
                     </div>
                     
-                    <div id="goodMatchesEmpty" class="text-center py-12 text-gray-400">
-                        <i class="fas fa-users text-6xl mb-4 opacity-30"></i>
-                        <p>No candidates in this range yet</p>
+                    <div id="recentApplicationsEmpty" class="text-center py-12 text-gray-400">
+                        <i class="fas fa-inbox text-6xl mb-4 opacity-30"></i>
+                        <p>No applications yet. Post a job to receive applications!</p>
                     </div>
-
-                    <div id="goodMatchesGrid" class="grid md:grid-cols-2 gap-4 hidden">
-                        <!-- Dynamic good matches -->
-                    </div>
+                    
+                    <div id="recentApplicationsList" class="space-y-4 hidden"></div>
                 </div>
             </div>
 
             <!-- Post Job Section -->
             <div id="companyPostJob" class="company-section hidden space-y-6">
                 <div class="glass-panel p-8 rounded-2xl max-w-4xl">
-                    <h2 class="text-2xl font-bold mb-2">Post New Job Requirement</h2>
-                    <p class="text-gray-600 mb-6">AI will automatically match candidates based on these requirements</p>
+                    <h2 class="text-2xl font-bold mb-2">Post New Job</h2>
+                    <p class="text-gray-600 mb-6">AI will match candidates automatically</p>
                     
                     <form id="jobPostForm" onsubmit="postNewJob(event)" class="space-y-6">
-                        <!-- Basic Info -->
                         <div class="grid md:grid-cols-2 gap-4">
                             <div class="md:col-span-2">
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Job Title *</label>
@@ -926,7 +942,6 @@
                                     <option value="data">Data Science</option>
                                     <option value="product">Product</option>
                                     <option value="design">Design</option>
-                                    <option value="qa">Quality Assurance</option>
                                 </select>
                             </div>
                             <div>
@@ -936,13 +951,11 @@
                                     <option value="bangalore">Bangalore</option>
                                     <option value="hyderabad">Hyderabad</option>
                                     <option value="pune">Pune</option>
-                                    <option value="chennai">Chennai</option>
                                     <option value="remote">Remote</option>
                                 </select>
                             </div>
                         </div>
 
-                        <!-- Education Requirements -->
                         <div class="border-t pt-6">
                             <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
                                 <i class="fas fa-graduation-cap text-blue-600"></i>
@@ -953,14 +966,13 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Minimum Degree *</label>
                                     <select name="minDegree" id="minDegree" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 outline-none" required>
                                         <option value="btech">B.Tech/B.E.</option>
-                                        <option value="msc">M.Sc</option>
                                         <option value="mtech">M.Tech</option>
                                         <option value="mca">MCA</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Eligible Branches *</label>
-                                    <input type="text" name="branches" id="branches" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 outline-none" placeholder="CSE, IT, ECE, etc." required>
+                                    <input type="text" name="branches" id="branches" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 outline-none" placeholder="CSE, IT, ECE" required>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Minimum CGPA *</label>
@@ -975,20 +987,15 @@
                             </div>
                         </div>
 
-                        <!-- Skills Requirements -->
                         <div class="border-t pt-6">
                             <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
                                 <i class="fas fa-code text-green-600"></i>
-                                Skills & Assessment
+                                Skills & Tests
                             </h3>
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Required Technical Skills *</label>
-                                    <input type="text" name="requiredSkills" id="requiredSkills" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 outline-none" placeholder="e.g., Python, Java, React, SQL (comma separated)" required>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Optional/Preferred Skills</label>
-                                    <input type="text" name="optionalSkills" id="optionalSkills" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 outline-none" placeholder="e.g., AWS, Docker, Kubernetes (comma separated)">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Required Skills *</label>
+                                    <input type="text" name="requiredSkills" id="requiredSkills" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 outline-none" placeholder="Python, Java, React, SQL (comma separated)" required>
                                 </div>
                                 <div class="grid md:grid-cols-2 gap-4">
                                     <div>
@@ -996,69 +1003,23 @@
                                         <select name="aptitudeTest" id="reqAptitude" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 outline-none">
                                             <option value="yes">Yes - Mandatory</option>
                                             <option value="no">No</option>
-                                            <option value="preferred">Preferred</option>
                                         </select>
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Coding Assessment Required?</label>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Coding Test Required?</label>
                                         <select name="codingTest" id="reqCoding" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 outline-none">
                                             <option value="yes">Yes - Mandatory</option>
                                             <option value="no">No</option>
-                                            <option value="preferred">Preferred</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Experience & Projects -->
-                        <div class="border-t pt-6">
-                            <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
-                                <i class="fas fa-project-diagram text-purple-600"></i>
-                                Experience Requirements
-                            </h3>
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Minimum Projects *</label>
-                                    <select name="minProjects" id="minProjects" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 outline-none" required>
-                                        <option value="1">At least 1</option>
-                                        <option value="2">2 or more</option>
-                                        <option value="3">3 or more</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Project Complexity</label>
-                                    <select name="projectComplexity" id="projectComplexity" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 outline-none">
-                                        <option value="basic">Basic academic projects acceptable</option>
-                                        <option value="intermediate">Intermediate real-world applications</option>
-                                        <option value="advanced">Advanced/Production level projects</option>
-                                    </select>
-                                </div>
-                                <div class="md:col-span-2">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Other Requirements</label>
-                                    <div class="grid md:grid-cols-3 gap-4 mt-2">
-                                        <label class="flex items-center gap-2 p-3 border rounded-xl cursor-pointer hover:bg-gray-50">
-                                            <input type="checkbox" name="communication" id="reqCommunication" class="w-4 h-4 text-purple-600 rounded" checked>
-                                            <span class="text-sm">Good Communication</span>
-                                        </label>
-                                        <label class="flex items-center gap-2 p-3 border rounded-xl cursor-pointer hover:bg-gray-50">
-                                            <input type="checkbox" name="teamwork" id="reqTeamwork" class="w-4 h-4 text-purple-600 rounded" checked>
-                                            <span class="text-sm">Teamwork Skills</span>
-                                        </label>
-                                        <label class="flex items-center gap-2 p-3 border rounded-xl cursor-pointer hover:bg-gray-50">
-                                            <input type="checkbox" name="relocation" id="reqRelocation" class="w-4 h-4 text-purple-600 rounded">
-                                            <span class="text-sm">Willing to Relocate</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Salary & Logistics -->
                         <div class="border-t pt-6">
                             <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
                                 <i class="fas fa-money-bill-wave text-green-600"></i>
-                                Compensation & Logistics
+                                Compensation
                             </h3>
                             <div class="grid md:grid-cols-3 gap-4">
                                 <div>
@@ -1078,122 +1039,202 @@
 
                         <div class="flex gap-4 pt-4">
                             <button type="submit" class="flex-1 py-4 rounded-xl gradient-bg-2 text-white font-bold text-lg hover:shadow-lg transition">
-                                <i class="fas fa-magic mr-2"></i>Post Job & Run AI Analysis
-                            </button>
-                            <button type="button" onclick="previewJobPost()" class="px-8 py-4 rounded-xl border-2 border-gray-300 text-gray-700 font-bold hover:bg-gray-50 transition">
-                                Preview
+                                <i class="fas fa-magic mr-2"></i>Post Job & Run AI Matching
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <!-- AI Analysis Section -->
-            <div id="companyAnalysis" class="company-section hidden space-y-6">
-                <div class="glass-panel p-6 rounded-2xl">
-                    <h2 class="text-2xl font-bold mb-6">AI Requirements Analysis</h2>
-                    
-                    <div id="analysisEmpty" class="text-center py-16 text-gray-400">
-                        <i class="fas fa-chart-pie text-6xl mb-4 opacity-30"></i>
-                        <h3 class="text-xl font-bold mb-2">No Analysis Data</h3>
-                        <p class="mb-4">Post a job to see market analysis and candidate availability</p>
-                        <button onclick="showCompanySection('postJob')" class="px-6 py-3 gradient-bg-2 text-white rounded-lg">Post a Job</button>
-                    </div>
-
-                    <div id="analysisContent" class="hidden">
-                        <div class="grid md:grid-cols-2 gap-6 mb-8">
-                            <div class="bg-white p-6 rounded-xl shadow-sm">
-                                <h3 class="font-bold mb-4">Current Market Availability</h3>
-                                <canvas id="marketAvailabilityChart" width="400" height="300"></canvas>
-                            </div>
-                            <div class="bg-white p-6 rounded-xl shadow-sm">
-                                <h3 class="font-bold mb-4">Skill Demand vs Supply</h3>
-                                <div id="skillSupplyList" class="space-y-4">
-                                    <!-- Dynamic supply data -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl p-6 border border-purple-100">
-                            <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
-                                <i class="fas fa-lightbulb text-yellow-500"></i>
-                                AI Recommendations
-                            </h3>
-                            <div id="recommendationsList" class="grid md:grid-cols-3 gap-4">
-                                <!-- Dynamic recommendations -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Candidates List Section -->
+            <!-- Candidates Section -->
             <div id="companyCandidates" class="company-section hidden space-y-6">
                 <div class="glass-panel p-6 rounded-2xl">
                     <div class="flex justify-between items-center mb-6">
                         <div>
-                            <h2 class="text-2xl font-bold">All Matched Candidates</h2>
-                            <p class="text-gray-600">Filter and manage candidates by match percentage</p>
+                            <h2 class="text-2xl font-bold">AI Matched Candidates</h2>
+                            <p class="text-gray-600">Candidates matching your job requirements</p>
                         </div>
                         <div class="flex gap-2">
-                            <input type="text" id="candidateSearch" placeholder="Search candidates..." class="px-4 py-2 rounded-lg border border-gray-300 focus:border-purple-500 outline-none" onkeyup="searchCandidates()">
-                            <select id="candidateSort" class="px-4 py-2 rounded-lg border border-gray-300" onchange="sortCandidates()">
-                                <option value="match">Sort by: Match %</option>
-                                <option value="cgpa">Sort by: CGPA</option>
-                                <option value="skills">Sort by: Skills</option>
+                            <select id="candidateFilter" onchange="filterCompanyCandidates()" class="px-4 py-2 rounded-lg border border-gray-300 focus:border-purple-500 outline-none">
+                                <option value="all">All Matches</option>
+                                <option value="100">100% Match</option>
+                                <option value="90-99">90-99%</option>
+                                <option value="80-89">80-89%</option>
                             </select>
                         </div>
                     </div>
 
-                    <!-- Filter Tabs -->
-                    <div class="flex gap-2 mb-6 overflow-x-auto pb-2">
-                        <button onclick="filterCandidates('all')" class="px-4 py-2 bg-gray-800 text-white rounded-full text-sm font-medium whitespace-nowrap">All</button>
-                        <button onclick="filterCandidates('100')" class="px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium whitespace-nowrap">100% Match</button>
-                        <button onclick="filterCandidates('90-99')" class="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap">90-99%</button>
-                        <button onclick="filterCandidates('80-89')" class="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium whitespace-nowrap">80-89%</button>
-                        <button onclick="filterCandidates('70-79')" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium whitespace-nowrap">70-79%</button>
-                    </div>
-
-                    <div id="candidatesTableEmpty" class="text-center py-16 text-gray-400">
+                    <div id="companyCandidatesEmpty" class="text-center py-16 text-gray-400">
                         <i class="fas fa-users text-6xl mb-4 opacity-30"></i>
                         <p>No candidates found. Post a job to start matching!</p>
                     </div>
 
-                    <div id="candidatesTableContainer" class="overflow-x-auto hidden">
-                        <table class="w-full">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Candidate</th>
-                                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Education</th>
-                                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Match Score</th>
-                                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Key Skills</th>
-                                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Status</th>
-                                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="candidatesTableBody" class="divide-y divide-gray-100">
-                                <!-- Dynamic candidates -->
-                            </tbody>
-                        </table>
+                    <div id="companyCandidatesList" class="space-y-4 hidden"></div>
+                </div>
+            </div>
+
+            <!-- Applications Section -->
+            <div id="companyApplications" class="company-section hidden space-y-6">
+                <div class="glass-panel p-6 rounded-2xl">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold">All Applications</h2>
+                            <p class="text-gray-600">Review applications and provide feedback</p>
+                        </div>
+                        <select id="applicationFilter" onchange="filterApplications()" class="px-4 py-2 rounded-lg border border-gray-300 focus:border-purple-500 outline-none">
+                            <option value="all">All Applications</option>
+                            <option value="pending">Pending Review</option>
+                            <option value="shortlisted">Shortlisted</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+
+                    <div id="applicationsEmpty" class="text-center py-16 text-gray-400">
+                        <i class="fas fa-inbox text-6xl mb-4 opacity-30"></i>
+                        <p>No applications yet. Candidates will appear here when they apply!</p>
+                    </div>
+
+                    <div id="applicationsList" class="space-y-4 hidden"></div>
+                </div>
+            </div>
+
+            <!-- Analysis Section -->
+            <div id="companyAnalysis" class="company-section hidden space-y-6">
+                <div class="glass-panel p-6 rounded-2xl">
+                    <h2 class="text-2xl font-bold mb-6">AI Analysis</h2>
+                    
+                    <div id="companyAnalysisEmpty" class="text-center py-16 text-gray-400">
+                        <i class="fas fa-chart-pie text-6xl mb-4 opacity-30"></i>
+                        <p>Post a job to see market analysis</p>
+                    </div>
+
+                    <div id="companyAnalysisContent" class="hidden">
+                        <div class="grid md:grid-cols-2 gap-6 mb-8">
+                            <div class="bg-white p-6 rounded-xl shadow-sm">
+                                <h3 class="font-bold mb-4">Market Availability</h3>
+                                <canvas id="marketAvailabilityChart" width="400" height="300"></canvas>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl shadow-sm">
+                                <h3 class="font-bold mb-4">Skill Supply</h3>
+                                <div id="skillSupplyList" class="space-y-4"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- My Jobs Section -->
+            <!-- Jobs Section -->
             <div id="companyJobs" class="company-section hidden space-y-6">
                 <div class="glass-panel p-6 rounded-2xl">
-                    <h2 class="text-2xl font-bold mb-6">Active Job Postings</h2>
+                    <h2 class="text-2xl font-bold mb-6">My Job Postings</h2>
                     
-                    <div id="jobsListEmpty" class="text-center py-16 text-gray-400">
+                    <div id="companyJobsEmpty" class="text-center py-16 text-gray-400">
                         <i class="fas fa-briefcase text-6xl mb-4 opacity-30"></i>
-                        <p>No active job postings. Create your first job post!</p>
+                        <p>No active jobs. Create your first posting!</p>
                         <button onclick="showCompanySection('postJob')" class="mt-4 px-6 py-3 gradient-bg-2 text-white rounded-lg">Post a Job</button>
                     </div>
-                    
-                    <div id="jobsListContainer" class="space-y-4 hidden">
-                        <!-- Dynamic job postings -->
-                    </div>
+
+                    <div id="companyJobsList" class="space-y-4 hidden"></div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Interface Modal -->
+    <div id="testModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b flex justify-between items-center bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-t-2xl">
+                <div>
+                    <h2 id="testModalTitle" class="text-2xl font-bold">Test</h2>
+                    <p id="testModalSubtitle" class="text-sm opacity-90">Complete the assessment</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="test-timer text-xl font-bold bg-white bg-opacity-20 px-4 py-2 rounded-lg" id="testTimer">30:00</div>
+                    <button onclick="closeTestModal()" class="text-white hover:text-gray-200">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="p-6" id="testModalContent">
+                <!-- Dynamic test content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div id="reviewModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h2 class="text-2xl font-bold">Provide Feedback</h2>
+                <button onclick="closeReviewModal()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <div id="reviewCandidateInfo" class="mb-6 p-4 bg-gray-50 rounded-xl">
+                    <!-- Candidate info -->
+                </div>
+                <form id="reviewForm" onsubmit="submitReview(event)">
+                    <input type="hidden" id="reviewStudentEmail">
+                    <input type="hidden" id="reviewJobId">
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Overall Rating</label>
+                            <div class="flex gap-2">
+                                <button type="button" onclick="setRating(1)" class="rating-btn w-10 h-10 rounded-full border-2 border-gray-300 hover:border-yellow-400 hover:bg-yellow-50 transition text-xl">⭐</button>
+                                <button type="button" onclick="setRating(2)" class="rating-btn w-10 h-10 rounded-full border-2 border-gray-300 hover:border-yellow-400 hover:bg-yellow-50 transition text-xl">⭐</button>
+                                <button type="button" onclick="setRating(3)" class="rating-btn w-10 h-10 rounded-full border-2 border-gray-300 hover:border-yellow-400 hover:bg-yellow-50 transition text-xl">⭐</button>
+                                <button type="button" onclick="setRating(4)" class="rating-btn w-10 h-10 rounded-full border-2 border-gray-300 hover:border-yellow-400 hover:bg-yellow-50 transition text-xl">⭐</button>
+                                <button type="button" onclick="setRating(5)" class="rating-btn w-10 h-10 rounded-full border-2 border-gray-300 hover:border-yellow-400 hover:bg-yellow-50 transition text-xl">⭐</button>
+                            </div>
+                            <input type="hidden" id="reviewRating" value="0" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Decision</label>
+                            <div class="flex gap-4">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="decision" value="shortlisted" class="w-4 h-4 text-green-600" required>
+                                    <span class="text-green-600 font-semibold">Shortlist</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="decision" value="rejected" class="w-4 h-4 text-red-600">
+                                    <span class="text-red-600 font-semibold">Reject</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Strengths</label>
+                            <textarea name="strengths" id="reviewStrengths" rows="2" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 outline-none" placeholder="What did the candidate do well?"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Areas for Improvement</label>
+                            <textarea name="improvements" id="reviewImprovements" rows="2" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 outline-none" placeholder="What can the candidate improve?"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Detailed Feedback</label>
+                            <textarea name="feedback" id="reviewFeedback" rows="3" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 outline-none" placeholder="Provide detailed constructive feedback..." required></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Recommended Skills to Learn</label>
+                            <input type="text" name="recommendedSkills" id="reviewSkills" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-purple-500 outline-none" placeholder="e.g., AWS, System Design, React (comma separated)">
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4 mt-6">
+                        <button type="submit" class="flex-1 py-3 rounded-xl gradient-bg text-white font-bold hover:shadow-lg transition">
+                            Submit Feedback
+                        </button>
+                        <button type="button" onclick="closeReviewModal()" class="px-6 py-3 rounded-xl border-2 border-gray-300 text-gray-700 font-bold hover:bg-gray-50 transition">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -1215,27 +1256,13 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div id="chatMessages" class="h-80 overflow-y-auto p-4 space-y-3 bg-gray-50">
-                <div class="chat-message flex gap-2">
-                    <div class="w-8 h-8 gradient-bg rounded-full flex items-center justify-center text-white text-xs flex-shrink-0">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%] text-sm">
-                        Hello! I'm your AI career assistant. How can I help you today? 😊
-                    </div>
-                </div>
-            </div>
+            <div id="chatMessages" class="h-80 overflow-y-auto p-4 space-y-3 bg-gray-50"></div>
             <div class="p-3 bg-white border-t">
                 <div class="flex gap-2">
                     <input type="text" id="chatInput" placeholder="Type your message..." class="flex-1 px-4 py-2 rounded-full border border-gray-300 focus:border-purple-500 outline-none text-sm" onkeypress="handleChatKeypress(event)">
                     <button onclick="sendChatMessage()" class="w-10 h-10 gradient-bg rounded-full flex items-center justify-center text-white hover:shadow-lg transition">
                         <i class="fas fa-paper-plane text-sm"></i>
                     </button>
-                </div>
-                <div class="flex gap-2 mt-2 overflow-x-auto pb-1">
-                    <button onclick="quickChat('How do I improve my match score?')" class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs whitespace-nowrap hover:bg-purple-200 transition">Improve match score?</button>
-                    <button onclick="quickChat('What jobs match my profile?')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs whitespace-nowrap hover:bg-blue-200 transition">My job matches?</button>
-                    <button onclick="quickChat('Help with resume')" class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs whitespace-nowrap hover:bg-green-200 transition">Resume help</button>
                 </div>
             </div>
         </div>
@@ -1258,49 +1285,20 @@
         </div>
     </div>
 
-    <!-- Candidate Detail Modal -->
-    <div id="candidateModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="p-6 border-b flex justify-between items-center">
-                <h2 class="text-2xl font-bold">Candidate Profile</h2>
-                <button onclick="closeCandidateModal()" class="text-gray-400 hover:text-gray-600">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            <div class="p-6" id="candidateModalContent">
-                <!-- Dynamic content -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Job Preview Modal -->
-    <div id="jobPreviewModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="p-6 border-b flex justify-between items-center">
-                <h2 class="text-2xl font-bold">Job Post Preview</h2>
-                <button onclick="closeJobPreview()" class="text-gray-400 hover:text-gray-600">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            <div class="p-6" id="jobPreviewContent">
-                <!-- Dynamic content -->
-            </div>
-        </div>
-    </div>
-
     <script>
         // ==========================================
-        // UNIFIED DATA STORE - Shared between all users
+        // UNIFIED DATA STORE
         // ==========================================
         const DataStore = {
-            students: {},      // All student profiles keyed by email
-            companies: {},     // All company profiles keyed by email
-            jobs: [],          // All job postings (shared across all companies)
-            matches: [],       // All matches (shared across all users)
-            currentUser: null, // Currently logged in user email
-            userType: null,    // 'student' or 'company'
+            students: {},
+            companies: {},
+            jobs: [],
+            matches: [],
+            applications: [],
+            reviews: [],
+            currentUser: null,
+            userType: null,
             
-            // Initialize from localStorage if available
             init() {
                 const saved = localStorage.getItem('careerBridgeData');
                 if (saved) {
@@ -1309,58 +1307,67 @@
                     this.companies = parsed.companies || {};
                     this.jobs = parsed.jobs || [];
                     this.matches = parsed.matches || [];
+                    this.applications = parsed.applications || [];
+                    this.reviews = parsed.reviews || [];
                 }
             },
             
-            // Save to localStorage
             save() {
                 localStorage.setItem('careerBridgeData', JSON.stringify({
                     students: this.students,
                     companies: this.companies,
                     jobs: this.jobs,
-                    matches: this.matches
+                    matches: this.matches,
+                    applications: this.applications,
+                    reviews: this.reviews
                 }));
             },
             
-            // Get all students array
             getAllStudents() {
                 return Object.values(this.students).filter(s => s.profile && s.profile.fullName);
             },
             
-            // Get all companies array
-            getAllCompanies() {
-                return Object.values(this.companies);
-            },
-            
-            // Get all active jobs
             getActiveJobs() {
                 return this.jobs.filter(j => j.status === 'active');
             },
             
-            // Get matches for a specific company
             getMatchesForCompany(companyEmail) {
                 const companyJobs = this.jobs.filter(j => j.companyEmail === companyEmail).map(j => j.id);
                 return this.matches.filter(m => companyJobs.includes(m.jobId));
             },
             
-            // Get matches for a specific student
             getMatchesForStudent(studentEmail) {
                 return this.matches.filter(m => m.studentEmail === studentEmail);
+            },
+            
+            getApplicationsForCompany(companyEmail) {
+                const companyJobs = this.jobs.filter(j => j.companyEmail === companyEmail).map(j => j.id);
+                return this.applications.filter(a => companyJobs.includes(a.jobId));
+            },
+            
+            getApplicationsForStudent(studentEmail) {
+                return this.applications.filter(a => a.studentEmail === studentEmail);
+            },
+            
+            getReviewsForStudent(studentEmail) {
+                return this.reviews.filter(r => r.studentEmail === studentEmail);
+            },
+            
+            getReviewsFromCompany(companyEmail) {
+                return this.reviews.filter(r => r.companyEmail === companyEmail);
             }
         };
 
-        // Initialize data store
         DataStore.init();
 
         // ==========================================
-        // GOOGLE SIGN-IN HANDLER
+        // AUTHENTICATION
         // ==========================================
         function handleGoogleSignIn(response) {
             const credential = response.credential;
             const payload = JSON.parse(atob(credential.split('.')[1]));
             const email = payload.email;
             
-            // Check if user exists in either students or companies
             const isStudent = DataStore.students[email];
             const isCompany = DataStore.companies[email];
             
@@ -1369,41 +1376,33 @@
             } else if (isCompany) {
                 loginAsCompany(email, payload.name);
             } else {
-                // New user - show role selection
-                showRoleSelection(email, payload.name, payload.picture);
+                const role = confirm(`Welcome ${payload.name}! Are you a Student? (Click OK for Student, Cancel for Company)`);
+                if (role) {
+                    DataStore.students[email] = {
+                        email: email,
+                        profile: { fullName: payload.name },
+                        skills: {},
+                        tests: {},
+                        matches: [],
+                        createdAt: new Date().toISOString()
+                    };
+                    DataStore.save();
+                    loginAsStudent(email, payload.name);
+                } else {
+                    const companyName = prompt('Enter your Company Name:') || payload.name;
+                    DataStore.companies[email] = {
+                        email: email,
+                        name: companyName,
+                        jobs: [],
+                        createdAt: new Date().toISOString()
+                    };
+                    DataStore.save();
+                    loginAsCompany(email, companyName);
+                }
             }
         }
 
-        function showRoleSelection(email, name, picture) {
-            const role = confirm(`Welcome ${name}! Are you a Student? (Click OK for Student, Cancel for Company)`);
-            if (role) {
-                // Register as student
-                DataStore.students[email] = {
-                    email: email,
-                    profile: { fullName: name },
-                    skills: {},
-                    assessments: {},
-                    matches: [],
-                    createdAt: new Date().toISOString()
-                };
-                DataStore.save();
-                loginAsStudent(email, name, picture);
-            } else {
-                // Register as company
-                const companyName = prompt('Enter your Company Name:') || name;
-                DataStore.companies[email] = {
-                    email: email,
-                    name: companyName,
-                    jobs: [],
-                    matches: [],
-                    createdAt: new Date().toISOString()
-                };
-                DataStore.save();
-                loginAsCompany(email, companyName, picture);
-            }
-        }
-
-        function loginAsStudent(email, name, picture) {
+        function loginAsStudent(email, name) {
             DataStore.currentUser = email;
             DataStore.userType = 'student';
             
@@ -1413,10 +1412,11 @@
             document.getElementById('studentAvatar').textContent = (DataStore.students[email].profile.fullName || name).charAt(0).toUpperCase();
             
             updateStudentDashboard();
-            showToast('Welcome!', `Logged in as ${name}`);
+            updateTestStatuses();
+            showToast('Welcome!', `Logged in as ${DataStore.students[email].profile.fullName || name}`);
         }
 
-        function loginAsCompany(email, name, picture) {
+        function loginAsCompany(email, name) {
             DataStore.currentUser = email;
             DataStore.userType = 'company';
             
@@ -1429,63 +1429,48 @@
             showToast('Welcome!', `Logged in as ${DataStore.companies[email].name || name}`);
         }
 
-        // ==========================================
-        // NAVIGATION FUNCTIONS
-        // ==========================================
         function showLogin(type) {
             DataStore.userType = type;
             document.getElementById('loginModal').classList.remove('hidden');
-            document.getElementById('loginTitle').textContent = type === 'student' ? 'Student Login' : 'Company Login';
-            document.getElementById('loginIcon').innerHTML = type === 'student' ? '<i class="fas fa-user-graduate"></i>' : '<i class="fas fa-building"></i>';
-            document.getElementById('loginIcon').className = `w-16 h-16 ${type === 'student' ? 'gradient-bg' : 'gradient-bg-2'} rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4`;
         }
-        
+
         function closeLogin() {
             document.getElementById('loginModal').classList.add('hidden');
         }
-        
+
         function handleLogin(e) {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
             
-            // Check if user exists
-            if (DataStore.students[email] && DataStore.userType === 'student') {
-                loginAsStudent(email, DataStore.students[email].profile.fullName || email);
-                closeLogin();
-            } else if (DataStore.companies[email] && DataStore.userType === 'company') {
-                loginAsCompany(email, DataStore.companies[email].name);
-                closeLogin();
-            } else if (DataStore.userType === 'student') {
-                // Create new student
-                DataStore.students[email] = {
-                    email: email,
-                    profile: {},
-                    skills: {},
-                    assessments: {},
-                    matches: [],
-                    createdAt: new Date().toISOString()
-                };
-                DataStore.save();
-                loginAsStudent(email, email);
-                closeLogin();
-                showToast('New Account', 'Please complete your profile!');
+            if (DataStore.userType === 'student') {
+                if (!DataStore.students[email]) {
+                    DataStore.students[email] = {
+                        email: email,
+                        profile: {},
+                        skills: {},
+                        tests: {},
+                        matches: [],
+                        createdAt: new Date().toISOString()
+                    };
+                    DataStore.save();
+                }
+                loginAsStudent(email, email.split('@')[0]);
             } else {
-                // Create new company
-                const companyName = prompt('Enter Company Name:') || email.split('@')[0];
-                DataStore.companies[email] = {
-                    email: email,
-                    name: companyName,
-                    jobs: [],
-                    matches: [],
-                    createdAt: new Date().toISOString()
-                };
-                DataStore.save();
-                loginAsCompany(email, companyName);
-                closeLogin();
-                showToast('New Account', 'Please post your first job!');
+                if (!DataStore.companies[email]) {
+                    const companyName = prompt('Enter Company Name:') || email.split('@')[0];
+                    DataStore.companies[email] = {
+                        email: email,
+                        name: companyName,
+                        jobs: [],
+                        createdAt: new Date().toISOString()
+                    };
+                    DataStore.save();
+                }
+                loginAsCompany(email, DataStore.companies[email].name);
             }
+            closeLogin();
         }
-        
+
         function logout() {
             DataStore.currentUser = null;
             DataStore.userType = null;
@@ -1509,24 +1494,21 @@
             });
             
             if (section === 'skills') updateSkillAnalysis();
-            else if (section === 'market') updateMarketData();
             else if (section === 'matches') updateMatches();
+            else if (section === 'reviews') updateReviews();
+            else if (section === 'market') updateMarketData();
         }
 
         function updateProfileProgress() {
             const fields = ['fullName', 'phone', 'studentEmail', 'degree', 'branch', 'college', 'cgpa', 'passingYear', 'skills', 'projects'];
             let filled = 0;
-            
             fields.forEach(field => {
                 const el = document.getElementById(field);
                 if (el && el.value.trim()) filled++;
             });
-            
             const percentage = Math.round((filled / fields.length) * 100);
             document.getElementById('profileProgressBar').style.width = percentage + '%';
             document.getElementById('profileProgressText').textContent = percentage + '%';
-            
-            return percentage;
         }
 
         function handleFileUpload(input, displayId) {
@@ -1541,7 +1523,6 @@
             const email = DataStore.currentUser;
             const formData = new FormData(e.target);
             
-            // Save to unified DataStore
             DataStore.students[email].profile = {
                 fullName: formData.get('fullName'),
                 phone: formData.get('phone'),
@@ -1554,9 +1535,7 @@
                 backlogs: formData.get('backlogs') || '0',
                 skills: formData.get('skills').split(',').map(s => s.trim()).filter(s => s),
                 projects: formData.get('projects'),
-                certifications: formData.get('certifications') || '',
-                leetcode: formData.get('leetcode') || '',
-                github: formData.get('github') || ''
+                certifications: formData.get('certifications') || ''
             };
             
             calculateStudentSkills(email);
@@ -1564,7 +1543,6 @@
             
             showToast('Profile Saved', 'AI is analyzing and matching with companies...');
             
-            // Run global matching
             setTimeout(() => {
                 runGlobalMatching();
                 showToast('Matching Complete', `Found ${DataStore.getMatchesForStudent(email).length} job matches!`);
@@ -1592,7 +1570,6 @@
             if (student.profile.certifications) {
                 const certs = student.profile.certifications.toLowerCase();
                 if (certs.includes('aws')) skills['aws'] = 90;
-                if (certs.includes('google')) skills['cloud'] = 85;
             }
             
             const cgpa = student.profile.cgpa;
@@ -1613,272 +1590,494 @@
             const hasProfile = !!student.profile.fullName;
             document.getElementById('profileCompletion').textContent = hasProfile ? '100%' : '0%';
             
-            // Get fresh matches from unified store
             const matches = DataStore.getMatchesForStudent(email);
             document.getElementById('totalMatches').textContent = matches.length;
-            document.getElementById('skillScore').textContent = student.skillScore || '--';
+            
+            // Calculate test average
+            const tests = student.tests || {};
+            let testScores = [];
+            if (tests.aptitude) testScores.push(tests.aptitude.score);
+            if (tests.coding) testScores.push(tests.coding.score);
+            if (tests.communication) testScores.push(tests.communication.score);
+            const avgTests = testScores.length > 0 ? Math.round(testScores.reduce((a,b) => a+b, 0) / testScores.length) : '--';
+            document.getElementById('testAverage').textContent = avgTests;
+            
+            // Review count
+            const reviews = DataStore.getReviewsForStudent(email);
+            document.getElementById('reviewCount').textContent = reviews.length;
             
             if (hasProfile) {
                 document.getElementById('careerScoreEmpty').classList.add('hidden');
                 document.getElementById('careerScoreContent').classList.remove('hidden');
-                document.getElementById('skillGapEmpty').classList.add('hidden');
-                document.getElementById('skillGapContent').classList.remove('hidden');
-                document.getElementById('matchesEmpty').classList.add('hidden');
-                document.getElementById('matchesList').classList.remove('hidden');
                 
                 const avgMatch = matches.length > 0 
                     ? Math.round(matches.reduce((a, m) => a + m.score, 0) / matches.length)
                     : 0;
                 document.getElementById('careerScoreValue').textContent = avgMatch + '%';
                 document.getElementById('careerScoreCircle').style.strokeDashoffset = 251.2 - (251.2 * avgMatch / 100);
-                
-                updateMatchesList(matches);
-            }
-        }
-
-        function updateMatchesList(matches) {
-            const container = document.getElementById('matchesList');
-            
-            if (matches.length === 0) {
-                container.innerHTML = '<div class="text-center py-8 text-gray-500">No matches found yet. Check back after companies post jobs!</div>';
-                return;
             }
             
-            const sorted = [...matches].sort((a, b) => b.score - a.score);
-            
-            container.innerHTML = sorted.slice(0, 3).map(match => {
-                const job = DataStore.jobs.find(j => j.id === match.jobId);
-                if (!job) return '';
-                
-                const isPerfect = match.score === 100;
-                const isGood = match.score >= 80;
-                
-                return `
-                    <div class="flex items-center gap-4 p-4 ${isPerfect ? 'bg-green-50 border-green-200' : 'bg-white border-gray-200'} border rounded-xl shadow-sm hover:shadow-md transition cursor-pointer">
-                        <div class="w-16 h-16 ${isPerfect ? 'bg-green-100 text-green-600' : isGood ? 'bg-purple-100 text-purple-600' : 'bg-gray-100 text-gray-600'} rounded-xl flex items-center justify-center text-2xl">
-                            <i class="fas fa-building"></i>
-                        </div>
-                        <div class="flex-1">
-                            <h4 class="font-bold text-lg">${job.title}</h4>
-                            <p class="text-gray-600 text-sm">${job.companyName} • ${job.location} • ${job.ctc} LPA</p>
-                            <div class="flex gap-2 mt-2">
-                                ${job.requiredSkills.slice(0, 3).map(s => `<span class="px-2 py-1 bg-gray-100 rounded text-xs">${s}</span>`).join('')}
+            // Update recent reviews
+            if (reviews.length > 0) {
+                document.getElementById('recentReviewsEmpty').classList.add('hidden');
+                document.getElementById('recentReviewsList').classList.remove('hidden');
+                document.getElementById('recentReviewsList').innerHTML = reviews.slice(0, 2).map(r => `
+                    <div class="p-4 bg-gray-50 rounded-xl border-l-4 ${r.decision === 'shortlisted' ? 'border-green-500' : 'border-red-500'}">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="font-bold">${r.companyName}</p>
+                                <p class="text-sm text-gray-600">${r.jobTitle}</p>
                             </div>
+                            <span class="text-xs bg-gray-200 px-2 py-1 rounded">${new Date(r.createdAt).toLocaleDateString()}</span>
                         </div>
-                        <div class="text-center">
-                            <div class="text-3xl font-bold ${isPerfect ? 'text-green-600' : 'text-purple-600'}">${match.score}%</div>
-                            <div class="text-xs text-gray-500">Match</div>
-                            ${isPerfect ? '<div class="mt-1 px-2 py-0.5 bg-green-500 text-white rounded text-xs">Auto-Applied</div>' : ''}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function updateSkillAnalysis() {
-            const email = DataStore.currentUser;
-            const student = DataStore.students[email];
-            
-            if (!student || !student.calculatedSkills) {
-                document.getElementById('skillsAnalysisEmpty').classList.remove('hidden');
-                document.getElementById('skillsAnalysisContent').classList.add('hidden');
-                return;
-            }
-            
-            document.getElementById('skillsAnalysisEmpty').classList.add('hidden');
-            document.getElementById('skillsAnalysisContent').classList.remove('hidden');
-            
-            const skills = student.calculatedSkills;
-            const comparisonList = document.getElementById('skillComparisonList');
-            
-            comparisonList.innerHTML = Object.entries(skills).map(([skill, score]) => {
-                const industryReq = 75;
-                const status = score >= industryReq ? 'exceeds' : score >= industryReq - 15 ? 'meets' : 'gap';
-                const colors = { exceeds: 'green', meets: 'blue', gap: 'red' };
-                
-                return `
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <span class="text-sm font-medium capitalize">${skill}</span>
-                            <span class="text-sm text-${colors[status]}-600">${score}% (${status === 'exceeds' ? 'Exceeds' : status === 'meets' ? 'Meets' : 'Gap'})</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2.5">
-                            <div class="bg-${colors[status]}-500 h-2.5 rounded-full" style="width: ${score}%"></div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            
-            const gaps = Object.entries(skills).filter(([k, v]) => v < 60);
-            const learningPath = document.getElementById('learningPathList');
-            
-            if (gaps.length === 0) {
-                learningPath.innerHTML = '<div class="bg-white p-4 rounded-xl shadow-sm"><p class="text-green-600 font-bold">🎉 Great job! No critical skill gaps found.</p></div>';
-            } else {
-                learningPath.innerHTML = gaps.slice(0, 3).map(([skill, score], idx) => `
-                    <div class="relative">
-                        <div class="absolute -left-10 w-6 h-6 ${idx === 0 ? 'bg-purple-600' : 'bg-purple-300'} rounded-full border-4 border-white shadow"></div>
-                        <div class="bg-white p-4 rounded-xl shadow-sm ${idx > 0 ? 'opacity-75' : ''}">
-                            <h4 class="font-bold text-purple-800 capitalize">Improve ${skill}</h4>
-                            <p class="text-sm text-gray-600 mt-1">Current: ${score}% | Target: 75%</p>
-                            <div class="flex gap-2 mt-2">
-                                <span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">Online Course</span>
-                                <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">Practice Projects</span>
-                            </div>
-                        </div>
+                        <p class="text-sm mt-2 text-gray-700">${r.feedback.substring(0, 100)}...</p>
                     </div>
                 `).join('');
             }
             
-            initSkillRadarChart(student);
+            // Update review badge
+            const unreadReviews = reviews.filter(r => !r.read).length;
+            if (unreadReviews > 0) {
+                document.getElementById('reviewBadge').textContent = unreadReviews;
+                document.getElementById('reviewBadge').classList.remove('hidden');
+            }
         }
 
-        function initSkillRadarChart(student) {
-            const ctx = document.getElementById('skillRadarChart');
-            if (!ctx) return;
-            
-            const skills = student.calculatedSkills || {};
-            const labels = Object.keys(skills).slice(0, 6);
-            const data = labels.map(l => skills[l]);
-            
-            if (ctx.chart) ctx.chart.destroy();
-            
-            ctx.chart = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: labels.map(l => l.charAt(0).toUpperCase() + l.slice(1)),
-                    datasets: [{
-                        label: 'Your Skills',
-                        data: data,
-                        backgroundColor: 'rgba(102, 126, 234, 0.2)',
-                        borderColor: 'rgba(102, 126, 234, 1)',
-                    }, {
-                        label: 'Industry Standard',
-                        data: labels.map(() => 75),
-                        backgroundColor: 'rgba(245, 87, 108, 0.2)',
-                        borderColor: 'rgba(245, 87, 108, 1)',
-                    }]
-                },
-                options: {
-                    scales: {
-                        r: {
-                            beginAtZero: true,
-                            max: 100
-                        }
-                    }
-                }
-            });
-        }
-
-        function updateMarketData() {
-            const ctx = document.getElementById('marketChart');
-            if (!ctx) return;
-            
-            if (ctx.chart) ctx.chart.destroy();
-            
-            ctx.chart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Python', 'React', 'AWS', 'Data Science', 'DevOps', 'AI/ML'],
-                    datasets: [{
-                        label: 'Demand %',
-                        data: [95, 88, 92, 85, 78, 96],
-                        backgroundColor: [
-                            'rgba(102, 126, 234, 0.8)',
-                            'rgba(118, 75, 162, 0.8)',
-                            'rgba(245, 87, 108, 0.8)',
-                            'rgba(79, 172, 254, 0.8)',
-                            'rgba(0, 242, 254, 0.8)',
-                            'rgba(255, 99, 132, 0.8)'
-                        ]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100
-                        }
-                    }
-                }
-            });
-        }
-
-        function updateMatches() {
+        // ==========================================
+        // TEST FUNCTIONS
+        // ==========================================
+        function updateTestStatuses() {
             const email = DataStore.currentUser;
-            const matches = DataStore.getMatchesForStudent(email);
-            const container = document.getElementById('matchesContainer');
-            const emptyMsg = document.getElementById('noMatchesMessage');
+            const student = DataStore.students[email];
+            const tests = student.tests || {};
             
-            if (matches.length === 0) {
-                container.classList.add('hidden');
-                emptyMsg.classList.remove('hidden');
-                return;
+            // Aptitude
+            if (tests.aptitude) {
+                document.getElementById('aptitudeStatus').textContent = 'Completed';
+                document.getElementById('aptitudeStatus').className = 'text-green-600 font-bold';
+                document.getElementById('aptitudeScore').classList.remove('hidden');
+                document.getElementById('aptitudeScore').querySelector('span').textContent = tests.aptitude.score + '/100';
+                document.getElementById('startAptitudeBtn').classList.add('hidden');
+                document.getElementById('viewAptitudeBtn').classList.remove('hidden');
             }
             
-            emptyMsg.classList.add('hidden');
-            container.classList.remove('hidden');
-            
-            const filter = document.getElementById('matchFilter').value;
-            let filtered = matches;
-            
-            if (filter !== 'all') {
-                if (filter === '100') filtered = matches.filter(m => m.score === 100);
-                else if (filter === '90-99') filtered = matches.filter(m => m.score >= 90 && m.score < 100);
-                else if (filter === '80-89') filtered = matches.filter(m => m.score >= 80 && m.score < 90);
-                else if (filter === '70-79') filtered = matches.filter(m => m.score >= 70 && m.score < 80);
+            // Coding
+            if (tests.coding) {
+                document.getElementById('codingStatus').textContent = 'Completed';
+                document.getElementById('codingStatus').className = 'text-green-600 font-bold';
+                document.getElementById('codingScore').classList.remove('hidden');
+                document.getElementById('codingScore').querySelector('span').textContent = tests.coding.score + '/100';
+                document.getElementById('startCodingBtn').classList.add('hidden');
+                document.getElementById('viewCodingBtn').classList.remove('hidden');
             }
             
-            container.innerHTML = filtered.map(match => {
-                const job = DataStore.jobs.find(j => j.id === match.jobId);
-                if (!job) return '';
-                
-                const isPerfect = match.score === 100;
-                
-                return `
-                    <div class="match-card ${isPerfect ? 'bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200' : 'bg-white border border-gray-200'} rounded-2xl p-6 relative overflow-hidden">
-                        ${isPerfect ? '<div class="absolute top-0 right-0 bg-green-500 text-white px-4 py-1 rounded-bl-xl text-sm font-bold">AUTO-APPLIED ✓</div>' : ''}
-                        <div class="flex items-start gap-6">
-                            <div class="w-20 h-20 ${isPerfect ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'} rounded-2xl flex items-center justify-center text-4xl">
-                                <i class="fas fa-building"></i>
+            // Communication
+            if (tests.communication) {
+                document.getElementById('communicationStatus').textContent = 'Completed';
+                document.getElementById('communicationStatus').className = 'text-green-600 font-bold';
+                document.getElementById('communicationScore').classList.remove('hidden');
+                document.getElementById('communicationScore').querySelector('span').textContent = tests.communication.score + '/100';
+                document.getElementById('startCommunicationBtn').classList.add('hidden');
+                document.getElementById('viewCommunicationBtn').classList.remove('hidden');
+            }
+        }
+
+        let currentTest = null;
+        let testTimer = null;
+        let testTimeRemaining = 0;
+
+        function startAptitudeTest() {
+            currentTest = 'aptitude';
+            testTimeRemaining = 30 * 60; // 30 minutes
+            
+            document.getElementById('testModalTitle').textContent = 'Aptitude Test';
+            document.getElementById('testModalSubtitle').textContent = 'Quantitative, Logical & Verbal Reasoning';
+            
+            const questions = [
+                { q: 'If 2x + 5 = 13, what is the value of x?', options: ['3', '4', '5', '6'], correct: 1 },
+                { q: 'Find the odd one out: 2, 3, 5, 9, 11, 13', options: ['2', '5', '9', '13'], correct: 2 },
+                { q: 'Complete the series: 2, 6, 12, 20, 30, ?', options: ['40', '42', '44', '46'], correct: 1 },
+                { q: 'If LOGIC is coded as 512391, how is MAGIC coded?', options: ['411293', '411392', '412293', '411293'], correct: 0 },
+                { q: 'A train 150m long passes a pole in 15 seconds. What is its speed?', options: ['30 km/hr', '36 km/hr', '40 km/hr', '45 km/hr'], correct: 1 }
+            ];
+            
+            renderTestQuestions(questions, 'aptitude');
+            openTestModal();
+        }
+
+        function startCodingTest() {
+            currentTest = 'coding';
+            testTimeRemaining = 60 * 60; // 60 minutes
+            
+            document.getElementById('testModalTitle').textContent = 'Coding Assessment';
+            document.getElementById('testModalSubtitle').textContent = 'Data Structures & Algorithms';
+            
+            const content = `
+                <div class="space-y-6">
+                    <div class="bg-gray-50 p-4 rounded-xl">
+                        <h3 class="font-bold text-lg mb-2">Problem 1: Two Sum</h3>
+                        <p class="text-gray-700 mb-4">Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.</p>
+                        <div class="bg-gray-800 text-white p-4 rounded-lg font-mono text-sm">
+                            <p>Example:</p>
+                            <p>Input: nums = [2,7,11,15], target = 9</p>
+                            <p>Output: [0,1]</p>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Your Solution (Python/Java/C++)</label>
+                        <textarea id="codingSolution1" rows="10" class="w-full px-4 py-3 rounded-xl border border-gray-300 code-editor font-mono text-sm" placeholder="Write your code here..."></textarea>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-xl">
+                        <h3 class="font-bold text-lg mb-2">Problem 2: Reverse Linked List</h3>
+                        <p class="text-gray-700 mb-4">Given the head of a singly linked list, reverse the list, and return the reversed list.</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Your Solution</label>
+                        <textarea id="codingSolution2" rows="8" class="w-full px-4 py-3 rounded-xl border border-gray-300 code-editor font-mono text-sm" placeholder="Write your code here..."></textarea>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-end">
+                    <button onclick="submitCodingTest()" class="px-8 py-3 bg-purple-600 text-white rounded-xl font-bold hover:bg-purple-700 transition">Submit Test</button>
+                </div>
+            `;
+            
+            document.getElementById('testModalContent').innerHTML = content;
+            openTestModal();
+        }
+
+        function startCommunicationTest() {
+            currentTest = 'communication';
+            testTimeRemaining = 20 * 60; // 20 minutes
+            
+            document.getElementById('testModalTitle').textContent = 'Communication Test';
+            document.getElementById('testModalSubtitle').textContent = 'Speaking & Writing Assessment';
+            
+            const content = `
+                <div class="space-y-6">
+                    <div class="bg-blue-50 p-4 rounded-xl">
+                        <h3 class="font-bold text-lg mb-2">Section 1: Essay Writing</h3>
+                        <p class="text-gray-700">Write a short essay (200-300 words) on the topic:</p>
+                        <p class="font-semibold mt-2">"The Impact of Artificial Intelligence on Future Jobs"</p>
+                    </div>
+                    <textarea id="essayAnswer" rows="8" class="w-full px-4 py-3 rounded-xl border border-gray-300" placeholder="Write your essay here..."></textarea>
+                    
+                    <div class="bg-green-50 p-4 rounded-xl">
+                        <h3 class="font-bold text-lg mb-2">Section 2: Email Writing</h3>
+                        <p class="text-gray-700">Write a professional email to your manager requesting leave for 3 days due to personal reasons.</p>
+                    </div>
+                    <textarea id="emailAnswer" rows="6" class="w-full px-4 py-3 rounded-xl border border-gray-300" placeholder="Write your email here..."></textarea>
+                    
+                    <div class="bg-purple-50 p-4 rounded-xl">
+                        <h3 class="font-bold text-lg mb-2">Section 3: Reading Comprehension</h3>
+                        <p class="text-gray-700 mb-4">Read the passage and answer the questions:</p>
+                        <p class="text-sm text-gray-600 mb-4">Technology is transforming the way we work. Remote work, AI, and automation are creating new opportunities while making some traditional jobs obsolete. The key to success in this new era is continuous learning and adaptability.</p>
+                        <div class="space-y-3">
+                            <div>
+                                <p class="font-medium">Q1: What is the key to success in the new era of work?</p>
+                                <input type="text" id="comprehension1" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-300">
                             </div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-xl font-bold text-gray-800">${job.title}</h3>
-                                        <p class="text-gray-600">${job.companyName} • ${job.location} • ${job.ctc} LPA</p>
-                                    </div>
-                                    <div class="text-center bg-white p-3 rounded-xl shadow-sm">
-                                        <div class="text-4xl font-bold ${isPerfect ? 'text-green-600' : 'text-purple-600'}">${match.score}%</div>
-                                        <div class="text-xs text-gray-500">Career Fit</div>
-                                    </div>
-                                </div>
-                                <div class="flex gap-2 mt-3 mb-3 flex-wrap">
-                                    ${job.requiredSkills.map(s => `<span class="px-3 py-1 bg-gray-100 rounded-full text-sm font-medium text-gray-700 border">${s}</span>`).join('')}
-                                </div>
-                                <div class="flex items-center justify-between">
-                                    <div class="text-sm text-gray-600">
-                                        <i class="fas fa-calendar-alt text-blue-600 mr-1"></i>
-                                        Apply by ${new Date(job.deadline).toLocaleDateString()}
-                                    </div>
-                                    <div class="flex gap-2">
-                                        ${match.score < 100 ? `<button onclick="applyForJob(${job.id})" class="px-6 py-2 gradient-bg text-white rounded-lg font-medium hover:shadow-lg transition">Apply Now</button>` : '<span class="px-4 py-2 bg-green-100 text-green-700 rounded-lg font-medium">Application Sent</span>'}
-                                    </div>
-                                </div>
+                            <div>
+                                <p class="font-medium">Q2: Name two technologies mentioned in the passage.</p>
+                                <input type="text" id="comprehension2" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-300">
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="mt-6 flex justify-end">
+                    <button onclick="submitCommunicationTest()" class="px-8 py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition">Submit Test</button>
+                </div>
+            `;
+            
+            document.getElementById('testModalContent').innerHTML = content;
+            openTestModal();
+        }
+
+        function renderTestQuestions(questions, type) {
+            let html = '<div class="space-y-6">';
+            questions.forEach((q, idx) => {
+                html += `
+                    <div class="bg-gray-50 p-4 rounded-xl">
+                        <p class="font-bold mb-3">Q${idx + 1}. ${q.q}</p>
+                        <div class="space-y-2">
+                            ${q.options.map((opt, optIdx) => `
+                                <label class="flex items-center gap-3 cursor-pointer hover:bg-white p-2 rounded-lg transition">
+                                    <input type="radio" name="q${idx}" value="${optIdx}" class="w-4 h-4 text-purple-600">
+                                    <span>${opt}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
                 `;
-            }).join('');
+            });
+            html += `
+                <div class="flex justify-end">
+                    <button onclick="submitAptitudeTest()" class="px-8 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition">Submit Test</button>
+                </div>
+            </div>`;
+            document.getElementById('testModalContent').innerHTML = html;
         }
 
-        function filterMatches() {
-            updateMatches();
+        function openTestModal() {
+            document.getElementById('testModal').classList.remove('hidden');
+            startTestTimer();
         }
 
-        function applyForJob(jobId) {
-            showToast('Application Submitted', 'Your profile has been sent to the recruiter!');
+        function closeTestModal() {
+            if (confirm('Are you sure you want to quit? Your progress will be lost.')) {
+                clearInterval(testTimer);
+                document.getElementById('testModal').classList.add('hidden');
+                currentTest = null;
+            }
+        }
+
+        function startTestTimer() {
+            updateTimerDisplay();
+            testTimer = setInterval(() => {
+                testTimeRemaining--;
+                updateTimerDisplay();
+                if (testTimeRemaining <= 0) {
+                    clearInterval(testTimer);
+                    autoSubmitTest();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(testTimeRemaining / 60);
+            const seconds = testTimeRemaining % 60;
+            document.getElementById('testTimer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function submitAptitudeTest() {
+            clearInterval(testTimer);
+            
+            // Calculate score (simplified)
+            const answers = [
+                document.querySelector('input[name="q0"]:checked')?.value,
+                document.querySelector('input[name="q1"]:checked')?.value,
+                document.querySelector('input[name="q2"]:checked')?.value,
+                document.querySelector('input[name="q3"]:checked')?.value,
+                document.querySelector('input[name="q4"]:checked')?.value
+            ];
+            
+            const correctAnswers = [1, 2, 1, 0, 1];
+            let score = 0;
+            answers.forEach((ans, idx) => {
+                if (parseInt(ans) === correctAnswers[idx]) score += 20;
+            });
+            
+            const email = DataStore.currentUser;
+            if (!DataStore.students[email].tests) DataStore.students[email].tests = {};
+            DataStore.students[email].tests.aptitude = {
+                score: score,
+                completedAt: new Date().toISOString(),
+                answers: answers
+            };
+            DataStore.save();
+            
+            document.getElementById('testModal').classList.add('hidden');
+            updateTestStatuses();
+            showToast('Test Completed', `Your score: ${score}/100`);
+            currentTest = null;
+        }
+
+        function submitCodingTest() {
+            clearInterval(testTimer);
+            
+            const sol1 = document.getElementById('codingSolution1').value;
+            const sol2 = document.getElementById('codingSolution2').value;
+            
+            // Auto-score based on code length and keywords (simplified)
+            let score = 50;
+            if (sol1.length > 100) score += 25;
+            if (sol2.length > 100) score += 25;
+            
+            const email = DataStore.currentUser;
+            if (!DataStore.students[email].tests) DataStore.students[email].tests = {};
+            DataStore.students[email].tests.coding = {
+                score: score,
+                completedAt: new Date().toISOString(),
+                solutions: [sol1, sol2]
+            };
+            DataStore.save();
+            
+            document.getElementById('testModal').classList.add('hidden');
+            updateTestStatuses();
+            showToast('Test Completed', `Your score: ${score}/100`);
+            currentTest = null;
+        }
+
+        function submitCommunicationTest() {
+            clearInterval(testTimer);
+            
+            const essay = document.getElementById('essayAnswer').value;
+            const email = document.getElementById('emailAnswer').value;
+            const comp1 = document.getElementById('comprehension1').value;
+            const comp2 = document.getElementById('comprehension2').value;
+            
+            // Auto-score (simplified)
+            let score = 60;
+            if (essay.length > 200) score += 20;
+            if (email.length > 100) score += 10;
+            if (comp1.toLowerCase().includes('learning') || comp1.toLowerCase().includes('adaptability')) score += 5;
+            if (comp2.toLowerCase().includes('ai') || comp2.toLowerCase().includes('automation')) score += 5;
+            
+            const userEmail = DataStore.currentUser;
+            if (!DataStore.students[userEmail].tests) DataStore.students[userEmail].tests = {};
+            DataStore.students[userEmail].tests.communication = {
+                score: Math.min(100, score),
+                completedAt: new Date().toISOString()
+            };
+            DataStore.save();
+            
+            document.getElementById('testModal').classList.add('hidden');
+            updateTestStatuses();
+            showToast('Test Completed', `Your score: ${Math.min(100, score)}/100`);
+            currentTest = null;
+        }
+
+        function autoSubmitTest() {
+            if (currentTest === 'aptitude') submitAptitudeTest();
+            else if (currentTest === 'coding') submitCodingTest();
+            else if (currentTest === 'communication') submitCommunicationTest();
+        }
+
+        function viewAptitudeResults() {
+            const email = DataStore.currentUser;
+            const test = DataStore.students[email].tests.aptitude;
+            showToast('Aptitude Score', `You scored ${test.score}/100. Great effort!`);
+        }
+
+        function viewCodingResults() {
+            const email = DataStore.currentUser;
+            const test = DataStore.students[email].tests.coding;
+            showToast('Coding Score', `You scored ${test.score}/100. Keep practicing!`);
+        }
+
+        function viewCommunicationResults() {
+            const email = DataStore.currentUser;
+            const test = DataStore.students[email].tests.communication;
+            showToast('Communication Score', `You scored ${test.score}/100. Well done!`);
+        }
+
+        // ==========================================
+        // REVIEW FUNCTIONS
+        // ==========================================
+        function updateReviews() {
+            const email = DataStore.currentUser;
+            const reviews = DataStore.getReviewsForStudent(email);
+            
+            const container = document.getElementById('reviewsContainer');
+            const empty = document.getElementById('noReviewsMessage');
+            const improvement = document.getElementById('improvementSection');
+            
+            if (reviews.length === 0) {
+                container.classList.add('hidden');
+                empty.classList.remove('hidden');
+                improvement.classList.add('hidden');
+                return;
+            }
+            
+            empty.classList.add('hidden');
+            container.classList.remove('hidden');
+            improvement.classList.remove('hidden');
+            
+            // Mark all as read
+            reviews.forEach(r => r.read = true);
+            DataStore.save();
+            document.getElementById('reviewBadge').classList.add('hidden');
+            
+            const filter = document.getElementById('reviewFilter').value;
+            let filtered = reviews;
+            if (filter !== 'all') {
+                filtered = reviews.filter(r => {
+                    if (filter === 'positive') return r.rating >= 4;
+                    if (filter === 'neutral') return r.rating === 3;
+                    if (filter === 'negative') return r.rating <= 2;
+                });
+            }
+            
+            container.innerHTML = filtered.map(r => `
+                <div class="review-card ${r.decision === 'shortlisted' ? 'positive' : 'negative'} bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="font-bold text-lg">${r.companyName}</h3>
+                            <p class="text-gray-600 text-sm">${r.jobTitle}</p>
+                            <div class="flex items-center gap-1 mt-1">
+                                ${'⭐'.repeat(r.rating)}
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="px-3 py-1 rounded-full text-sm font-bold ${r.decision === 'shortlisted' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
+                                ${r.decision === 'shortlisted' ? 'Shortlisted' : 'Not Selected'}
+                            </span>
+                            <p class="text-xs text-gray-500 mt-1">${new Date(r.createdAt).toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        ${r.strengths ? `
+                        <div class="bg-green-50 p-3 rounded-lg">
+                            <p class="font-semibold text-green-800 text-sm">💪 Strengths</p>
+                            <p class="text-sm text-gray-700">${r.strengths}</p>
+                        </div>
+                        ` : ''}
+                        
+                        ${r.improvements ? `
+                        <div class="bg-yellow-50 p-3 rounded-lg">
+                            <p class="font-semibold text-yellow-800 text-sm">📈 Areas to Improve</p>
+                            <p class="text-sm text-gray-700">${r.improvements}</p>
+                        </div>
+                        ` : ''}
+                        
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <p class="font-semibold text-gray-800 text-sm">📝 Feedback</p>
+                            <p class="text-sm text-gray-700">${r.feedback}</p>
+                        </div>
+                        
+                        ${r.recommendedSkills ? `
+                        <div class="bg-blue-50 p-3 rounded-lg">
+                            <p class="font-semibold text-blue-800 text-sm">🎯 Recommended Skills</p>
+                            <div class="flex flex-wrap gap-2 mt-1">
+                                ${r.recommendedSkills.split(',').map(s => `<span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">${s.trim()}</span>`).join('')}
+                            </div>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+            
+            // Generate improvement suggestions
+            const allSkills = new Set();
+            const allImprovements = [];
+            
+            reviews.forEach(r => {
+                if (r.recommendedSkills) {
+                    r.recommendedSkills.split(',').forEach(s => allSkills.add(s.trim()));
+                }
+                if (r.improvements) allImprovements.push(r.improvements);
+            });
+            
+            document.getElementById('improvementList').innerHTML = Array.from(allSkills).slice(0, 4).map(skill => `
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-purple-100">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h4 class="font-bold">Learn ${skill}</h4>
+                    </div>
+                    <p class="text-sm text-gray-600">Recommended by ${reviews.filter(r => r.recommendedSkills?.includes(skill)).length} recruiters</p>
+                    <button class="mt-3 w-full py-2 bg-purple-100 text-purple-700 rounded-lg text-sm font-semibold hover:bg-purple-200 transition">
+                        Start Learning
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function filterReviews() {
+            updateReviews();
         }
 
         // ==========================================
@@ -1891,6 +2090,7 @@
                 'dashboard': 'companyDashboardSection',
                 'postJob': 'companyPostJob',
                 'candidates': 'companyCandidates',
+                'applications': 'companyApplications',
                 'analysis': 'companyAnalysis',
                 'jobs': 'companyJobs'
             };
@@ -1905,27 +2105,24 @@
             });
             
             if (section === 'dashboard') updateCompanyDashboard();
-            else if (section === 'candidates') updateCandidatesList();
-            else if (section === 'analysis') updateAnalysis();
-            else if (section === 'jobs') updateJobsList();
+            else if (section === 'candidates') updateCompanyCandidates();
+            else if (section === 'applications') updateApplications();
+            else if (section === 'jobs') updateCompanyJobs();
         }
 
         function updateCompanyDashboard() {
             const email = DataStore.currentUser;
             const matches = DataStore.getMatchesForCompany(email);
+            const applications = DataStore.getApplicationsForCompany(email);
+            const reviews = DataStore.getReviewsFromCompany(email);
             
             const perfect = matches.filter(m => m.score === 100);
-            const good = matches.filter(m => m.score >= 70 && m.score < 100);
             
             document.getElementById('perfectMatchesCount').textContent = perfect.length;
-            document.getElementById('goodMatchesCount').textContent = good.length;
+            document.getElementById('totalApplicationsCount').textContent = applications.filter(a => a.status === 'pending').length;
             document.getElementById('activeJobsCount').textContent = DataStore.companies[email].jobs.length;
+            document.getElementById('reviewsGivenCount').textContent = reviews.length;
             document.getElementById('perfectMatchesBadge').textContent = perfect.length + ' New';
-            
-            const avgScore = matches.length > 0 
-                ? Math.round(matches.reduce((a, m) => a + m.score, 0) / matches.length) + '%'
-                : '--';
-            document.getElementById('avgMatchScore').textContent = avgScore;
             
             // Perfect matches
             const perfectEmpty = document.getElementById('perfectMatchesEmpty');
@@ -1937,20 +2134,27 @@
             } else {
                 perfectEmpty.classList.add('hidden');
                 perfectList.classList.remove('hidden');
-                perfectList.innerHTML = perfect.map(m => createCandidateCard(m, true)).join('');
+                perfectList.innerHTML = perfect.slice(0, 2).map(m => createCandidateCard(m, true)).join('');
             }
             
-            // Good matches
-            const goodEmpty = document.getElementById('goodMatchesEmpty');
-            const goodGrid = document.getElementById('goodMatchesGrid');
+            // Recent applications
+            const appEmpty = document.getElementById('recentApplicationsEmpty');
+            const appList = document.getElementById('recentApplicationsList');
             
-            if (good.length === 0) {
-                goodEmpty.classList.remove('hidden');
-                goodGrid.classList.add('hidden');
+            if (applications.length === 0) {
+                appEmpty.classList.remove('hidden');
+                appList.classList.add('hidden');
             } else {
-                goodEmpty.classList.add('hidden');
-                goodGrid.classList.remove('hidden');
-                goodGrid.innerHTML = good.slice(0, 4).map(m => createCandidateCard(m, false)).join('');
+                appEmpty.classList.add('hidden');
+                appList.classList.remove('hidden');
+                appList.innerHTML = applications.slice(0, 3).map(a => createApplicationCard(a)).join('');
+            }
+            
+            // Update badge
+            const pendingApps = applications.filter(a => a.status === 'pending').length;
+            if (pendingApps > 0) {
+                document.getElementById('applicationBadge').textContent = pendingApps;
+                document.getElementById('applicationBadge').classList.remove('hidden');
             }
         }
 
@@ -1978,10 +2182,31 @@
                         </div>
                     </div>
                     <div class="flex flex-col gap-2">
-                        <button onclick="viewCandidateDetail('${match.studentEmail}')" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition text-sm">
-                            View Profile
-                        </button>
-                        ${isPerfect ? '<button class="px-4 py-2 gradient-bg text-white rounded-lg hover:shadow-lg transition text-sm">Schedule Interview</button>' : ''}
+                        <button onclick="viewCandidateDetail('${match.studentEmail}')" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition text-sm">View</button>
+                        ${isPerfect ? `<button onclick="openReviewModal('${match.studentEmail}', ${match.jobId})" class="px-4 py-2 gradient-bg text-white rounded-lg hover:shadow-lg transition text-sm">Review</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function createApplicationCard(app) {
+            const student = DataStore.students[app.studentEmail];
+            const job = DataStore.jobs.find(j => j.id === app.jobId);
+            if (!student || !job) return '';
+            
+            return `
+                <div class="bg-white border border-gray-200 rounded-xl p-4 flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-lg font-bold">
+                        ${student.profile.fullName.charAt(0)}
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-bold">${student.profile.fullName}</h4>
+                        <p class="text-sm text-gray-600">Applied for: ${job.title}</p>
+                        <p class="text-xs text-gray-500">Applied on ${new Date(app.appliedAt).toLocaleDateString()}</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="viewCandidateDetail('${app.studentEmail}')" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition text-sm">View</button>
+                        <button onclick="openReviewModal('${app.studentEmail}', ${app.jobId})" class="px-4 py-2 gradient-bg text-white rounded-lg hover:shadow-lg transition text-sm">Review</button>
                     </div>
                 </div>
             `;
@@ -2004,14 +2229,8 @@
                 minCgpa: parseFloat(formData.get('minCgpa')),
                 noBacklogs: formData.get('noBacklogs') === 'on',
                 requiredSkills: formData.get('requiredSkills').split(',').map(s => s.trim().toLowerCase()).filter(s => s),
-                optionalSkills: (formData.get('optionalSkills') || '').split(',').map(s => s.trim().toLowerCase()).filter(s => s),
                 aptitudeTest: formData.get('aptitudeTest'),
                 codingTest: formData.get('codingTest'),
-                minProjects: parseInt(formData.get('minProjects')),
-                projectComplexity: formData.get('projectComplexity'),
-                communication: formData.get('communication') === 'on',
-                teamwork: formData.get('teamwork') === 'on',
-                relocation: formData.get('relocation') === 'on',
                 ctc: formData.get('ctc'),
                 joiningDate: formData.get('joiningDate'),
                 deadline: formData.get('deadline'),
@@ -2023,21 +2242,17 @@
             DataStore.companies[email].jobs.push(job.id);
             DataStore.save();
             
-            showToast('Job Posted', 'Running AI matchmaking against all candidates...');
+            showToast('Job Posted', 'Running AI matchmaking...');
             
             setTimeout(() => {
                 runGlobalMatching();
                 const matchCount = DataStore.getMatchesForCompany(email).length;
-                showToast('Matchmaking Complete', `Found ${matchCount} matching candidates!`);
+                showToast('Complete', `Found ${matchCount} matching candidates!`);
                 showCompanySection('dashboard');
             }, 2000);
         }
 
-        // ==========================================
-        // GLOBAL MATCHING ALGORITHM
-        // ==========================================
         function runGlobalMatching() {
-            // Clear existing matches for recalculation
             DataStore.matches = [];
             
             const allStudents = DataStore.getAllStudents();
@@ -2064,30 +2279,20 @@
 
         function calculateMatchScore(student, job) {
             let score = 0;
-            const details = {
-                education: 0,
-                cgpa: 0,
-                skills: 0,
-                backlogs: 0,
-                projects: 0,
-                softSkills: 0
-            };
+            const details = { education: 0, cgpa: 0, skills: 0, backlogs: 0, projects: 0, softSkills: 0 };
             
-            // Education match (20%)
+            // Education
             const degreeMap = { 'btech': 'btech', 'be': 'btech', 'bsc': 'bsc', 'mtech': 'mtech', 'mca': 'mca', 'bca': 'bca' };
             const studentDegree = degreeMap[student.profile.degree] || student.profile.degree;
             if (job.minDegree === studentDegree || job.branches.some(b => student.profile.branch.toLowerCase().includes(b.toLowerCase()))) {
                 details.education = 20;
             }
             
-            // CGPA match (15%)
-            if (student.profile.cgpa >= job.minCgpa) {
-                details.cgpa = 15;
-            } else if (student.profile.cgpa >= job.minCgpa - 0.5) {
-                details.cgpa = 10;
-            }
+            // CGPA
+            if (student.profile.cgpa >= job.minCgpa) details.cgpa = 15;
+            else if (student.profile.cgpa >= job.minCgpa - 0.5) details.cgpa = 10;
             
-            // Skills match (40%)
+            // Skills
             const studentSkills = student.calculatedSkills || {};
             const requiredSkills = job.requiredSkills;
             let matchedSkills = 0;
@@ -2102,29 +2307,231 @@
                 details.skills = Math.round((matchedSkills / requiredSkills.length) * 40);
             }
             
-            // Backlogs check (10%)
-            if (job.noBacklogs && student.profile.backlogs === '0') {
-                details.backlogs = 10;
-            } else if (!job.noBacklogs) {
-                details.backlogs = 10;
-            }
+            // Backlogs
+            if (job.noBacklogs && student.profile.backlogs === '0') details.backlogs = 10;
+            else if (!job.noBacklogs) details.backlogs = 10;
             
-            // Projects (10%)
+            // Projects
             const projectCount = (student.profile.projects.match(/project/gi) || []).length;
-            if (projectCount >= job.minProjects) {
-                details.projects = 10;
-            } else if (projectCount >= job.minProjects - 1) {
-                details.projects = 5;
-            }
+            if (projectCount >= 2) details.projects = 10;
+            else if (projectCount >= 1) details.projects = 5;
             
-            // Soft skills (5%)
-            if (job.communication && job.teamwork) {
-                details.softSkills = 5;
-            }
+            // Soft skills
+            details.softSkills = 5;
             
             score = details.education + details.cgpa + details.skills + details.backlogs + details.projects + details.softSkills;
-            
             return { score, details };
+        }
+
+        function updateCompanyCandidates() {
+            const email = DataStore.currentUser;
+            const matches = DataStore.getMatchesForCompany(email);
+            
+            const empty = document.getElementById('companyCandidatesEmpty');
+            const list = document.getElementById('companyCandidatesList');
+            
+            if (matches.length === 0) {
+                empty.classList.remove('hidden');
+                list.classList.add('hidden');
+                return;
+            }
+            
+            empty.classList.add('hidden');
+            list.classList.remove('hidden');
+            
+            const filter = document.getElementById('candidateFilter').value;
+            let filtered = matches;
+            if (filter !== 'all') {
+                if (filter === '100') filtered = matches.filter(m => m.score === 100);
+                else if (filter === '90-99') filtered = matches.filter(m => m.score >= 90 && m.score < 100);
+                else if (filter === '80-89') filtered = matches.filter(m => m.score >= 80 && m.score < 90);
+            }
+            
+            list.innerHTML = filtered.map(m => createCandidateCard(m, m.score === 100)).join('');
+        }
+
+        function filterCompanyCandidates() {
+            updateCompanyCandidates();
+        }
+
+        function updateApplications() {
+            const email = DataStore.currentUser;
+            const applications = DataStore.getApplicationsForCompany(email);
+            
+            const empty = document.getElementById('applicationsEmpty');
+            const list = document.getElementById('applicationsList');
+            
+            if (applications.length === 0) {
+                empty.classList.remove('hidden');
+                list.classList.add('hidden');
+                return;
+            }
+            
+            empty.classList.add('hidden');
+            list.classList.remove('hidden');
+            
+            const filter = document.getElementById('applicationFilter').value;
+            let filtered = applications;
+            if (filter !== 'all') filtered = applications.filter(a => a.status === filter);
+            
+            list.innerHTML = filtered.map(a => createApplicationCard(a)).join('');
+        }
+
+        function filterApplications() {
+            updateApplications();
+        }
+
+        function updateCompanyJobs() {
+            const email = DataStore.currentUser;
+            const company = DataStore.companies[email];
+            
+            const empty = document.getElementById('companyJobsEmpty');
+            const list = document.getElementById('companyJobsList');
+            
+            if (!company || company.jobs.length === 0) {
+                empty.classList.remove('hidden');
+                list.classList.add('hidden');
+                return;
+            }
+            
+            empty.classList.add('hidden');
+            list.classList.remove('hidden');
+            
+            const jobs = DataStore.jobs.filter(j => company.jobs.includes(j.id));
+            
+            list.innerHTML = jobs.map(job => {
+                const matches = DataStore.matches.filter(m => m.jobId === job.id);
+                return `
+                    <div class="bg-white border border-gray-200 rounded-xl p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold">${job.title}</h3>
+                                <p class="text-gray-600">${job.location} • Posted ${new Date(job.postedAt).toLocaleDateString()}</p>
+                            </div>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">Active</span>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-4 mb-4">
+                            <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                <div class="text-2xl font-bold text-purple-600">${matches.filter(m => m.score === 100).length}</div>
+                                <div class="text-xs text-gray-500">100% Matches</div>
+                            </div>
+                            <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                <div class="text-2xl font-bold text-blue-600">${matches.length}</div>
+                                <div class="text-xs text-gray-500">Total Matches</div>
+                            </div>
+                            <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                <div class="text-2xl font-bold text-green-600">${DataStore.applications.filter(a => a.jobId === job.id).length}</div>
+                                <div class="text-xs text-gray-500">Applications</div>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="showCompanySection('candidates')" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">View Matches</button>
+                            <button onclick="closeJob(${job.id})" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition text-red-600">Close Job</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function closeJob(jobId) {
+            const job = DataStore.jobs.find(j => j.id === jobId);
+            if (job) {
+                job.status = 'closed';
+                DataStore.save();
+                updateCompanyJobs();
+                showToast('Job Closed', 'Job posting has been closed');
+            }
+        }
+
+        // ==========================================
+        // REVIEW MODAL FUNCTIONS
+        // ==========================================
+        function openReviewModal(studentEmail, jobId) {
+            const student = DataStore.students[studentEmail];
+            const job = DataStore.jobs.find(j => j.id === jobId);
+            if (!student || !job) return;
+            
+            document.getElementById('reviewStudentEmail').value = studentEmail;
+            document.getElementById('reviewJobId').value = jobId;
+            document.getElementById('reviewCandidateInfo').innerHTML = `
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white font-bold text-xl">
+                        ${student.profile.fullName.charAt(0)}
+                    </div>
+                    <div>
+                        <p class="font-bold">${student.profile.fullName}</p>
+                        <p class="text-sm text-gray-600">Applied for: ${job.title}</p>
+                    </div>
+                </div>
+            `;
+            
+            // Reset form
+            document.getElementById('reviewRating').value = '0';
+            document.querySelectorAll('.rating-btn').forEach(btn => {
+                btn.classList.remove('bg-yellow-400', 'border-yellow-400');
+                btn.classList.add('border-gray-300');
+            });
+            document.getElementById('reviewForm').reset();
+            
+            document.getElementById('reviewModal').classList.remove('hidden');
+        }
+
+        function closeReviewModal() {
+            document.getElementById('reviewModal').classList.add('hidden');
+        }
+
+        function setRating(rating) {
+            document.getElementById('reviewRating').value = rating;
+            document.querySelectorAll('.rating-btn').forEach((btn, idx) => {
+                if (idx < rating) {
+                    btn.classList.remove('border-gray-300');
+                    btn.classList.add('bg-yellow-400', 'border-yellow-400');
+                } else {
+                    btn.classList.remove('bg-yellow-400', 'border-yellow-400');
+                    btn.classList.add('border-gray-300');
+                }
+            });
+        }
+
+        function submitReview(e) {
+            e.preventDefault();
+            
+            const studentEmail = document.getElementById('reviewStudentEmail').value;
+            const jobId = parseInt(document.getElementById('reviewJobId').value);
+            const job = DataStore.jobs.find(j => j.id === jobId);
+            
+            const review = {
+                id: Date.now(),
+                studentEmail: studentEmail,
+                companyEmail: DataStore.currentUser,
+                companyName: DataStore.companies[DataStore.currentUser].name,
+                jobId: jobId,
+                jobTitle: job.title,
+                rating: parseInt(document.getElementById('reviewRating').value),
+                decision: document.querySelector('input[name="decision"]:checked').value,
+                strengths: document.getElementById('reviewStrengths').value,
+                improvements: document.getElementById('reviewImprovements').value,
+                feedback: document.getElementById('reviewFeedback').value,
+                recommendedSkills: document.getElementById('reviewSkills').value,
+                createdAt: new Date().toISOString(),
+                read: false
+            };
+            
+            DataStore.reviews.push(review);
+            
+            // Update application status if exists
+            const app = DataStore.applications.find(a => a.studentEmail === studentEmail && a.jobId === jobId);
+            if (app) {
+                app.status = review.decision;
+                app.reviewedAt = new Date().toISOString();
+            }
+            
+            DataStore.save();
+            
+            closeReviewModal();
+            showToast('Feedback Submitted', 'Your review has been sent to the candidate');
+            updateApplications();
+            updateCompanyDashboard();
         }
 
         function viewCandidateDetail(studentEmail) {
@@ -2134,11 +2541,11 @@
             const modal = document.getElementById('candidateModal');
             const content = document.getElementById('candidateModalContent');
             
-            const match = DataStore.matches.find(m => 
-                m.studentEmail === studentEmail && 
-                DataStore.companies[DataStore.currentUser].jobs.includes(m.jobId)
-            );
-            const score = match ? match.score : 0;
+            const tests = student.tests || {};
+            let testScores = '';
+            if (tests.aptitude) testScores += `<span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">Aptitude: ${tests.aptitude.score}%</span>`;
+            if (tests.coding) testScores += `<span class="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs ml-2">Coding: ${tests.coding.score}%</span>`;
+            if (tests.communication) testScores += `<span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs ml-2">Communication: ${tests.communication.score}%</span>`;
             
             content.innerHTML = `
                 <div class="flex items-start gap-4 mb-6">
@@ -2149,9 +2556,7 @@
                         <h3 class="text-2xl font-bold">${student.profile.fullName}</h3>
                         <p class="text-gray-600">${student.profile.degree.toUpperCase()} ${student.profile.branch}</p>
                         <p class="text-gray-600">${student.profile.college} • CGPA: ${student.profile.cgpa}</p>
-                        <div class="mt-2 inline-block px-4 py-1 ${score === 100 ? 'bg-green-500' : 'bg-purple-500'} text-white rounded-full font-bold">
-                            ${score}% Match
-                        </div>
+                        <div class="mt-2">${testScores}</div>
                     </div>
                 </div>
                 
@@ -2174,15 +2579,6 @@
                         <p class="text-gray-600 text-sm">${student.profile.certifications}</p>
                     </div>
                     ` : ''}
-                    
-                    <div class="flex gap-3 pt-4">
-                        <button class="flex-1 py-3 gradient-bg text-white rounded-xl font-bold hover:shadow-lg transition">
-                            Schedule Interview
-                        </button>
-                        <button class="flex-1 py-3 border-2 border-purple-600 text-purple-600 rounded-xl font-bold hover:bg-purple-50 transition">
-                            Download Resume
-                        </button>
-                    </div>
                 </div>
             `;
             
@@ -2193,250 +2589,9 @@
             document.getElementById('candidateModal').classList.add('hidden');
         }
 
-        function updateCandidatesList() {
-            const email = DataStore.currentUser;
-            const matches = DataStore.getMatchesForCompany(email);
-            
-            const empty = document.getElementById('candidatesTableEmpty');
-            const container = document.getElementById('candidatesTableContainer');
-            const tbody = document.getElementById('candidatesTableBody');
-            
-            if (matches.length === 0) {
-                empty.classList.remove('hidden');
-                container.classList.add('hidden');
-                return;
-            }
-            
-            empty.classList.add('hidden');
-            container.classList.remove('hidden');
-            
-            tbody.innerHTML = matches.map(m => {
-                const student = DataStore.students[m.studentEmail];
-                if (!student || !student.profile.fullName) return '';
-                
-                return `
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-4 py-4">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold">
-                                    ${student.profile.fullName.charAt(0)}
-                                </div>
-                                <div>
-                                    <div class="font-bold">${student.profile.fullName}</div>
-                                    <div class="text-xs text-gray-500">${student.profile.college}</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-4 py-4 text-sm">${student.profile.degree.toUpperCase()} ${student.profile.branch} • ${student.profile.cgpa} CGPA</td>
-                        <td class="px-4 py-4"><span class="px-3 py-1 ${m.score === 100 ? 'bg-green-500' : 'bg-purple-500'} text-white rounded-full text-sm font-bold">${m.score}%</span></td>
-                        <td class="px-4 py-4 text-sm">${student.profile.skills.slice(0, 3).join(', ')}</td>
-                        <td class="px-4 py-4"><span class="px-2 py-1 ${m.status === 'auto-applied' ? 'bg-blue-100 text-blue-700' : 'bg-yellow-100 text-yellow-700'} rounded text-xs">${m.status === 'auto-applied' ? 'Auto-Applied' : 'Pending'}</span></td>
-                        <td class="px-4 py-4">
-                            <button onclick="viewCandidateDetail('${m.studentEmail}')" class="text-purple-600 hover:underline text-sm">View</button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function updateAnalysis() {
-            const email = DataStore.currentUser;
-            const hasJobs = DataStore.companies[email] && DataStore.companies[email].jobs.length > 0;
-            
-            const empty = document.getElementById('analysisEmpty');
-            const content = document.getElementById('analysisContent');
-            
-            if (!hasJobs) {
-                empty.classList.remove('hidden');
-                content.classList.add('hidden');
-                return;
-            }
-            
-            empty.classList.add('hidden');
-            content.classList.remove('hidden');
-            
-            const ctx = document.getElementById('marketAvailabilityChart');
-            if (ctx) {
-                if (ctx.chart) ctx.chart.destroy();
-                ctx.chart = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Available Now', 'Passive', 'Not Available'],
-                        datasets: [{
-                            data: [45, 30, 25],
-                            backgroundColor: ['#10b981', '#f59e0b', '#ef4444']
-                        }]
-                    }
-                });
-            }
-            
-            document.getElementById('skillSupplyList').innerHTML = `
-                <div>
-                    <div class="flex justify-between mb-1">
-                        <span class="text-sm font-medium">Python Developers</span>
-                        <span class="text-sm text-green-600">High Supply</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="flex justify-between mb-1">
-                        <span class="text-sm font-medium">Cloud (AWS/Azure)</span>
-                        <span class="text-sm text-red-600">Low Supply</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-red-500 h-2 rounded-full" style="width: 35%"></div>
-                    </div>
-                </div>
-            `;
-            
-            const matchCount = DataStore.getMatchesForCompany(email).length;
-            document.getElementById('recommendationsList').innerHTML = `
-                <div class="bg-white p-4 rounded-xl shadow-sm">
-                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600 mb-3">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <h4 class="font-bold mb-2">Candidate Pool</h4>
-                    <p class="text-sm text-gray-600">${matchCount} candidates currently match your requirements</p>
-                </div>
-                <div class="bg-white p-4 rounded-xl shadow-sm">
-                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mb-3">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <h4 class="font-bold mb-2">Time to Hire</h4>
-                    <p class="text-sm text-gray-600">Expected 15-20 days based on current market</p>
-                </div>
-                <div class="bg-white p-4 rounded-xl shadow-sm">
-                    <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 mb-3">
-                        <i class="fas fa-lightbulb"></i>
-                    </div>
-                    <h4 class="font-bold mb-2">Recommendation</h4>
-                    <p class="text-sm text-gray-600">Consider making AWS optional to increase pool by 40%</p>
-                </div>
-            `;
-        }
-
-        function updateJobsList() {
-            const email = DataStore.currentUser;
-            const company = DataStore.companies[email];
-            
-            const empty = document.getElementById('jobsListEmpty');
-            const container = document.getElementById('jobsListContainer');
-            
-            if (!company || company.jobs.length === 0) {
-                empty.classList.remove('hidden');
-                container.classList.add('hidden');
-                return;
-            }
-            
-            empty.classList.add('hidden');
-            container.classList.remove('hidden');
-            
-            const jobs = DataStore.jobs.filter(j => company.jobs.includes(j.id));
-            
-            container.innerHTML = jobs.map(job => {
-                const jobMatches = DataStore.matches.filter(m => m.jobId === job.id);
-                const perfect = jobMatches.filter(m => m.score === 100).length;
-                
-                return `
-                    <div class="bg-white border border-gray-200 rounded-xl p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <h3 class="text-xl font-bold">${job.title}</h3>
-                                <p class="text-gray-600">${job.location} • Full-time • Posted ${new Date(job.postedAt).toLocaleDateString()}</p>
-                            </div>
-                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">Active</span>
-                        </div>
-                        
-                        <div class="grid md:grid-cols-4 gap-4 mb-4">
-                            <div class="text-center p-3 bg-gray-50 rounded-lg">
-                                <div class="text-2xl font-bold text-purple-600">${perfect}</div>
-                                <div class="text-xs text-gray-500">100% Matches</div>
-                            </div>
-                            <div class="text-center p-3 bg-gray-50 rounded-lg">
-                                <div class="text-2xl font-bold text-blue-600">${jobMatches.length}</div>
-                                <div class="text-xs text-gray-500">Total Matches</div>
-                            </div>
-                            <div class="text-center p-3 bg-gray-50 rounded-lg">
-                                <div class="text-2xl font-bold text-green-600">0</div>
-                                <div class="text-xs text-gray-500">Interview Scheduled</div>
-                            </div>
-                            <div class="text-center p-3 bg-gray-50 rounded-lg">
-                                <div class="text-2xl font-bold text-orange-600">0</div>
-                                <div class="text-xs text-gray-500">Offers Extended</div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex gap-2">
-                            <button onclick="viewJobMatches(${job.id})" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">View Matches</button>
-                            <button onclick="closeJob(${job.id})" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition text-red-600">Close Job</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function viewJobMatches(jobId) {
-            showCompanySection('candidates');
-        }
-
-        function closeJob(jobId) {
-            const job = DataStore.jobs.find(j => j.id === jobId);
-            if (job) {
-                job.status = 'closed';
-                DataStore.save();
-                updateJobsList();
-                showToast('Job Closed', 'This job posting has been closed');
-            }
-        }
-
-        function previewJobPost() {
-            // Preview functionality
-            showToast('Preview', 'Job preview would show here');
-        }
-
-        function closeJobPreview() {
-            document.getElementById('jobPreviewModal').classList.add('hidden');
-        }
-
         // ==========================================
-        // TEST & CHATBOT FUNCTIONS
+        // CHATBOT & UTILITIES
         // ==========================================
-        function runAptitudeTest() {
-            showToast('Test Started', 'Aptitude test module would open here');
-        }
-
-        function startCodingTest() {
-            document.getElementById('codingTestStatus').innerHTML = `
-                <div class="flex justify-between text-sm">
-                    <span class="text-green-600 font-bold">Completed</span>
-                    <span>Score: 85/100</span>
-                </div>
-            `;
-            showToast('Coding Test', 'Test completed! Score: 85/100');
-        }
-
-        function startAptitudeTest() {
-            document.getElementById('aptitudeTestStatus').innerHTML = `
-                <div class="flex justify-between text-sm">
-                    <span class="text-green-600 font-bold">Completed</span>
-                    <span>Score: 78/100</span>
-                </div>
-            `;
-            showToast('Aptitude Test', 'Test completed! Score: 78/100');
-        }
-
-        function startCommunicationTest() {
-            document.getElementById('communicationTestStatus').innerHTML = `
-                <div class="flex justify-between text-sm">
-                    <span class="text-green-600 font-bold">Completed</span>
-                    <span>Score: 82/100</span>
-                </div>
-            `;
-            showToast('Communication Test', 'Test completed! Score: 82/100');
-        }
-
         function toggleChat() {
             document.getElementById('chatWindow').classList.toggle('hidden');
             document.getElementById('chatNotification').classList.add('hidden');
@@ -2460,12 +2615,8 @@
             
             messagesDiv.innerHTML += `
                 <div class="chat-message flex gap-2 justify-end">
-                    <div class="bg-purple-600 text-white p-3 rounded-2xl rounded-tr-none shadow-sm max-w-[80%] text-sm">
-                        ${message}
-                    </div>
-                    <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-white text-xs flex-shrink-0">
-                        <i class="fas fa-user"></i>
-                    </div>
+                    <div class="bg-purple-600 text-white p-3 rounded-2xl rounded-tr-none shadow-sm max-w-[80%] text-sm">${message}</div>
+                    <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-white text-xs flex-shrink-0"><i class="fas fa-user"></i></div>
                 </div>
             `;
             
@@ -2473,30 +2624,24 @@
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
             
             setTimeout(() => {
-                let response = "I'm here to help! Could you provide more details?";
+                let response = "I'm here to help! Ask me about tests, jobs, or reviews.";
                 
-                if (message.includes('match score')) {
+                if (message.includes('test')) {
+                    response = "You can take Aptitude, Coding, and Communication tests from the Assessments section. Complete them to improve your match score!";
+                } else if (message.includes('review')) {
                     const email = DataStore.currentUser;
-                    const student = DataStore.students[email];
-                    const matches = DataStore.getMatchesForStudent(email);
-                    const score = matches.length > 0 ? Math.round(matches.reduce((a,m) => a+m.score, 0) / matches.length) : 0;
-                    response = `Your current average match score is ${score}%. To improve: 1) Add missing skills, 2) Complete certifications, 3) Take assessments.`;
+                    const count = DataStore.getReviewsForStudent(email).length;
+                    response = `You have ${count} reviews from companies. Check the Reviews section for detailed feedback.`;
                 } else if (message.includes('job')) {
                     const email = DataStore.currentUser;
                     const count = DataStore.getMatchesForStudent(email).length;
-                    response = `You have ${count} job matches! Check the "My Matches" section to view them.`;
-                } else if (message.includes('resume')) {
-                    response = "For resume tips: 1) Highlight quantifiable achievements, 2) Use keywords from job descriptions, 3) Keep it concise.";
+                    response = `You have ${count} job matches! Visit the My Matches section to view and apply.`;
                 }
                 
                 messagesDiv.innerHTML += `
                     <div class="chat-message flex gap-2">
-                        <div class="w-8 h-8 gradient-bg rounded-full flex items-center justify-center text-white text-xs flex-shrink-0">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%] text-sm">
-                            ${response}
-                        </div>
+                        <div class="w-8 h-8 gradient-bg rounded-full flex items-center justify-center text-white text-xs flex-shrink-0"><i class="fas fa-robot"></i></div>
+                        <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%] text-sm">${response}</div>
                     </div>
                 `;
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
@@ -2508,21 +2653,18 @@
             document.getElementById('toastTitle').textContent = title;
             document.getElementById('toastMessage').textContent = message;
             toast.classList.remove('translate-x-full');
-            
-            setTimeout(() => {
-                toast.classList.add('translate-x-full');
-            }, 3000);
+            setTimeout(() => toast.classList.add('translate-x-full'), 3000);
         }
 
         // Close modals on outside click
         window.onclick = function(event) {
             const candidateModal = document.getElementById('candidateModal');
-            const jobPreviewModal = document.getElementById('jobPreviewModal');
+            const reviewModal = document.getElementById('reviewModal');
             if (event.target === candidateModal) closeCandidateModal();
-            if (event.target === jobPreviewModal) closeJobPreview();
+            if (event.target === reviewModal) closeReviewModal();
         }
 
-        // Initialize Google Sign-In
+        // Initialize
         window.onload = function() {
             google.accounts.id.initialize({
                 client_id: '1046661802511-s8j37hkken2n82mv89607qdoskmjou8t.apps.googleusercontent.com',
